@@ -1,5 +1,21 @@
 [
   {
+    "ContainingType": "MiniSupermarket.API.Controllers.AuthController",
+    "Method": "Login",
+    "RelativePath": "api/Auth/login",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "MiniSupermarket.API.Controllers.LoginRequestDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "MiniSupermarket.API.Controllers.CategoriesController",
     "Method": "GetAll",
     "RelativePath": "api/Categories",
