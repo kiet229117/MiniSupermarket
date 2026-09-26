@@ -1,33 +1,74 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using Microsoft.OpenApi;
-using System.Text;
+using Microsoft.OpenApi.Models;
 
+using MiniSupermarket.API.Data;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Cấu hình dịch vụ xác thực JWT Bearer
-var jwtSecret = builder.Configuration["JwtSettings:Secret"] ?? "SupermarketSecretKeyDoAnMonHoc2026SecureString!!";
-builder.Services.AddAuthentication(options => {
-    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-})
-.AddJwtBearer(options => {
-    options.TokenValidationParameters = new TokenValidationParameters
+// =========================
+// JWT Authentication
+// =========================
+
+var jwtSecret = builder.Configuration["JwtSettings:Secret"]
+    ?? "SupermarketSecretKeyDoAnMonHoc2026SecureString!!";
+
+builder.Services
+    .AddAuthentication(options =>
     {
-        ValidateIssuerSigningKey = true,
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(jwtSecret)),
-        ValidateIssuer = false,
-        ValidateAudience = false
-    };
-});
+        options.DefaultAuthenticateScheme =
+            JwtBearerDefaults.AuthenticationScheme;
+
+        options.DefaultChallengeScheme =
+            JwtBearerDefaults.AuthenticationScheme;
+    })
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuerSigningKey = true,
+
+            IssuerSigningKey = new SymmetricSecurityKey(
+                Encoding.UTF8.GetBytes(jwtSecret)
+            ),
+
+            ValidateIssuer = false,
+            ValidateAudience = false
+        };
+    });
+
+// =========================
+// Controllers
+// =========================
 
 builder.Services.AddControllers();
+
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+
+// =========================
+// Database
+// =========================
+
+var connectionString =
+    builder.Configuration.GetConnectionString("DefaultConnection");
+
+builder.Services.AddDbContext<SupermarketDbContext>(options =>
+    options.UseSqlServer(connectionString));
+
+// =========================
+// Swagger
+// =========================
 
 builder.Services.AddSwaggerGen(c =>
 {
+    c.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Title = "Mini Supermarket API",
+        Version = "v1"
+    });
+
     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
         Name = "Authorization",
@@ -38,14 +79,31 @@ builder.Services.AddSwaggerGen(c =>
         Description = "Nhập JWT Token"
     });
 
-    c.AddSecurityRequirement(document =>
-        new OpenApiSecurityRequirement
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
         {
-            [new OpenApiSecuritySchemeReference("Bearer", document)] = []
-        });
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
+            Array.Empty<string>()
+        }
+    });
 });
 
+// =========================
+// Build
+// =========================
+
 var app = builder.Build();
+
+// =========================
+// Middleware
+// =========================
 
 if (app.Environment.IsDevelopment())
 {
@@ -55,9 +113,9 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-// Bắt buộc gọi UseAuthentication trước UseAuthorization
 app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+
 app.Run();
