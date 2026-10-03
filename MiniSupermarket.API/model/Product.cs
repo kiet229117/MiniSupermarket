@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace MiniSupermarket.API.Models
 {
@@ -18,14 +19,31 @@ namespace MiniSupermarket.API.Models
         [StringLength(150)]
         public string ProductName { get; set; } = string.Empty;
 
+        [StringLength(20)]
+        public string Unit { get; set; } = string.Empty;   // kg, gói, hộp
+
         [Column(TypeName = "decimal(18,2)")]
-        public decimal Price { get; set; } // Giá bán
+        [Range(0, double.MaxValue, ErrorMessage = "Giá bán phải >= 0")]
+        public decimal Price { get; set; }                 // Giá bán
 
-        public int StockQuantity { get; set; } // Số lượng tồn kho
+        [Column(TypeName = "decimal(18,2)")]
+        public decimal CostPrice { get; set; }             // Giá nhập
 
-        // Khóa ngoại liên kết tới bảng Categories
+        [Range(0, int.MaxValue, ErrorMessage = "Tồn kho phải >= 0")]
+        public int StockQuantity { get; set; }             // Tồn kho
+
+        public bool IsActive { get; set; } = true;         // Ngừng kinh doanh thì false
+
         public int CategoryId { get; set; }
         [ForeignKey("CategoryId")]
         public virtual Category? Category { get; set; }
+
+        public int BrandId { get; set; }
+        [ForeignKey("BrandId")]
+        public virtual Brand? Brand { get; set; }
+        public int? SupplierId { get; set; }               // nullable: sản phẩm chưa có NCC vẫn lưu được
+        [ForeignKey("SupplierId")]
+        [JsonIgnore] // Tránh lỗi lặp vòng vô tận khi serialize JSON
+        public virtual Supplier? Supplier { get; set; }
     }
 }

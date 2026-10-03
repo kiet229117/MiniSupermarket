@@ -1,145 +1,140 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MiniSupermarket.API.Data;
 using MiniSupermarket.API.Models;
 
 namespace MiniSupermarket.API.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
+    [Route("api/[controller]")]
     public class ProductsController : ControllerBase
     {
-        private readonly SupermarketDbContext _context;
+        private readonly SupermarketDbContext _db;
+        public ProductsController(SupermarketDbContext db) => _db = db;
 
-        public ProductsController(SupermarketDbContext context)
-        {
-            _context = context;
-        }
-
-        // 1. GET: Lấy toàn bộ sản phẩm (kèm tên danh mục - Eager Loading)
+        // GET api/products?keyword=gà&categoryId=4&brandId=8&supplierId=3&activeOnly=true
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<ActionResult<IEnumerable<Product>>> GetAll(
+            [FromQuery] string? keyword,
+            [FromQuery] int? categoryId,
+            [FromQuery] int? brandId,
+            [FromQuery] int? supplierId,
+            [FromQuery] bool activeOnly = false)
         {
-            var list = await _context.Products
+            var q = _db.Products.AsNoTracking()
                 .Include(p => p.Category)
-                .AsNoTracking()
-                .ToListAsync();
-            return Ok(list);
+                .Include(p => p.Brand)
+                .Include(p => p.Supplier)
+                .AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(keyword))
+                q = q.Where(p => p.ProductName.Contains(keyword) || p.Barcode.Contains(keyword));
+            if (categoryId != null) q = q.Where(p => p.CategoryId == categoryId);
+            if (brandId != null) q = q.Where(p => p.BrandId == brandId);
+            if (supplierId != null) q = q.Where(p => p.SupplierId == supplierId);
+            if (activeOnly) q = q.Where(p => p.IsActive);
+
+            return await q.OrderBy(p => p.ProductName).ToListAsync();
         }
 
-        // 2. GET: Lấy chi tiết sản phẩm theo ID
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetById(int id)
+        [HttpGet("{id:int}")]
+        public async Task<ActionResult<Product>> GetById(int id)
         {
-            var product = await _context.Products
+            var item = await _db.Products.AsNoTracking()
                 .Include(p => p.Category)
+                .Include(p => p.Brand)
+                .Include(p => p.Supplier)
                 .FirstOrDefaultAsync(p => p.ProductId == id);
-
-            if (product == null)
-            {
-                return NotFound(new { message = "Không tìm thấy sản phẩm!" });
-            }
-            return Ok(product);
+            return item == null ? NotFound() : item;
         }
 
-        // 3. GET: Tra cứu sản phẩm theo mã vạch (Barcode)
+        // GET api/products/barcode/8938501234561  (thu ngân quét mã vạch)
         [HttpGet("barcode/{barcode}")]
-        public async Task<IActionResult> GetByBarcode(string barcode)
+        [Authorize(Roles = "Admin, Cashier")]
+        public async Task<ActionResult<Product>> GetByBarcode(string barcode)
         {
-            var product = await _context.Products
+            var item = await _db.Products.AsNoTracking()
                 .Include(p => p.Category)
-                .FirstOrDefaultAsync(p => p.Barcode == barcode);
-
-            if (product == null)
-            {
-                return NotFound(new { message = "Không tìm thấy sản phẩm với mã vạch này!" });
-            }
-            return Ok(product);
+                .Include(p => p.Brand)
+                .FirstOrDefaultAsync(p => p.Barcode == barcode && p.IsActive);
+            return item == null ? NotFound("Không tìm thấy sản phẩm") : item;
         }
 
-        // 4. GET: Tìm kiếm theo tên sản phẩm
-        [HttpGet("search")]
-        public async Task<IActionResult> Search([FromQuery] string keyword)
-        {
-            if (string.IsNullOrWhiteSpace(keyword))
-            {
-                return BadRequest(new { message = "Vui lòng nhập từ khóa tìm kiếm!" });
-            }
-
-            var result = await _context.Products
-                .Include(p => p.Category)
-                .Where(p => p.ProductName.Contains(keyword) || p.Barcode.Contains(keyword))
-                .ToListAsync();
-
-            return Ok(result);
-        }
-
-        // 5. GET: Lọc sản phẩm theo danh mục
-        [HttpGet("category/{categoryId}")]
-        public async Task<IActionResult> GetByCategory(int categoryId)
-        {
-            var result = await _context.Products
-                .Include(p => p.Category)
-                .Where(p => p.CategoryId == categoryId)
-                .ToListAsync();
-
-            return Ok(result);
-        }
-
-        // 6. POST: Thêm mới sản phẩm
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] Product newProduct)
+        [Authorize(Roles = "Admin, Cashier")]
+        public async Task<ActionResult<Product>> Create(Product model)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+            var error = await ValidateAsync(model, null);
+            if (error != null) return error;
 
-            var categoryExists = await _context.Categories.AnyAsync(c => c.CategoryId == newProduct.CategoryId);
-            if (!categoryExists)
-            {
-                return BadRequest(new { message = "Danh mục không tồn tại!" });
-            }
-
-            _context.Products.Add(newProduct);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction(nameof(GetById), new { id = newProduct.ProductId }, newProduct);
+            model.ProductId = 0;
+            model.Category = null;      // tránh EF tạo mới danh mục từ JSON gửi lên
+            model.Brand = null;
+            model.Supplier = null;
+            _db.Products.Add(model);
+            await _db.SaveChangesAsync();
+            return CreatedAtAction(nameof(GetById), new { id = model.ProductId }, model);
         }
 
-        // 7. PUT: Cập nhật sản phẩm
-        [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, [FromBody] Product updateProduct)
+        [HttpPut("{id:int}")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Update(int id, Product model)
         {
-            var product = await _context.Products.FindAsync(id);
-            if (product == null)
-            {
-                return NotFound(new { message = "Không tìm thấy sản phẩm cần sửa!" });
-            }
+            if (id != model.ProductId) return BadRequest("Id không khớp");
 
-            product.Barcode = updateProduct.Barcode;
-            product.ProductName = updateProduct.ProductName;
-            product.Price = updateProduct.Price;
-            product.StockQuantity = updateProduct.StockQuantity;
-            product.CategoryId = updateProduct.CategoryId;
+            var item = await _db.Products.FindAsync(id);
+            if (item == null) return NotFound();
 
-            await _context.SaveChangesAsync();
+            var error = await ValidateAsync(model, id);
+            if (error != null) return error;
+
+            item.Barcode = model.Barcode;
+            item.ProductName = model.ProductName;
+            item.Unit = model.Unit;
+            item.Price = model.Price;
+            item.CostPrice = model.CostPrice;
+            item.StockQuantity = model.StockQuantity;
+            item.IsActive = model.IsActive;
+            item.CategoryId = model.CategoryId;
+            item.BrandId = model.BrandId;
+            item.SupplierId = model.SupplierId;
+            await _db.SaveChangesAsync();
             return NoContent();
         }
 
-        // 8. DELETE: Xóa sản phẩm
-        [HttpDelete("{id}")]
+        // Đã từng bán thì chỉ ngừng kinh doanh (IsActive = false), chưa bán thì xoá hẳn
+        [HttpDelete("{id:int}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int id)
         {
-            var product = await _context.Products.FindAsync(id);
-            if (product == null)
+            var item = await _db.Products.FindAsync(id);
+            if (item == null) return NotFound();
+
+            if (await _db.OrderItems.AnyAsync(i => i.ProductId == id))
             {
-                return NotFound(new { message = "Không tìm thấy sản phẩm cần xóa!" });
+                item.IsActive = false;
+                await _db.SaveChangesAsync();
+                return Ok("Sản phẩm đã có trong hoá đơn nên chỉ chuyển sang ngừng kinh doanh");
             }
 
-            _context.Products.Remove(product);
-            await _context.SaveChangesAsync();
+            _db.Products.Remove(item);
+            await _db.SaveChangesAsync();
             return NoContent();
+        }
+
+        // Kiểm tra mã vạch trùng và khoá ngoại có tồn tại không
+        private async Task<ActionResult?> ValidateAsync(Product model, int? currentId)
+        {
+            if (await _db.Products.AnyAsync(p => p.Barcode == model.Barcode && p.ProductId != currentId))
+                return Conflict("Mã vạch đã tồn tại");
+            if (!await _db.Categories.AnyAsync(c => c.CategoryId == model.CategoryId))
+                return BadRequest("Nhóm hàng không tồn tại");
+            if (model.BrandId != null && !await _db.Brands.AnyAsync(b => b.BrandId == model.BrandId))
+                return BadRequest("Thương hiệu không tồn tại");
+            if (model.SupplierId != null && !await _db.Suppliers.AnyAsync(s => s.SupplierId == model.SupplierId))
+                return BadRequest("Nhà cung cấp không tồn tại");
+            return null;
         }
     }
 }

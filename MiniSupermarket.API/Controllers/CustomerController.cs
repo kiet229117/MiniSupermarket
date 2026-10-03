@@ -1,104 +1,91 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MiniSupermarket.API.Data;
 using MiniSupermarket.API.Models;
 
 namespace MiniSupermarket.API.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
+    [Route("api/[controller]")]
     public class CustomersController : ControllerBase
     {
-        private readonly SupermarketDbContext _context;
+        private readonly SupermarketDbContext _db;
+        public CustomersController(SupermarketDbContext db) => _db = db;
 
-        public CustomersController(SupermarketDbContext context)
-        {
-            _context = context;
-        }
-
-        // 1. GET: Lấy toàn bộ danh sách khách hàng
+        // GET api/customers?keyword=0901
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<ActionResult<IEnumerable<Customer>>> GetAll([FromQuery] string? keyword)
         {
-            var list = await _context.Customers.AsNoTracking().ToListAsync();
-            return Ok(list);
+            var q = _db.Customers.AsNoTracking();
+            if (!string.IsNullOrWhiteSpace(keyword))
+                q = q.Where(c => c.CustomerName.Contains(keyword) || c.PhoneNumber.Contains(keyword));
+            return await q.OrderBy(c => c.CustomerName).ToListAsync();
         }
 
-        // 2. GET: Lấy chi tiết khách hàng theo ID
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetById(int id)
+        [HttpGet("{id:int}")]
+        [Authorize(Roles = "Admin,Cashier")]
+        public async Task<ActionResult<Customer>> GetById(int id)
         {
-            var customer = await _context.Customers.FindAsync(id);
-            if (customer == null)
-            {
-                return NotFound(new { message = "Không tìm thấy khách hàng!" });
-            }
-            return Ok(customer);
+            var item = await _db.Customers.AsNoTracking().FirstOrDefaultAsync(c => c.CustomerId == id);
+            return item == null ? NotFound() : item;
         }
 
-        // 3. GET: Tìm kiếm theo tên hoặc số điện thoại
-        [HttpGet("search")]
-        public async Task<IActionResult> Search([FromQuery] string keyword)
+        // GET api/customers/phone/0901122334  (thu ngân tra khách theo SĐT)
+        [HttpGet("phone/{phone}")]
+        [Authorize(Roles = "Admin, Cashier")]
+        public async Task<ActionResult<Customer>> GetByPhone(string phone)
         {
-            if (string.IsNullOrWhiteSpace(keyword))
-            {
-                return BadRequest(new { message = "Vui lòng nhập từ khóa tìm kiếm!" });
-            }
-
-            var result = await _context.Customers
-                .Where(c => c.CustomerName.Contains(keyword) || c.PhoneNumber.Contains(keyword))
-                .ToListAsync();
-
-            return Ok(result);
+            var item = await _db.Customers.AsNoTracking().FirstOrDefaultAsync(c => c.PhoneNumber == phone);
+            return item == null ? NotFound("Không tìm thấy khách hàng") : item;
         }
 
-        // 4. POST: Thêm mới khách hàng
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] Customer newCustomer)
+        [Authorize(Roles = "Admin, Cashier")]
+        public async Task<ActionResult<Customer>> Create(Customer model)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+            if (await _db.Customers.AnyAsync(c => c.PhoneNumber == model.PhoneNumber))
+                return Conflict("Số điện thoại đã được đăng ký");
 
-            _context.Customers.Add(newCustomer);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction(nameof(GetById), new { id = newCustomer.CustomerId }, newCustomer);
+            model.CustomerId = 0;
+            _db.Customers.Add(model);
+            await _db.SaveChangesAsync();
+            return CreatedAtAction(nameof(GetById), new { id = model.CustomerId }, model);
         }
 
-        // 5. PUT: Cập nhật thông tin khách hàng
-        [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, [FromBody] Customer updateCustomer)
+        [HttpPut("{id:int}")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Update(int id, Customer model)
         {
-            var customer = await _context.Customers.FindAsync(id);
-            if (customer == null)
-            {
-                return NotFound(new { message = "Không tìm thấy khách hàng cần sửa!" });
-            }
+            if (id != model.CustomerId) return BadRequest("Id không khớp");
 
-            customer.CustomerName = updateCustomer.CustomerName;
-            customer.PhoneNumber = updateCustomer.PhoneNumber;
-            customer.Address = updateCustomer.Address;
-            customer.RewardPoints = updateCustomer.RewardPoints;
-            customer.MembershipRank = updateCustomer.MembershipRank;
+            var item = await _db.Customers.FindAsync(id);
+            if (item == null) return NotFound();
 
-            await _context.SaveChangesAsync();
+            if (await _db.Customers.AnyAsync(c => c.PhoneNumber == model.PhoneNumber && c.CustomerId != id))
+                return Conflict("Số điện thoại đã được đăng ký");
+
+            item.CustomerName = model.CustomerName;
+            item.PhoneNumber = model.PhoneNumber;
+            item.Address = model.Address;
+            item.RewardPoints = model.RewardPoints;
+            item.MembershipRank = model.MembershipRank;
+            await _db.SaveChangesAsync();
             return NoContent();
         }
 
-        // 6. DELETE: Xóa khách hàng
-        [HttpDelete("{id}")]
+        [HttpDelete("{id:int}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int id)
         {
-            var customer = await _context.Customers.FindAsync(id);
-            if (customer == null)
-            {
-                return NotFound(new { message = "Không tìm thấy khách hàng cần xóa!" });
-            }
+            var item = await _db.Customers.FindAsync(id);
+            if (item == null) return NotFound();
 
-            _context.Customers.Remove(customer);
-            await _context.SaveChangesAsync();
+            if (await _db.Orders.AnyAsync(o => o.CustomerId == id))
+                return Conflict("Khách hàng đã có hoá đơn, không thể xoá");
+
+            _db.Customers.Remove(item);
+            await _db.SaveChangesAsync();
             return NoContent();
         }
     }

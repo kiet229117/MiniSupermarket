@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MiniSupermarket.API.Data;
 
@@ -11,9 +12,11 @@ using MiniSupermarket.API.Data;
 namespace MiniSupermarket.API.Migrations
 {
     [DbContext(typeof(SupermarketDbContext))]
-    partial class SupermarketDbContextModelSnapshot : ModelSnapshot
+    [Migration("20261003052804_lan001")]
+    partial class lan001
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -59,7 +62,7 @@ namespace MiniSupermarket.API.Migrations
                             BrandId = 1,
                             BrandName = "Healthy Mart",
                             Country = "Việt Nam",
-                            Description = "Thương hiệu riêng của cửa hàng: rau củ, trái cây, hải sản và thực phẩm sạch tuyển chọn",
+                            Description = "Thương hiệu riêng của cửa hàng",
                             IsActive = true
                         },
                         new
@@ -67,7 +70,6 @@ namespace MiniSupermarket.API.Migrations
                             BrandId = 2,
                             BrandName = "Quaker",
                             Country = "Mỹ",
-                            Description = "Thương hiệu yến mạch và ngũ cốc ăn sáng, giàu chất xơ",
                             IsActive = true
                         },
                         new
@@ -75,7 +77,6 @@ namespace MiniSupermarket.API.Migrations
                             BrandId = 3,
                             BrandName = "TH true MILK",
                             Country = "Việt Nam",
-                            Description = "Sữa tươi sạch và các sản phẩm từ sữa như sữa chua, sữa hạt",
                             IsActive = true
                         },
                         new
@@ -83,15 +84,12 @@ namespace MiniSupermarket.API.Migrations
                             BrandId = 4,
                             BrandName = "Vinamilk",
                             Country = "Việt Nam",
-                            Description = "Thương hiệu sữa và sản phẩm từ sữa phổ biến tại Việt Nam",
                             IsActive = true
                         },
                         new
                         {
                             BrandId = 5,
                             BrandName = "Alsafi",
-                            Country = "Campuchia",
-                            Description = "Sữa hạt và đồ uống thực vật như sữa hạnh nhân",
                             IsActive = true
                         },
                         new
@@ -99,7 +97,6 @@ namespace MiniSupermarket.API.Migrations
                             BrandId = 6,
                             BrandName = "Bertolli",
                             Country = "Ý",
-                            Description = "Dầu oliu và thực phẩm theo phong cách Địa Trung Hải",
                             IsActive = true
                         },
                         new
@@ -107,7 +104,7 @@ namespace MiniSupermarket.API.Migrations
                             BrandId = 7,
                             BrandName = "Organic Farm VN",
                             Country = "Việt Nam",
-                            Description = "Rau củ, trứng và đậu hũ hữu cơ từ trang trại (dữ liệu mẫu)",
+                            Description = "Nông sản hữu cơ (dữ liệu mẫu)",
                             IsActive = true
                         },
                         new
@@ -115,7 +112,7 @@ namespace MiniSupermarket.API.Migrations
                             BrandId = 8,
                             BrandName = "Eat Clean VN",
                             Country = "Việt Nam",
-                            Description = "Thực phẩm ăn kiêng: ức gà, cơm gạo lứt, bánh ít đường (dữ liệu mẫu)",
+                            Description = "Thực phẩm ăn kiêng (dữ liệu mẫu)",
                             IsActive = true
                         },
                         new
@@ -123,7 +120,7 @@ namespace MiniSupermarket.API.Migrations
                             BrandId = 9,
                             BrandName = "Dalat Green",
                             Country = "Việt Nam",
-                            Description = "Trà thảo mộc và đồ uống tốt cho sức khoẻ từ Đà Lạt (dữ liệu mẫu)",
+                            Description = "Trà thảo mộc (dữ liệu mẫu)",
                             IsActive = true
                         },
                         new
@@ -131,7 +128,6 @@ namespace MiniSupermarket.API.Migrations
                             BrandId = 10,
                             BrandName = "Blue Diamond",
                             Country = "Mỹ",
-                            Description = "Hạnh nhân và các sản phẩm từ hạt hạnh nhân",
                             IsActive = true
                         },
                         new
@@ -139,7 +135,7 @@ namespace MiniSupermarket.API.Migrations
                             BrandId = 11,
                             BrandName = "Bee Gold",
                             Country = "Việt Nam",
-                            Description = "Mật ong nguyên chất, không pha đường (dữ liệu mẫu)",
+                            Description = "Mật ong nguyên chất (dữ liệu mẫu)",
                             IsActive = true
                         },
                         new
@@ -147,7 +143,7 @@ namespace MiniSupermarket.API.Migrations
                             BrandId = 12,
                             BrandName = "Nutri Seed",
                             Country = "Việt Nam",
-                            Description = "Superfood và thực phẩm bổ sung: spirulina, bột rau củ, hạt dinh dưỡng (dữ liệu mẫu)",
+                            Description = "Superfood (dữ liệu mẫu)",
                             IsActive = true
                         });
                 });
@@ -292,7 +288,6 @@ namespace MiniSupermarket.API.Migrations
                         new
                         {
                             CustomerId = 1,
-                            Address = "59 Nguyễn Thị Minh Khai, Quận 3, TP. Hồ Chí Minh",
                             CustomerName = "Nguyễn Văn A",
                             MembershipRank = "Vàng",
                             PhoneNumber = "0901122334",
@@ -301,7 +296,6 @@ namespace MiniSupermarket.API.Migrations
                         new
                         {
                             CustomerId = 2,
-                            Address = "120 Võ Văn Tần, Quận 3, TP. Hồ Chí Minh",
                             CustomerName = "Trần Thị B",
                             MembershipRank = "Bạc",
                             PhoneNumber = "0918877665",
@@ -310,7 +304,6 @@ namespace MiniSupermarket.API.Migrations
                         new
                         {
                             CustomerId = 3,
-                            Address = "15 Lý Thường Kiệt, Quận 10, TP. Hồ Chí Minh",
                             CustomerName = "Lê Văn C",
                             MembershipRank = "Chuẩn",
                             PhoneNumber = "0983344556",
@@ -319,7 +312,7 @@ namespace MiniSupermarket.API.Migrations
                         new
                         {
                             CustomerId = 4,
-                            Address = "12 Nguyễn Huệ, Phường Bến Nghé, Quận 1, TP. Hồ Chí Minh",
+                            Address = "12 Nguyễn Huệ, Quận 1, TP. Hồ Chí Minh",
                             CustomerName = "Phạm Minh Tuấn",
                             MembershipRank = "Vàng",
                             PhoneNumber = "0905123456",
@@ -328,7 +321,7 @@ namespace MiniSupermarket.API.Migrations
                         new
                         {
                             CustomerId = 5,
-                            Address = "45 Lê Lợi, Phường Bến Thành, Quận 1, TP. Hồ Chí Minh",
+                            Address = "45 Lê Lợi, Quận 3, TP. Hồ Chí Minh",
                             CustomerName = "Hoàng Thị Lan",
                             MembershipRank = "Bạc",
                             PhoneNumber = "0912345678",
@@ -346,7 +339,7 @@ namespace MiniSupermarket.API.Migrations
                         new
                         {
                             CustomerId = 7,
-                            Address = "102 Điện Biên Phủ, Quận Bình Thạnh, TP. Hồ Chí Minh",
+                            Address = "102 Điện Biên Phủ, Bình Thạnh, TP. Hồ Chí Minh",
                             CustomerName = "Đặng Thu Hà",
                             MembershipRank = "Kim cương",
                             PhoneNumber = "0944556677",
@@ -355,7 +348,6 @@ namespace MiniSupermarket.API.Migrations
                         new
                         {
                             CustomerId = 8,
-                            Address = "36 Nguyễn Thị Thập, Quận 7, TP. Hồ Chí Minh",
                             CustomerName = "Bùi Anh Khoa",
                             MembershipRank = "Chuẩn",
                             PhoneNumber = "0966778899",
@@ -364,7 +356,7 @@ namespace MiniSupermarket.API.Migrations
                         new
                         {
                             CustomerId = 9,
-                            Address = "27 Phan Văn Trị, Quận Gò Vấp, TP. Hồ Chí Minh",
+                            Address = "27 Phan Văn Trị, Gò Vấp, TP. Hồ Chí Minh",
                             CustomerName = "Ngô Thanh Mai",
                             MembershipRank = "Bạc",
                             PhoneNumber = "0977889900",
@@ -382,7 +374,6 @@ namespace MiniSupermarket.API.Migrations
                         new
                         {
                             CustomerId = 11,
-                            Address = "210 Quang Trung, Quận Gò Vấp, TP. Hồ Chí Minh",
                             CustomerName = "Lý Gia Hân",
                             MembershipRank = "Chuẩn",
                             PhoneNumber = "0399123456",
@@ -391,7 +382,7 @@ namespace MiniSupermarket.API.Migrations
                         new
                         {
                             CustomerId = 12,
-                            Address = "5 Võ Văn Ngân, TP. Thủ Đức, TP. Hồ Chí Minh",
+                            Address = "5 Võ Văn Ngân, Thủ Đức, TP. Hồ Chí Minh",
                             CustomerName = "Trương Quốc Việt",
                             MembershipRank = "Bạc",
                             PhoneNumber = "0868234567",
@@ -483,7 +474,6 @@ namespace MiniSupermarket.API.Migrations
                             OrderId = 3,
                             CashierId = 5,
                             CreatedAt = new DateTime(2026, 9, 3, 11, 0, 0, 0, DateTimeKind.Unspecified),
-                            CustomerId = 6,
                             Discount = 0m,
                             OrderCode = "HD0003",
                             PaymentMethod = "CASH",
@@ -522,7 +512,6 @@ namespace MiniSupermarket.API.Migrations
                             OrderId = 6,
                             CashierId = 6,
                             CreatedAt = new DateTime(2026, 9, 6, 8, 40, 0, 0, DateTimeKind.Unspecified),
-                            CustomerId = 8,
                             Discount = 0m,
                             OrderCode = "HD0006",
                             PaymentMethod = "CASH",
@@ -574,7 +563,6 @@ namespace MiniSupermarket.API.Migrations
                             OrderId = 10,
                             CashierId = 8,
                             CreatedAt = new DateTime(2026, 9, 10, 12, 0, 0, 0, DateTimeKind.Unspecified),
-                            CustomerId = 11,
                             Discount = 0m,
                             OrderCode = "HD0010",
                             PaymentMethod = "CASH",
