@@ -51,7 +51,7 @@ namespace MiniSupermarket.API.Controllers
 
         // GET api/products/barcode/8938501234561  (thu ngân quét mã vạch)
         [HttpGet("barcode/{barcode}")]
-        [Authorize(Roles = "Admin, Cashier")]
+        [Authorize(Roles = "Admin, Cashier, Warehouse")]
         public async Task<ActionResult<Product>> GetByBarcode(string barcode)
         {
             var item = await _db.Products.AsNoTracking()
@@ -62,7 +62,7 @@ namespace MiniSupermarket.API.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin, Cashier")]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<Product>> Create(Product model)
         {
             var error = await ValidateAsync(model, null);

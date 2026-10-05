@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MiniSupermarket.API")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+9795aad44da9226ccb8c8c944f803cf42e993130")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6b8b97195544510dd1c3d230e878c68fe77fbe53")]
 [assembly: System.Reflection.AssemblyProductAttribute("MiniSupermarket.API")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MiniSupermarket.API")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

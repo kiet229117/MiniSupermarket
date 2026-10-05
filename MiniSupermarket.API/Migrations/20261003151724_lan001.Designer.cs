@@ -12,7 +12,7 @@ using MiniSupermarket.API.Data;
 namespace MiniSupermarket.API.Migrations
 {
     [DbContext(typeof(SupermarketDbContext))]
-    [Migration("20261003052804_lan001")]
+    [Migration("20261003151724_lan001")]
     partial class lan001
     {
         /// <inheritdoc />
@@ -62,7 +62,7 @@ namespace MiniSupermarket.API.Migrations
                             BrandId = 1,
                             BrandName = "Healthy Mart",
                             Country = "Việt Nam",
-                            Description = "Thương hiệu riêng của cửa hàng",
+                            Description = "Thương hiệu riêng của cửa hàng với các sản phẩm rau củ, trái cây và thực phẩm sạch.",
                             IsActive = true
                         },
                         new
@@ -70,6 +70,7 @@ namespace MiniSupermarket.API.Migrations
                             BrandId = 2,
                             BrandName = "Quaker",
                             Country = "Mỹ",
+                            Description = "Thương hiệu yến mạch và ngũ cốc ăn sáng giàu chất xơ.",
                             IsActive = true
                         },
                         new
@@ -77,6 +78,7 @@ namespace MiniSupermarket.API.Migrations
                             BrandId = 3,
                             BrandName = "TH true MILK",
                             Country = "Việt Nam",
+                            Description = "Thương hiệu sữa tươi và các sản phẩm từ sữa.",
                             IsActive = true
                         },
                         new
@@ -84,12 +86,15 @@ namespace MiniSupermarket.API.Migrations
                             BrandId = 4,
                             BrandName = "Vinamilk",
                             Country = "Việt Nam",
+                            Description = "Thương hiệu sữa và các sản phẩm dinh dưỡng phổ biến tại Việt Nam.",
                             IsActive = true
                         },
                         new
                         {
                             BrandId = 5,
                             BrandName = "Alsafi",
+                            Country = "Campuchia",
+                            Description = "Thương hiệu sữa hạt và đồ uống có nguồn gốc thực vật.",
                             IsActive = true
                         },
                         new
@@ -97,6 +102,7 @@ namespace MiniSupermarket.API.Migrations
                             BrandId = 6,
                             BrandName = "Bertolli",
                             Country = "Ý",
+                            Description = "Thương hiệu dầu oliu và các sản phẩm theo phong cách ẩm thực Địa Trung Hải.",
                             IsActive = true
                         },
                         new
@@ -104,7 +110,7 @@ namespace MiniSupermarket.API.Migrations
                             BrandId = 7,
                             BrandName = "Organic Farm VN",
                             Country = "Việt Nam",
-                            Description = "Nông sản hữu cơ (dữ liệu mẫu)",
+                            Description = "Rau củ, trứng và các sản phẩm nông nghiệp hữu cơ.",
                             IsActive = true
                         },
                         new
@@ -112,7 +118,7 @@ namespace MiniSupermarket.API.Migrations
                             BrandId = 8,
                             BrandName = "Eat Clean VN",
                             Country = "Việt Nam",
-                            Description = "Thực phẩm ăn kiêng (dữ liệu mẫu)",
+                            Description = "Các sản phẩm phục vụ chế độ ăn Eat Clean và ăn uống lành mạnh.",
                             IsActive = true
                         },
                         new
@@ -120,7 +126,7 @@ namespace MiniSupermarket.API.Migrations
                             BrandId = 9,
                             BrandName = "Dalat Green",
                             Country = "Việt Nam",
-                            Description = "Trà thảo mộc (dữ liệu mẫu)",
+                            Description = "Trà thảo mộc và các loại đồ uống có nguồn gốc tự nhiên.",
                             IsActive = true
                         },
                         new
@@ -128,6 +134,7 @@ namespace MiniSupermarket.API.Migrations
                             BrandId = 10,
                             BrandName = "Blue Diamond",
                             Country = "Mỹ",
+                            Description = "Thương hiệu hạnh nhân và các sản phẩm chế biến từ hạnh nhân.",
                             IsActive = true
                         },
                         new
@@ -135,7 +142,7 @@ namespace MiniSupermarket.API.Migrations
                             BrandId = 11,
                             BrandName = "Bee Gold",
                             Country = "Việt Nam",
-                            Description = "Mật ong nguyên chất (dữ liệu mẫu)",
+                            Description = "Mật ong nguyên chất và các sản phẩm từ mật ong.",
                             IsActive = true
                         },
                         new
@@ -143,7 +150,31 @@ namespace MiniSupermarket.API.Migrations
                             BrandId = 12,
                             BrandName = "Nutri Seed",
                             Country = "Việt Nam",
-                            Description = "Superfood (dữ liệu mẫu)",
+                            Description = "Superfood, hạt dinh dưỡng và các sản phẩm bổ sung dinh dưỡng.",
+                            IsActive = true
+                        },
+                        new
+                        {
+                            BrandId = 13,
+                            BrandName = "Green Life",
+                            Country = "Việt Nam",
+                            Description = "Thực phẩm chay và các sản phẩm có nguồn gốc từ thực vật.",
+                            IsActive = true
+                        },
+                        new
+                        {
+                            BrandId = 14,
+                            BrandName = "Nature Food",
+                            Country = "Việt Nam",
+                            Description = "Thực phẩm khô, ngũ cốc và các sản phẩm tự nhiên tiện lợi.",
+                            IsActive = true
+                        },
+                        new
+                        {
+                            BrandId = 15,
+                            BrandName = "Fresh Choice",
+                            Country = "Việt Nam",
+                            Description = "Thực phẩm đông lạnh, thịt cá và các sản phẩm tiện lợi chất lượng cao.",
                             IsActive = true
                         });
                 });
@@ -177,73 +208,91 @@ namespace MiniSupermarket.API.Migrations
                         {
                             CategoryId = 1,
                             CategoryName = "Rau củ quả hữu cơ",
-                            Description = "Rau xanh, củ quả tươi đạt chuẩn organic"
+                            Description = "Các loại rau xanh, củ và quả tươi được trồng theo phương pháp hữu cơ."
                         },
                         new
                         {
                             CategoryId = 2,
                             CategoryName = "Ngũ cốc & Hạt dinh dưỡng",
-                            Description = "Yến mạch, hạt chia, hạnh nhân, óc chó"
+                            Description = "Yến mạch, hạt chia, hạnh nhân, óc chó và các loại hạt giàu dinh dưỡng."
                         },
                         new
                         {
                             CategoryId = 3,
                             CategoryName = "Sữa hạt & Sữa chua hữu cơ",
-                            Description = "Sữa hạnh nhân, sữa đậu nành, sữa chua Hy Lạp"
+                            Description = "Sữa hạnh nhân, sữa đậu nành, sữa óc chó và các loại sữa chua hữu cơ."
                         },
                         new
                         {
                             CategoryId = 4,
                             CategoryName = "Thực phẩm Eat Clean",
-                            Description = "Ức gà, cơm gạo lứt, salad đóng gói ăn kiêng"
+                            Description = "Các sản phẩm phù hợp chế độ ăn Eat Clean như ức gà, cơm gạo lứt và salad."
                         },
                         new
                         {
                             CategoryId = 5,
                             CategoryName = "Gia vị & Dầu thực vật tự nhiên",
-                            Description = "Dầu oliu, mật ong nguyên chất, muối hồng Himalaya"
+                            Description = "Dầu oliu, mật ong, muối hồng và các loại gia vị có nguồn gốc tự nhiên."
                         },
                         new
                         {
                             CategoryId = 6,
                             CategoryName = "Trái cây tươi & nhập khẩu",
-                            Description = "Táo, nho, kiwi, bơ, trái cây theo mùa"
+                            Description = "Các loại trái cây tươi trong nước và nhập khẩu như táo, nho, kiwi và bơ."
                         },
                         new
                         {
                             CategoryId = 7,
                             CategoryName = "Thịt cá sạch",
-                            Description = "Cá hồi, thịt bò, thịt heo, hải sản tươi đạt chuẩn"
+                            Description = "Thịt bò, thịt heo, cá hồi và các loại hải sản tươi sống được kiểm soát chất lượng."
                         },
                         new
                         {
                             CategoryId = 8,
                             CategoryName = "Trứng & Chế phẩm từ trứng",
-                            Description = "Trứng gà ta, trứng gà hữu cơ, trứng cút"
+                            Description = "Trứng gà ta, trứng gà hữu cơ, trứng cút và các sản phẩm chế biến từ trứng."
                         },
                         new
                         {
                             CategoryId = 9,
                             CategoryName = "Trà & Đồ uống tốt cho sức khỏe",
-                            Description = "Trà thảo mộc, nước ép nguyên chất, kombucha"
+                            Description = "Trà thảo mộc, nước ép nguyên chất, kombucha và các loại đồ uống lành mạnh."
                         },
                         new
                         {
                             CategoryId = 10,
                             CategoryName = "Bánh & Snack lành mạnh",
-                            Description = "Bánh yến mạch, snack rong biển, trái cây sấy"
+                            Description = "Bánh yến mạch, snack rong biển, trái cây sấy và các món ăn nhẹ lành mạnh."
                         },
                         new
                         {
                             CategoryId = 11,
                             CategoryName = "Đậu & Sản phẩm từ đậu",
-                            Description = "Đậu hũ, tempeh, các loại đậu khô"
+                            Description = "Đậu hũ, tempeh và các loại đậu khô giàu protein thực vật."
                         },
                         new
                         {
                             CategoryId = 12,
                             CategoryName = "Superfood & Thực phẩm bổ sung",
-                            Description = "Spirulina, matcha, bột rau củ, collagen thực vật"
+                            Description = "Matcha, spirulina, bột rau củ và các sản phẩm thực phẩm bổ sung dinh dưỡng."
+                        },
+                        new
+                        {
+                            CategoryId = 13,
+                            CategoryName = "Thực phẩm đông lạnh",
+                            Description = "Rau củ, thịt cá và các loại thực phẩm được bảo quản đông lạnh tiện lợi."
+                        },
+                        new
+                        {
+                            CategoryId = 14,
+                            CategoryName = "Thực phẩm khô",
+                            Description = "Các loại mì, bún, phở, nấm khô và thực phẩm khô tiện lợi cho gia đình."
+                        },
+                        new
+                        {
+                            CategoryId = 15,
+                            CategoryName = "Thực phẩm chay",
+                            Description = "Các sản phẩm chay từ thực vật như thịt chay, đậu phụ và thực phẩm giàu protein thực vật."
                         });
                 });
 
@@ -288,6 +337,7 @@ namespace MiniSupermarket.API.Migrations
                         new
                         {
                             CustomerId = 1,
+                            Address = "59 Nguyễn Thị Minh Khai, Phường Võ Thị Sáu, Quận 3, TP. Hồ Chí Minh",
                             CustomerName = "Nguyễn Văn A",
                             MembershipRank = "Vàng",
                             PhoneNumber = "0901122334",
@@ -296,6 +346,7 @@ namespace MiniSupermarket.API.Migrations
                         new
                         {
                             CustomerId = 2,
+                            Address = "120 Võ Văn Tần, Phường Võ Thị Sáu, Quận 3, TP. Hồ Chí Minh",
                             CustomerName = "Trần Thị B",
                             MembershipRank = "Bạc",
                             PhoneNumber = "0918877665",
@@ -304,6 +355,7 @@ namespace MiniSupermarket.API.Migrations
                         new
                         {
                             CustomerId = 3,
+                            Address = "15 Lý Thường Kiệt, Phường 14, Quận 10, TP. Hồ Chí Minh",
                             CustomerName = "Lê Văn C",
                             MembershipRank = "Chuẩn",
                             PhoneNumber = "0983344556",
@@ -312,7 +364,7 @@ namespace MiniSupermarket.API.Migrations
                         new
                         {
                             CustomerId = 4,
-                            Address = "12 Nguyễn Huệ, Quận 1, TP. Hồ Chí Minh",
+                            Address = "12 Nguyễn Huệ, Phường Bến Nghé, Quận 1, TP. Hồ Chí Minh",
                             CustomerName = "Phạm Minh Tuấn",
                             MembershipRank = "Vàng",
                             PhoneNumber = "0905123456",
@@ -321,7 +373,7 @@ namespace MiniSupermarket.API.Migrations
                         new
                         {
                             CustomerId = 5,
-                            Address = "45 Lê Lợi, Quận 3, TP. Hồ Chí Minh",
+                            Address = "45 Lê Lợi, Phường Bến Thành, Quận 1, TP. Hồ Chí Minh",
                             CustomerName = "Hoàng Thị Lan",
                             MembershipRank = "Bạc",
                             PhoneNumber = "0912345678",
@@ -330,7 +382,7 @@ namespace MiniSupermarket.API.Migrations
                         new
                         {
                             CustomerId = 6,
-                            Address = "8 Trần Hưng Đạo, Quận 5, TP. Hồ Chí Minh",
+                            Address = "8 Trần Hưng Đạo, Phường 6, Quận 5, TP. Hồ Chí Minh",
                             CustomerName = "Võ Quốc Bảo",
                             MembershipRank = "Chuẩn",
                             PhoneNumber = "0937654321",
@@ -339,7 +391,7 @@ namespace MiniSupermarket.API.Migrations
                         new
                         {
                             CustomerId = 7,
-                            Address = "102 Điện Biên Phủ, Bình Thạnh, TP. Hồ Chí Minh",
+                            Address = "102 Điện Biên Phủ, Phường 17, Quận Bình Thạnh, TP. Hồ Chí Minh",
                             CustomerName = "Đặng Thu Hà",
                             MembershipRank = "Kim cương",
                             PhoneNumber = "0944556677",
@@ -348,6 +400,7 @@ namespace MiniSupermarket.API.Migrations
                         new
                         {
                             CustomerId = 8,
+                            Address = "36 Nguyễn Thị Thập, Phường Tân Quy, Quận 7, TP. Hồ Chí Minh",
                             CustomerName = "Bùi Anh Khoa",
                             MembershipRank = "Chuẩn",
                             PhoneNumber = "0966778899",
@@ -356,7 +409,7 @@ namespace MiniSupermarket.API.Migrations
                         new
                         {
                             CustomerId = 9,
-                            Address = "27 Phan Văn Trị, Gò Vấp, TP. Hồ Chí Minh",
+                            Address = "27 Phan Văn Trị, Phường 10, Quận Gò Vấp, TP. Hồ Chí Minh",
                             CustomerName = "Ngô Thanh Mai",
                             MembershipRank = "Bạc",
                             PhoneNumber = "0977889900",
@@ -365,7 +418,7 @@ namespace MiniSupermarket.API.Migrations
                         new
                         {
                             CustomerId = 10,
-                            Address = "63 Cách Mạng Tháng 8, Quận 10, TP. Hồ Chí Minh",
+                            Address = "63 Cách Mạng Tháng 8, Phường 12, Quận 10, TP. Hồ Chí Minh",
                             CustomerName = "Đỗ Hoài Nam",
                             MembershipRank = "Vàng",
                             PhoneNumber = "0988990011",
@@ -374,6 +427,7 @@ namespace MiniSupermarket.API.Migrations
                         new
                         {
                             CustomerId = 11,
+                            Address = "210 Quang Trung, Phường 10, Quận Gò Vấp, TP. Hồ Chí Minh",
                             CustomerName = "Lý Gia Hân",
                             MembershipRank = "Chuẩn",
                             PhoneNumber = "0399123456",
@@ -382,11 +436,38 @@ namespace MiniSupermarket.API.Migrations
                         new
                         {
                             CustomerId = 12,
-                            Address = "5 Võ Văn Ngân, Thủ Đức, TP. Hồ Chí Minh",
+                            Address = "5 Võ Văn Ngân, Phường Linh Chiểu, TP. Thủ Đức, TP. Hồ Chí Minh",
                             CustomerName = "Trương Quốc Việt",
                             MembershipRank = "Bạc",
                             PhoneNumber = "0868234567",
                             RewardPoints = 60
+                        },
+                        new
+                        {
+                            CustomerId = 13,
+                            Address = "88 Nguyễn Oanh, Phường 17, Quận Gò Vấp, TP. Hồ Chí Minh",
+                            CustomerName = "Nguyễn Minh Khôi",
+                            MembershipRank = "Vàng",
+                            PhoneNumber = "0908765432",
+                            RewardPoints = 230
+                        },
+                        new
+                        {
+                            CustomerId = 14,
+                            Address = "156 Hoàng Diệu, Phường 6, Quận 4, TP. Hồ Chí Minh",
+                            CustomerName = "Phan Ngọc Anh",
+                            MembershipRank = "Bạc",
+                            PhoneNumber = "0938123456",
+                            RewardPoints = 85
+                        },
+                        new
+                        {
+                            CustomerId = 15,
+                            Address = "72 Kha Vạn Cân, Phường Hiệp Bình Chánh, TP. Thủ Đức, TP. Hồ Chí Minh",
+                            CustomerName = "Đinh Thanh Tùng",
+                            MembershipRank = "Chuẩn",
+                            PhoneNumber = "0976234518",
+                            RewardPoints = 15
                         });
                 });
 
@@ -474,6 +555,7 @@ namespace MiniSupermarket.API.Migrations
                             OrderId = 3,
                             CashierId = 5,
                             CreatedAt = new DateTime(2026, 9, 3, 11, 0, 0, 0, DateTimeKind.Unspecified),
+                            CustomerId = 6,
                             Discount = 0m,
                             OrderCode = "HD0003",
                             PaymentMethod = "CASH",
@@ -512,6 +594,7 @@ namespace MiniSupermarket.API.Migrations
                             OrderId = 6,
                             CashierId = 6,
                             CreatedAt = new DateTime(2026, 9, 6, 8, 40, 0, 0, DateTimeKind.Unspecified),
+                            CustomerId = 8,
                             Discount = 0m,
                             OrderCode = "HD0006",
                             PaymentMethod = "CASH",
@@ -563,6 +646,7 @@ namespace MiniSupermarket.API.Migrations
                             OrderId = 10,
                             CashierId = 8,
                             CreatedAt = new DateTime(2026, 9, 10, 12, 0, 0, 0, DateTimeKind.Unspecified),
+                            CustomerId = 11,
                             Discount = 0m,
                             OrderCode = "HD0010",
                             PaymentMethod = "CASH",
@@ -975,7 +1059,7 @@ namespace MiniSupermarket.API.Migrations
                             CostPrice = 72000m,
                             IsActive = true,
                             Price = 95000m,
-                            ProductName = "Hạt hạnh nhân rang Mỹ 250g",
+                            ProductName = "Hạnh nhân rang Blue Diamond 250g",
                             StockQuantity = 25,
                             SupplierId = 4,
                             Unit = "gói"
@@ -1003,7 +1087,7 @@ namespace MiniSupermarket.API.Migrations
                             CostPrice = 41000m,
                             IsActive = true,
                             Price = 55000m,
-                            ProductName = "Sữa chua Hy Lạp không đường 500g",
+                            ProductName = "Sữa chua TH true MILK không đường 500g",
                             StockQuantity = 20,
                             SupplierId = 5,
                             Unit = "hộp"
@@ -1014,13 +1098,13 @@ namespace MiniSupermarket.API.Migrations
                             Barcode = "8938501234567",
                             BrandId = 8,
                             CategoryId = 4,
-                            CostPrice = 70000m,
+                            CostPrice = 52000m,
                             IsActive = true,
-                            Price = 89000m,
-                            ProductName = "Ức gà tươi đông lạnh 1kg",
+                            Price = 69000m,
+                            ProductName = "Ức gà Eat Clean 500g",
                             StockQuantity = 60,
                             SupplierId = 3,
-                            Unit = "kg"
+                            Unit = "hộp"
                         },
                         new
                         {
@@ -1031,7 +1115,7 @@ namespace MiniSupermarket.API.Migrations
                             CostPrice = 31000m,
                             IsActive = true,
                             Price = 42000m,
-                            ProductName = "Cơm gạo lứt đóng hộp ăn liền 250g",
+                            ProductName = "Cơm gạo lứt Eat Clean 250g",
                             StockQuantity = 45,
                             SupplierId = 3,
                             Unit = "hộp"
@@ -1045,7 +1129,7 @@ namespace MiniSupermarket.API.Migrations
                             CostPrice = 110000m,
                             IsActive = true,
                             Price = 145000m,
-                            ProductName = "Dầu oliu nguyên chất Extra Virgin 500ml",
+                            ProductName = "Dầu oliu Bertolli Extra Virgin 500ml",
                             StockQuantity = 20,
                             SupplierId = 6,
                             Unit = "chai"
@@ -1059,7 +1143,7 @@ namespace MiniSupermarket.API.Migrations
                             CostPrice = 88000m,
                             IsActive = true,
                             Price = 120000m,
-                            ProductName = "Mật ong nguyên chất U Minh 500ml",
+                            ProductName = "Mật ong nguyên chất Bee Gold 500ml",
                             StockQuantity = 15,
                             SupplierId = 7,
                             Unit = "chai"
@@ -1101,7 +1185,7 @@ namespace MiniSupermarket.API.Migrations
                             CostPrice = 40000m,
                             IsActive = true,
                             Price = 52000m,
-                            ProductName = "Trứng gà ta hữu cơ hộp 10 quả",
+                            ProductName = "Trứng gà ta hữu cơ 10 quả",
                             StockQuantity = 70,
                             SupplierId = 9,
                             Unit = "hộp"
@@ -1115,7 +1199,7 @@ namespace MiniSupermarket.API.Migrations
                             CostPrice = 34000m,
                             IsActive = true,
                             Price = 48000m,
-                            ProductName = "Trà hoa cúc thảo mộc 20 gói",
+                            ProductName = "Trà hoa cúc Dalat Green 20 túi lọc",
                             StockQuantity = 55,
                             SupplierId = 10,
                             Unit = "hộp"
@@ -1129,7 +1213,7 @@ namespace MiniSupermarket.API.Migrations
                             CostPrice = 28000m,
                             IsActive = true,
                             Price = 39000m,
-                            ProductName = "Bánh quy yến mạch ít đường 200g",
+                            ProductName = "Bánh quy yến mạch Eat Clean 200g",
                             StockQuantity = 65,
                             SupplierId = 11,
                             Unit = "gói"
@@ -1143,7 +1227,7 @@ namespace MiniSupermarket.API.Migrations
                             CostPrice = 12000m,
                             IsActive = true,
                             Price = 18000m,
-                            ProductName = "Đậu hũ non hữu cơ 300g",
+                            ProductName = "Đậu hũ non hữu cơ Organic Farm VN 300g",
                             StockQuantity = 80,
                             SupplierId = 12,
                             Unit = "hộp"
@@ -1157,9 +1241,9 @@ namespace MiniSupermarket.API.Migrations
                             CostPrice = 100000m,
                             IsActive = true,
                             Price = 135000m,
-                            ProductName = "Bột Spirulina tảo xoắn 100g",
+                            ProductName = "Bột Spirulina Nutri Seed 100g",
                             StockQuantity = 18,
-                            SupplierId = 11,
+                            SupplierId = 12,
                             Unit = "hũ"
                         });
                 });
@@ -1261,7 +1345,7 @@ namespace MiniSupermarket.API.Migrations
                         new
                         {
                             SupplierId = 1,
-                            Address = "Đà Lạt, Lâm Đồng",
+                            Address = "15 Nguyễn Văn Cừ, Phường 4, TP. Đà Lạt, Lâm Đồng",
                             Email = "lienhe@nongsandalat.vn",
                             PhoneNumber = "02633812345",
                             SupplierName = "Công ty TNHH Nông sản sạch Đà Lạt"
@@ -1269,7 +1353,7 @@ namespace MiniSupermarket.API.Migrations
                         new
                         {
                             SupplierId = 2,
-                            Address = "Quận 7, TP. Hồ Chí Minh",
+                            Address = "125 Nguyễn Hữu Thọ, Phường Tân Phong, Quận 7, TP. Hồ Chí Minh",
                             Email = "sales@freshviet.vn",
                             PhoneNumber = "02838123456",
                             SupplierName = "Công ty CP Trái cây nhập khẩu Fresh Việt"
@@ -1277,7 +1361,7 @@ namespace MiniSupermarket.API.Migrations
                         new
                         {
                             SupplierId = 3,
-                            Address = "Bình Thạnh, TP. Hồ Chí Minh",
+                            Address = "86 Điện Biên Phủ, Phường 17, Quận Bình Thạnh, TP. Hồ Chí Minh",
                             Email = "info@eatcleansg.vn",
                             PhoneNumber = "02838234567",
                             SupplierName = "Công ty TNHH Thực phẩm Eat Clean Sài Gòn"
@@ -1285,7 +1369,7 @@ namespace MiniSupermarket.API.Migrations
                         new
                         {
                             SupplierId = 4,
-                            Address = "Tân Bình, TP. Hồ Chí Minh",
+                            Address = "42 Trường Chinh, Phường 12, Quận Tân Bình, TP. Hồ Chí Minh",
                             Email = "order@ngucocmyviet.vn",
                             PhoneNumber = "02838345678",
                             SupplierName = "Công ty TNHH Ngũ cốc & Hạt Mỹ Việt"
@@ -1293,7 +1377,7 @@ namespace MiniSupermarket.API.Migrations
                         new
                         {
                             SupplierId = 5,
-                            Address = "Cầu Giấy, Hà Nội",
+                            Address = "28 Trần Thái Tông, Phường Dịch Vọng, Quận Cầu Giấy, Hà Nội",
                             Email = "cskh@suaxanh.vn",
                             PhoneNumber = "02438456789",
                             SupplierName = "Công ty CP Sữa & Chế phẩm sữa Xanh"
@@ -1301,7 +1385,7 @@ namespace MiniSupermarket.API.Migrations
                         new
                         {
                             SupplierId = 6,
-                            Address = "Quận 1, TP. Hồ Chí Minh",
+                            Address = "72 Nguyễn Thái Bình, Phường Nguyễn Thái Bình, Quận 1, TP. Hồ Chí Minh",
                             Email = "contact@diatrunghai.vn",
                             PhoneNumber = "02838567890",
                             SupplierName = "Công ty TNHH Dầu ăn Địa Trung Hải"
@@ -1309,7 +1393,7 @@ namespace MiniSupermarket.API.Migrations
                         new
                         {
                             SupplierId = 7,
-                            Address = "U Minh, Cà Mau",
+                            Address = "18 Nguyễn Tất Thành, Thị trấn U Minh, Huyện U Minh, Cà Mau",
                             Email = "htx@matonguminh.vn",
                             PhoneNumber = "02916678901",
                             SupplierName = "HTX Mật ong U Minh"
@@ -1317,7 +1401,7 @@ namespace MiniSupermarket.API.Migrations
                         new
                         {
                             SupplierId = 8,
-                            Address = "Phú Nhuận, TP. Hồ Chí Minh",
+                            Address = "35 Phan Đăng Lưu, Phường 3, Quận Phú Nhuận, TP. Hồ Chí Minh",
                             Email = "sales@haisannauy.vn",
                             PhoneNumber = "02838789012",
                             SupplierName = "Công ty TNHH Hải sản Na Uy Việt Nam"
@@ -1325,7 +1409,7 @@ namespace MiniSupermarket.API.Migrations
                         new
                         {
                             SupplierId = 9,
-                            Address = "Đức Hòa, Long An",
+                            Address = "125 Đường Tỉnh 825, Xã Đức Hòa Hạ, Huyện Đức Hòa, Long An",
                             Email = "trangtrai@trungsachla.vn",
                             PhoneNumber = "02723890123",
                             SupplierName = "Trang trại Trứng sạch Long An"
@@ -1333,7 +1417,7 @@ namespace MiniSupermarket.API.Migrations
                         new
                         {
                             SupplierId = 10,
-                            Address = "Bảo Lộc, Lâm Đồng",
+                            Address = "56 Trần Phú, Phường Lộc Tiến, TP. Bảo Lộc, Lâm Đồng",
                             Email = "info@dalatgreen.vn",
                             PhoneNumber = "02633901234",
                             SupplierName = "Công ty TNHH Trà thảo mộc Dalat Green"
@@ -1341,7 +1425,7 @@ namespace MiniSupermarket.API.Migrations
                         new
                         {
                             SupplierId = 11,
-                            Address = "Thủ Đức, TP. Hồ Chí Minh",
+                            Address = "210 Võ Văn Ngân, Phường Bình Thọ, TP. Thủ Đức, TP. Hồ Chí Minh",
                             Email = "ban-hang@snacklanhmanh.vn",
                             PhoneNumber = "02838012345",
                             SupplierName = "Công ty CP Bánh & Snack lành mạnh"
@@ -1349,10 +1433,34 @@ namespace MiniSupermarket.API.Migrations
                         new
                         {
                             SupplierId = 12,
-                            Address = "Gò Vấp, TP. Hồ Chí Minh",
+                            Address = "89 Quang Trung, Phường 10, Quận Gò Vấp, TP. Hồ Chí Minh",
                             Email = "lienhe@superfoodxanh.vn",
                             PhoneNumber = "02838123400",
                             SupplierName = "Công ty TNHH Đậu hũ & Superfood Xanh"
+                        },
+                        new
+                        {
+                            SupplierId = 13,
+                            Address = "145 Nguyễn Văn Cừ, Phường An Khánh, Quận Ninh Kiều, Cần Thơ",
+                            Email = "contact@rauhuucomekong.vn",
+                            PhoneNumber = "02923678901",
+                            SupplierName = "Công ty TNHH Rau củ hữu cơ Mekong"
+                        },
+                        new
+                        {
+                            SupplierId = 14,
+                            Address = "320 Nguyễn Văn Quá, Phường Đông Hưng Thuận, Quận 12, TP. Hồ Chí Minh",
+                            Email = "sales@vietnature.vn",
+                            PhoneNumber = "02839876543",
+                            SupplierName = "Công ty CP Thực phẩm xanh Việt Nature"
+                        },
+                        new
+                        {
+                            SupplierId = 15,
+                            Address = "78 Đại lộ Bình Dương, Phường Phú Hòa, TP. Thủ Dầu Một, Bình Dương",
+                            Email = "info@nongnsanviet.vn",
+                            PhoneNumber = "02743781234",
+                            SupplierName = "Công ty TNHH Nông sản hữu cơ An Việt"
                         });
                 });
 

@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MiniSupermarket.API.Data;
@@ -162,6 +162,96 @@ namespace MiniSupermarket.API.Controllers
 
             return CreatedAtAction(nameof(GetById), new { id = order.OrderId },
                 new { order.OrderId, order.OrderCode, order.Subtotal, order.Discount, order.Total });
+        }
+
+        // POST api/orders/checkout (phục vụ trực tiếp cho màn hình POS WinForms)
+        [HttpPost("checkout")]
+        [Authorize(Roles = "Admin, Cashier")]
+        public async Task<IActionResult> Checkout(PosCheckoutDto dto)
+        {
+            if (dto.Items == null || dto.Items.Count == 0)
+                return BadRequest("Giỏ hàng không có sản phẩm");
+
+            // Xác định CashierId
+            int cashierId = 4; // Mặc định thu ngân 1 nếu không tìm thấy
+            if (!string.IsNullOrWhiteSpace(dto.CashierUsername))
+            {
+                var user = await _db.Users.FirstOrDefaultAsync(u => u.Username == dto.CashierUsername);
+                if (user != null) cashierId = user.UserId;
+            }
+
+            // Tìm Customer theo SĐT nếu có
+            Customer? customer = null;
+            if (!string.IsNullOrWhiteSpace(dto.CustomerPhone))
+            {
+                customer = await _db.Customers.FirstOrDefaultAsync(c => c.PhoneNumber == dto.CustomerPhone.Trim());
+            }
+
+            var lines = dto.Items
+                .GroupBy(i => i.ProductId)
+                .Select(g => new { ProductId = g.Key, Quantity = g.Sum(x => x.Quantity) })
+                .ToList();
+
+            var ids = lines.Select(l => l.ProductId).ToList();
+            var products = await _db.Products.Where(p => ids.Contains(p.ProductId))
+                                             .ToDictionaryAsync(p => p.ProductId);
+
+            var items = new List<OrderItem>();
+            foreach (var l in lines)
+            {
+                if (!products.TryGetValue(l.ProductId, out var p) || !p.IsActive)
+                    return BadRequest($"Sản phẩm #{l.ProductId} không tồn tại hoặc đã ngừng kinh doanh");
+                if (p.StockQuantity < l.Quantity)
+                    return BadRequest($"'{p.ProductName}' chỉ còn {p.StockQuantity} trong kho");
+
+                items.Add(new OrderItem
+                {
+                    ProductId = p.ProductId,
+                    Quantity = l.Quantity,
+                    UnitPrice = p.Price,
+                    LineTotal = p.Price * l.Quantity
+                });
+                p.StockQuantity -= l.Quantity;
+            }
+
+            var subtotal = items.Sum(i => i.LineTotal);
+            var discount = Math.Max(0, dto.Discount);
+            if (discount > subtotal) discount = subtotal;
+
+            var order = new Order
+            {
+                OrderCode = Guid.NewGuid().ToString("N")[..20],
+                CustomerId = customer?.CustomerId,
+                CashierId = cashierId,
+                Subtotal = subtotal,
+                Discount = discount,
+                Total = subtotal - discount,
+                PaymentMethod = string.IsNullOrWhiteSpace(dto.PaymentMethod) ? "CASH" : dto.PaymentMethod.ToUpper(),
+                Status = "PAID",
+                CreatedAt = DateTime.Now,
+                Items = items
+            };
+
+            if (customer != null)
+                customer.RewardPoints += (int)(order.Total / PointUnit);
+
+            await using var tx = await _db.Database.BeginTransactionAsync();
+            _db.Orders.Add(order);
+            await _db.SaveChangesAsync();
+
+            order.OrderCode = $"HD{order.OrderId:D4}";
+            await _db.SaveChangesAsync();
+            await tx.CommitAsync();
+
+            return Ok(new
+            {
+                order.OrderId,
+                order.OrderCode,
+                order.Subtotal,
+                order.Discount,
+                order.Total,
+                CustomerName = customer?.CustomerName ?? "Khách vãng lai"
+            });
         }
 
         // PUT api/orders/5/cancel : huỷ hoá đơn, hoàn kho, thu hồi điểm thưởng

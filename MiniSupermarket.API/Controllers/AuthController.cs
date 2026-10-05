@@ -27,6 +27,10 @@ namespace MiniSupermarket.API.Controllers
             {
                 var token = GenerateJwtToken(request.Username, "Admin");
                 return Ok(new { success = true, token = token, role = "Admin" });
+            }else if (request.Username == "warehouse" && request.Password == "123456")
+            {
+                var token = GenerateJwtToken(request.Username, "Warehouse");
+                return Ok(new { success = true, token = token, role = "Warehouse" });
             }
             else if (request.Username == "cashier" && request.Password == "123456")
             {

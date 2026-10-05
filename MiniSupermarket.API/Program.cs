@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -100,6 +100,26 @@ builder.Services.AddSwaggerGen(c =>
 // =========================
 
 var app = builder.Build();
+
+// =========================
+// Auto Migrate Database
+// =========================
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    var logger = services.GetRequiredService<ILogger<Program>>();
+    try
+    {
+        var db = services.GetRequiredService<SupermarketDbContext>();
+        logger.LogInformation("Đang kiểm tra và cập nhật Database migrations...");
+        db.Database.Migrate();
+        logger.LogInformation("Database đã sẵn sàng!");
+    }
+    catch (Exception ex)
+    {
+        logger.LogError(ex, "Lỗi khi tự động migrate Database.");
+    }
+}
 
 // =========================
 // Middleware

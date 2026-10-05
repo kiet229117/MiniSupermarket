@@ -244,18 +244,21 @@ namespace MiniSupermarket.API.Migrations
                 columns: new[] { "BrandId", "BrandName", "Country", "Description", "IsActive" },
                 values: new object[,]
                 {
-                    { 1, "Healthy Mart", "Việt Nam", "Thương hiệu riêng của cửa hàng", true },
-                    { 2, "Quaker", "Mỹ", null, true },
-                    { 3, "TH true MILK", "Việt Nam", null, true },
-                    { 4, "Vinamilk", "Việt Nam", null, true },
-                    { 5, "Alsafi", null, null, true },
-                    { 6, "Bertolli", "Ý", null, true },
-                    { 7, "Organic Farm VN", "Việt Nam", "Nông sản hữu cơ (dữ liệu mẫu)", true },
-                    { 8, "Eat Clean VN", "Việt Nam", "Thực phẩm ăn kiêng (dữ liệu mẫu)", true },
-                    { 9, "Dalat Green", "Việt Nam", "Trà thảo mộc (dữ liệu mẫu)", true },
-                    { 10, "Blue Diamond", "Mỹ", null, true },
-                    { 11, "Bee Gold", "Việt Nam", "Mật ong nguyên chất (dữ liệu mẫu)", true },
-                    { 12, "Nutri Seed", "Việt Nam", "Superfood (dữ liệu mẫu)", true }
+                    { 1, "Healthy Mart", "Việt Nam", "Thương hiệu riêng của cửa hàng với các sản phẩm rau củ, trái cây và thực phẩm sạch.", true },
+                    { 2, "Quaker", "Mỹ", "Thương hiệu yến mạch và ngũ cốc ăn sáng giàu chất xơ.", true },
+                    { 3, "TH true MILK", "Việt Nam", "Thương hiệu sữa tươi và các sản phẩm từ sữa.", true },
+                    { 4, "Vinamilk", "Việt Nam", "Thương hiệu sữa và các sản phẩm dinh dưỡng phổ biến tại Việt Nam.", true },
+                    { 5, "Alsafi", "Campuchia", "Thương hiệu sữa hạt và đồ uống có nguồn gốc thực vật.", true },
+                    { 6, "Bertolli", "Ý", "Thương hiệu dầu oliu và các sản phẩm theo phong cách ẩm thực Địa Trung Hải.", true },
+                    { 7, "Organic Farm VN", "Việt Nam", "Rau củ, trứng và các sản phẩm nông nghiệp hữu cơ.", true },
+                    { 8, "Eat Clean VN", "Việt Nam", "Các sản phẩm phục vụ chế độ ăn Eat Clean và ăn uống lành mạnh.", true },
+                    { 9, "Dalat Green", "Việt Nam", "Trà thảo mộc và các loại đồ uống có nguồn gốc tự nhiên.", true },
+                    { 10, "Blue Diamond", "Mỹ", "Thương hiệu hạnh nhân và các sản phẩm chế biến từ hạnh nhân.", true },
+                    { 11, "Bee Gold", "Việt Nam", "Mật ong nguyên chất và các sản phẩm từ mật ong.", true },
+                    { 12, "Nutri Seed", "Việt Nam", "Superfood, hạt dinh dưỡng và các sản phẩm bổ sung dinh dưỡng.", true },
+                    { 13, "Green Life", "Việt Nam", "Thực phẩm chay và các sản phẩm có nguồn gốc từ thực vật.", true },
+                    { 14, "Nature Food", "Việt Nam", "Thực phẩm khô, ngũ cốc và các sản phẩm tự nhiên tiện lợi.", true },
+                    { 15, "Fresh Choice", "Việt Nam", "Thực phẩm đông lạnh, thịt cá và các sản phẩm tiện lợi chất lượng cao.", true }
                 });
 
             migrationBuilder.InsertData(
@@ -263,18 +266,21 @@ namespace MiniSupermarket.API.Migrations
                 columns: new[] { "CategoryId", "CategoryName", "Description" },
                 values: new object[,]
                 {
-                    { 1, "Rau củ quả hữu cơ", "Rau xanh, củ quả tươi đạt chuẩn organic" },
-                    { 2, "Ngũ cốc & Hạt dinh dưỡng", "Yến mạch, hạt chia, hạnh nhân, óc chó" },
-                    { 3, "Sữa hạt & Sữa chua hữu cơ", "Sữa hạnh nhân, sữa đậu nành, sữa chua Hy Lạp" },
-                    { 4, "Thực phẩm Eat Clean", "Ức gà, cơm gạo lứt, salad đóng gói ăn kiêng" },
-                    { 5, "Gia vị & Dầu thực vật tự nhiên", "Dầu oliu, mật ong nguyên chất, muối hồng Himalaya" },
-                    { 6, "Trái cây tươi & nhập khẩu", "Táo, nho, kiwi, bơ, trái cây theo mùa" },
-                    { 7, "Thịt cá sạch", "Cá hồi, thịt bò, thịt heo, hải sản tươi đạt chuẩn" },
-                    { 8, "Trứng & Chế phẩm từ trứng", "Trứng gà ta, trứng gà hữu cơ, trứng cút" },
-                    { 9, "Trà & Đồ uống tốt cho sức khỏe", "Trà thảo mộc, nước ép nguyên chất, kombucha" },
-                    { 10, "Bánh & Snack lành mạnh", "Bánh yến mạch, snack rong biển, trái cây sấy" },
-                    { 11, "Đậu & Sản phẩm từ đậu", "Đậu hũ, tempeh, các loại đậu khô" },
-                    { 12, "Superfood & Thực phẩm bổ sung", "Spirulina, matcha, bột rau củ, collagen thực vật" }
+                    { 1, "Rau củ quả hữu cơ", "Các loại rau xanh, củ và quả tươi được trồng theo phương pháp hữu cơ." },
+                    { 2, "Ngũ cốc & Hạt dinh dưỡng", "Yến mạch, hạt chia, hạnh nhân, óc chó và các loại hạt giàu dinh dưỡng." },
+                    { 3, "Sữa hạt & Sữa chua hữu cơ", "Sữa hạnh nhân, sữa đậu nành, sữa óc chó và các loại sữa chua hữu cơ." },
+                    { 4, "Thực phẩm Eat Clean", "Các sản phẩm phù hợp chế độ ăn Eat Clean như ức gà, cơm gạo lứt và salad." },
+                    { 5, "Gia vị & Dầu thực vật tự nhiên", "Dầu oliu, mật ong, muối hồng và các loại gia vị có nguồn gốc tự nhiên." },
+                    { 6, "Trái cây tươi & nhập khẩu", "Các loại trái cây tươi trong nước và nhập khẩu như táo, nho, kiwi và bơ." },
+                    { 7, "Thịt cá sạch", "Thịt bò, thịt heo, cá hồi và các loại hải sản tươi sống được kiểm soát chất lượng." },
+                    { 8, "Trứng & Chế phẩm từ trứng", "Trứng gà ta, trứng gà hữu cơ, trứng cút và các sản phẩm chế biến từ trứng." },
+                    { 9, "Trà & Đồ uống tốt cho sức khỏe", "Trà thảo mộc, nước ép nguyên chất, kombucha và các loại đồ uống lành mạnh." },
+                    { 10, "Bánh & Snack lành mạnh", "Bánh yến mạch, snack rong biển, trái cây sấy và các món ăn nhẹ lành mạnh." },
+                    { 11, "Đậu & Sản phẩm từ đậu", "Đậu hũ, tempeh và các loại đậu khô giàu protein thực vật." },
+                    { 12, "Superfood & Thực phẩm bổ sung", "Matcha, spirulina, bột rau củ và các sản phẩm thực phẩm bổ sung dinh dưỡng." },
+                    { 13, "Thực phẩm đông lạnh", "Rau củ, thịt cá và các loại thực phẩm được bảo quản đông lạnh tiện lợi." },
+                    { 14, "Thực phẩm khô", "Các loại mì, bún, phở, nấm khô và thực phẩm khô tiện lợi cho gia đình." },
+                    { 15, "Thực phẩm chay", "Các sản phẩm chay từ thực vật như thịt chay, đậu phụ và thực phẩm giàu protein thực vật." }
                 });
 
             migrationBuilder.InsertData(
@@ -282,18 +288,21 @@ namespace MiniSupermarket.API.Migrations
                 columns: new[] { "CustomerId", "Address", "CustomerName", "MembershipRank", "PhoneNumber", "RewardPoints" },
                 values: new object[,]
                 {
-                    { 1, null, "Nguyễn Văn A", "Vàng", "0901122334", 150 },
-                    { 2, null, "Trần Thị B", "Bạc", "0918877665", 50 },
-                    { 3, null, "Lê Văn C", "Chuẩn", "0983344556", 10 },
-                    { 4, "12 Nguyễn Huệ, Quận 1, TP. Hồ Chí Minh", "Phạm Minh Tuấn", "Vàng", "0905123456", 180 },
-                    { 5, "45 Lê Lợi, Quận 3, TP. Hồ Chí Minh", "Hoàng Thị Lan", "Bạc", "0912345678", 75 },
-                    { 6, "8 Trần Hưng Đạo, Quận 5, TP. Hồ Chí Minh", "Võ Quốc Bảo", "Chuẩn", "0937654321", 20 },
-                    { 7, "102 Điện Biên Phủ, Bình Thạnh, TP. Hồ Chí Minh", "Đặng Thu Hà", "Kim cương", "0944556677", 520 },
-                    { 8, null, "Bùi Anh Khoa", "Chuẩn", "0966778899", 5 },
-                    { 9, "27 Phan Văn Trị, Gò Vấp, TP. Hồ Chí Minh", "Ngô Thanh Mai", "Bạc", "0977889900", 90 },
-                    { 10, "63 Cách Mạng Tháng 8, Quận 10, TP. Hồ Chí Minh", "Đỗ Hoài Nam", "Vàng", "0988990011", 210 },
-                    { 11, null, "Lý Gia Hân", "Chuẩn", "0399123456", 0 },
-                    { 12, "5 Võ Văn Ngân, Thủ Đức, TP. Hồ Chí Minh", "Trương Quốc Việt", "Bạc", "0868234567", 60 }
+                    { 1, "59 Nguyễn Thị Minh Khai, Phường Võ Thị Sáu, Quận 3, TP. Hồ Chí Minh", "Nguyễn Văn A", "Vàng", "0901122334", 150 },
+                    { 2, "120 Võ Văn Tần, Phường Võ Thị Sáu, Quận 3, TP. Hồ Chí Minh", "Trần Thị B", "Bạc", "0918877665", 50 },
+                    { 3, "15 Lý Thường Kiệt, Phường 14, Quận 10, TP. Hồ Chí Minh", "Lê Văn C", "Chuẩn", "0983344556", 10 },
+                    { 4, "12 Nguyễn Huệ, Phường Bến Nghé, Quận 1, TP. Hồ Chí Minh", "Phạm Minh Tuấn", "Vàng", "0905123456", 180 },
+                    { 5, "45 Lê Lợi, Phường Bến Thành, Quận 1, TP. Hồ Chí Minh", "Hoàng Thị Lan", "Bạc", "0912345678", 75 },
+                    { 6, "8 Trần Hưng Đạo, Phường 6, Quận 5, TP. Hồ Chí Minh", "Võ Quốc Bảo", "Chuẩn", "0937654321", 20 },
+                    { 7, "102 Điện Biên Phủ, Phường 17, Quận Bình Thạnh, TP. Hồ Chí Minh", "Đặng Thu Hà", "Kim cương", "0944556677", 520 },
+                    { 8, "36 Nguyễn Thị Thập, Phường Tân Quy, Quận 7, TP. Hồ Chí Minh", "Bùi Anh Khoa", "Chuẩn", "0966778899", 5 },
+                    { 9, "27 Phan Văn Trị, Phường 10, Quận Gò Vấp, TP. Hồ Chí Minh", "Ngô Thanh Mai", "Bạc", "0977889900", 90 },
+                    { 10, "63 Cách Mạng Tháng 8, Phường 12, Quận 10, TP. Hồ Chí Minh", "Đỗ Hoài Nam", "Vàng", "0988990011", 210 },
+                    { 11, "210 Quang Trung, Phường 10, Quận Gò Vấp, TP. Hồ Chí Minh", "Lý Gia Hân", "Chuẩn", "0399123456", 0 },
+                    { 12, "5 Võ Văn Ngân, Phường Linh Chiểu, TP. Thủ Đức, TP. Hồ Chí Minh", "Trương Quốc Việt", "Bạc", "0868234567", 60 },
+                    { 13, "88 Nguyễn Oanh, Phường 17, Quận Gò Vấp, TP. Hồ Chí Minh", "Nguyễn Minh Khôi", "Vàng", "0908765432", 230 },
+                    { 14, "156 Hoàng Diệu, Phường 6, Quận 4, TP. Hồ Chí Minh", "Phan Ngọc Anh", "Bạc", "0938123456", 85 },
+                    { 15, "72 Kha Vạn Cân, Phường Hiệp Bình Chánh, TP. Thủ Đức, TP. Hồ Chí Minh", "Đinh Thanh Tùng", "Chuẩn", "0976234518", 15 }
                 });
 
             migrationBuilder.InsertData(
@@ -311,18 +320,21 @@ namespace MiniSupermarket.API.Migrations
                 columns: new[] { "SupplierId", "Address", "Email", "PhoneNumber", "SupplierName" },
                 values: new object[,]
                 {
-                    { 1, "Đà Lạt, Lâm Đồng", "lienhe@nongsandalat.vn", "02633812345", "Công ty TNHH Nông sản sạch Đà Lạt" },
-                    { 2, "Quận 7, TP. Hồ Chí Minh", "sales@freshviet.vn", "02838123456", "Công ty CP Trái cây nhập khẩu Fresh Việt" },
-                    { 3, "Bình Thạnh, TP. Hồ Chí Minh", "info@eatcleansg.vn", "02838234567", "Công ty TNHH Thực phẩm Eat Clean Sài Gòn" },
-                    { 4, "Tân Bình, TP. Hồ Chí Minh", "order@ngucocmyviet.vn", "02838345678", "Công ty TNHH Ngũ cốc & Hạt Mỹ Việt" },
-                    { 5, "Cầu Giấy, Hà Nội", "cskh@suaxanh.vn", "02438456789", "Công ty CP Sữa & Chế phẩm sữa Xanh" },
-                    { 6, "Quận 1, TP. Hồ Chí Minh", "contact@diatrunghai.vn", "02838567890", "Công ty TNHH Dầu ăn Địa Trung Hải" },
-                    { 7, "U Minh, Cà Mau", "htx@matonguminh.vn", "02916678901", "HTX Mật ong U Minh" },
-                    { 8, "Phú Nhuận, TP. Hồ Chí Minh", "sales@haisannauy.vn", "02838789012", "Công ty TNHH Hải sản Na Uy Việt Nam" },
-                    { 9, "Đức Hòa, Long An", "trangtrai@trungsachla.vn", "02723890123", "Trang trại Trứng sạch Long An" },
-                    { 10, "Bảo Lộc, Lâm Đồng", "info@dalatgreen.vn", "02633901234", "Công ty TNHH Trà thảo mộc Dalat Green" },
-                    { 11, "Thủ Đức, TP. Hồ Chí Minh", "ban-hang@snacklanhmanh.vn", "02838012345", "Công ty CP Bánh & Snack lành mạnh" },
-                    { 12, "Gò Vấp, TP. Hồ Chí Minh", "lienhe@superfoodxanh.vn", "02838123400", "Công ty TNHH Đậu hũ & Superfood Xanh" }
+                    { 1, "15 Nguyễn Văn Cừ, Phường 4, TP. Đà Lạt, Lâm Đồng", "lienhe@nongsandalat.vn", "02633812345", "Công ty TNHH Nông sản sạch Đà Lạt" },
+                    { 2, "125 Nguyễn Hữu Thọ, Phường Tân Phong, Quận 7, TP. Hồ Chí Minh", "sales@freshviet.vn", "02838123456", "Công ty CP Trái cây nhập khẩu Fresh Việt" },
+                    { 3, "86 Điện Biên Phủ, Phường 17, Quận Bình Thạnh, TP. Hồ Chí Minh", "info@eatcleansg.vn", "02838234567", "Công ty TNHH Thực phẩm Eat Clean Sài Gòn" },
+                    { 4, "42 Trường Chinh, Phường 12, Quận Tân Bình, TP. Hồ Chí Minh", "order@ngucocmyviet.vn", "02838345678", "Công ty TNHH Ngũ cốc & Hạt Mỹ Việt" },
+                    { 5, "28 Trần Thái Tông, Phường Dịch Vọng, Quận Cầu Giấy, Hà Nội", "cskh@suaxanh.vn", "02438456789", "Công ty CP Sữa & Chế phẩm sữa Xanh" },
+                    { 6, "72 Nguyễn Thái Bình, Phường Nguyễn Thái Bình, Quận 1, TP. Hồ Chí Minh", "contact@diatrunghai.vn", "02838567890", "Công ty TNHH Dầu ăn Địa Trung Hải" },
+                    { 7, "18 Nguyễn Tất Thành, Thị trấn U Minh, Huyện U Minh, Cà Mau", "htx@matonguminh.vn", "02916678901", "HTX Mật ong U Minh" },
+                    { 8, "35 Phan Đăng Lưu, Phường 3, Quận Phú Nhuận, TP. Hồ Chí Minh", "sales@haisannauy.vn", "02838789012", "Công ty TNHH Hải sản Na Uy Việt Nam" },
+                    { 9, "125 Đường Tỉnh 825, Xã Đức Hòa Hạ, Huyện Đức Hòa, Long An", "trangtrai@trungsachla.vn", "02723890123", "Trang trại Trứng sạch Long An" },
+                    { 10, "56 Trần Phú, Phường Lộc Tiến, TP. Bảo Lộc, Lâm Đồng", "info@dalatgreen.vn", "02633901234", "Công ty TNHH Trà thảo mộc Dalat Green" },
+                    { 11, "210 Võ Văn Ngân, Phường Bình Thọ, TP. Thủ Đức, TP. Hồ Chí Minh", "ban-hang@snacklanhmanh.vn", "02838012345", "Công ty CP Bánh & Snack lành mạnh" },
+                    { 12, "89 Quang Trung, Phường 10, Quận Gò Vấp, TP. Hồ Chí Minh", "lienhe@superfoodxanh.vn", "02838123400", "Công ty TNHH Đậu hũ & Superfood Xanh" },
+                    { 13, "145 Nguyễn Văn Cừ, Phường An Khánh, Quận Ninh Kiều, Cần Thơ", "contact@rauhuucomekong.vn", "02923678901", "Công ty TNHH Rau củ hữu cơ Mekong" },
+                    { 14, "320 Nguyễn Văn Quá, Phường Đông Hưng Thuận, Quận 12, TP. Hồ Chí Minh", "sales@vietnature.vn", "02839876543", "Công ty CP Thực phẩm xanh Việt Nature" },
+                    { 15, "78 Đại lộ Bình Dương, Phường Phú Hòa, TP. Thủ Dầu Một, Bình Dương", "info@nongnsanviet.vn", "02743781234", "Công ty TNHH Nông sản hữu cơ An Việt" }
                 });
 
             migrationBuilder.InsertData(
@@ -333,20 +345,20 @@ namespace MiniSupermarket.API.Migrations
                     { 1, "8938501234561", 7, 1, 18000m, true, 25000m, "Rau cải bó xôi hữu cơ 300g", 50, 1, "gói" },
                     { 2, "8938501234562", 7, 1, 24000m, true, 32000m, "Cà chua bi hữu cơ 500g", 40, 1, "hộp" },
                     { 3, "8938501234563", 2, 2, 50000m, true, 65000m, "Yến mạch nguyên hạt Quaker 500g", 30, 4, "gói" },
-                    { 4, "8938501234564", 10, 2, 72000m, true, 95000m, "Hạt hạnh nhân rang Mỹ 250g", 25, 4, "gói" },
+                    { 4, "8938501234564", 10, 2, 72000m, true, 95000m, "Hạnh nhân rang Blue Diamond 250g", 25, 4, "gói" },
                     { 5, "8938501234565", 5, 3, 60000m, true, 78000m, "Sữa hạnh nhân Alsafi 946ml", 35, 5, "hộp" },
-                    { 6, "8938501234566", 3, 3, 41000m, true, 55000m, "Sữa chua Hy Lạp không đường 500g", 20, 5, "hộp" },
-                    { 7, "8938501234567", 8, 4, 70000m, true, 89000m, "Ức gà tươi đông lạnh 1kg", 60, 3, "kg" },
-                    { 8, "8938501234568", 8, 4, 31000m, true, 42000m, "Cơm gạo lứt đóng hộp ăn liền 250g", 45, 3, "hộp" },
-                    { 9, "8938501234569", 6, 5, 110000m, true, 145000m, "Dầu oliu nguyên chất Extra Virgin 500ml", 20, 6, "chai" },
-                    { 10, "8938501234570", 11, 5, 88000m, true, 120000m, "Mật ong nguyên chất U Minh 500ml", 15, 7, "chai" },
+                    { 6, "8938501234566", 3, 3, 41000m, true, 55000m, "Sữa chua TH true MILK không đường 500g", 20, 5, "hộp" },
+                    { 7, "8938501234567", 8, 4, 52000m, true, 69000m, "Ức gà Eat Clean 500g", 60, 3, "hộp" },
+                    { 8, "8938501234568", 8, 4, 31000m, true, 42000m, "Cơm gạo lứt Eat Clean 250g", 45, 3, "hộp" },
+                    { 9, "8938501234569", 6, 5, 110000m, true, 145000m, "Dầu oliu Bertolli Extra Virgin 500ml", 20, 6, "chai" },
+                    { 10, "8938501234570", 11, 5, 88000m, true, 120000m, "Mật ong nguyên chất Bee Gold 500ml", 15, 7, "chai" },
                     { 11, "8938501234571", 1, 6, 98000m, true, 129000m, "Táo Envy nhập khẩu 1kg", 30, 2, "kg" },
                     { 12, "8938501234572", 1, 7, 135000m, true, 169000m, "Cá hồi phi lê Na Uy 300g", 22, 8, "gói" },
-                    { 13, "8938501234573", 7, 8, 40000m, true, 52000m, "Trứng gà ta hữu cơ hộp 10 quả", 70, 9, "hộp" },
-                    { 14, "8938501234574", 9, 9, 34000m, true, 48000m, "Trà hoa cúc thảo mộc 20 gói", 55, 10, "hộp" },
-                    { 15, "8938501234575", 8, 10, 28000m, true, 39000m, "Bánh quy yến mạch ít đường 200g", 65, 11, "gói" },
-                    { 16, "8938501234576", 7, 11, 12000m, true, 18000m, "Đậu hũ non hữu cơ 300g", 80, 12, "hộp" },
-                    { 17, "8938501234577", 12, 12, 100000m, true, 135000m, "Bột Spirulina tảo xoắn 100g", 18, 11, "hũ" }
+                    { 13, "8938501234573", 7, 8, 40000m, true, 52000m, "Trứng gà ta hữu cơ 10 quả", 70, 9, "hộp" },
+                    { 14, "8938501234574", 9, 9, 34000m, true, 48000m, "Trà hoa cúc Dalat Green 20 túi lọc", 55, 10, "hộp" },
+                    { 15, "8938501234575", 8, 10, 28000m, true, 39000m, "Bánh quy yến mạch Eat Clean 200g", 65, 11, "gói" },
+                    { 16, "8938501234576", 7, 11, 12000m, true, 18000m, "Đậu hũ non hữu cơ Organic Farm VN 300g", 80, 12, "hộp" },
+                    { 17, "8938501234577", 12, 12, 100000m, true, 135000m, "Bột Spirulina Nutri Seed 100g", 18, 12, "hũ" }
                 });
 
             migrationBuilder.InsertData(
@@ -375,14 +387,14 @@ namespace MiniSupermarket.API.Migrations
                 {
                     { 1, 4, new DateTime(2026, 9, 1, 9, 15, 0, 0, DateTimeKind.Unspecified), 1, 0m, "HD0001", "CASH", "PAID", 82000m, 82000m },
                     { 2, 4, new DateTime(2026, 9, 2, 10, 30, 0, 0, DateTimeKind.Unspecified), 2, 10000m, "HD0002", "MOMO", "PAID", 221000m, 211000m },
-                    { 3, 5, new DateTime(2026, 9, 3, 11, 0, 0, 0, DateTimeKind.Unspecified), null, 0m, "HD0003", "CASH", "PAID", 173000m, 173000m },
+                    { 3, 5, new DateTime(2026, 9, 3, 11, 0, 0, 0, DateTimeKind.Unspecified), 6, 0m, "HD0003", "CASH", "PAID", 173000m, 173000m },
                     { 4, 5, new DateTime(2026, 9, 4, 14, 20, 0, 0, DateTimeKind.Unspecified), 7, 20000m, "HD0004", "CARD", "PAID", 400000m, 380000m },
                     { 5, 6, new DateTime(2026, 9, 5, 16, 45, 0, 0, DateTimeKind.Unspecified), 4, 23000m, "HD0005", "BANK_TRANSFER", "PAID", 467000m, 444000m },
-                    { 6, 6, new DateTime(2026, 9, 6, 8, 40, 0, 0, DateTimeKind.Unspecified), null, 0m, "HD0006", "CASH", "PAID", 158000m, 158000m },
+                    { 6, 6, new DateTime(2026, 9, 6, 8, 40, 0, 0, DateTimeKind.Unspecified), 8, 0m, "HD0006", "CASH", "PAID", 158000m, 158000m },
                     { 7, 7, new DateTime(2026, 9, 7, 9, 5, 0, 0, DateTimeKind.Unspecified), 3, 0m, "HD0007", "CASH", "PAID", 126000m, 126000m },
                     { 8, 7, new DateTime(2026, 9, 8, 17, 10, 0, 0, DateTimeKind.Unspecified), 10, 12000m, "HD0008", "MOMO", "PAID", 237000m, 225000m },
                     { 9, 8, new DateTime(2026, 9, 9, 18, 30, 0, 0, DateTimeKind.Unspecified), 5, 0m, "HD0009", "CARD", "PAID", 151000m, 151000m },
-                    { 10, 8, new DateTime(2026, 9, 10, 12, 0, 0, 0, DateTimeKind.Unspecified), null, 0m, "HD0010", "CASH", "CANCELLED", 129000m, 129000m },
+                    { 10, 8, new DateTime(2026, 9, 10, 12, 0, 0, 0, DateTimeKind.Unspecified), 11, 0m, "HD0010", "CASH", "CANCELLED", 129000m, 129000m },
                     { 11, 9, new DateTime(2026, 9, 11, 15, 25, 0, 0, DateTimeKind.Unspecified), 9, 12000m, "HD0011", "BANK_TRANSFER", "PAID", 262000m, 250000m },
                     { 12, 9, new DateTime(2026, 9, 12, 19, 0, 0, 0, DateTimeKind.Unspecified), 12, 0m, "HD0012", "MOMO", "PAID", 258000m, 258000m }
                 });

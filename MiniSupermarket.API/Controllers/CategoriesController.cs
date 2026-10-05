@@ -40,7 +40,7 @@ namespace MiniSupermarket.API.Controllers
 
         // 3. SEARCH: Tìm kiếm qua Query String trên SQL Server
         [HttpGet("search")]
-        [Authorize(Roles = "Admin,Cashier")]
+        [Authorize(Roles = "Admin,Cashier,Warehouse")]
         public async Task<IActionResult> Search([FromQuery] string keyword)
         {
             if (string.IsNullOrWhiteSpace(keyword))
@@ -56,7 +56,7 @@ namespace MiniSupermarket.API.Controllers
 
         // 4. CREATE: Thêm mới nhóm hàng vào Database
         [HttpPost]
-        [Authorize(Roles = "Admin, Cashier")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create([FromBody] Category newCat)
         {
             if (!ModelState.IsValid)
