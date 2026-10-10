@@ -39,3 +39,47 @@
 10/5/2026 11:21:48 PM: FormLogin created successfully, calling ShowDialog
 10/5/2026 11:22:02 PM: FormLogin dialog result = OK, Token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImFkbWluIiwicm9sZSI6IkFkbWluIiwibmJmIjoxNzkxMjE3MzIxLCJleHAiOjE3OTEyMjQ1MjEsImlhdCI6MTc5MTIxNzMyMX0.mDHQwf-6Ihp9Qwkxz1DMq8A1yakOatJmsnBGjTzZ0VE
 10/5/2026 11:22:02 PM: Starting FormMainShell
+10/10/2026 11:05:08 AM: Application started
+10/10/2026 11:05:08 AM: Instantiating FormLogin
+10/10/2026 11:05:08 AM: FormLogin created successfully, calling ShowDialog
+10/10/2026 11:05:20 AM: FormLogin dialog result = OK, Token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImFkbWluIiwicm9sZSI6IkFkbWluIiwibmJmIjoxNzkxNjA1MTE5LCJleHAiOjE3OTE2MTIzMTksImlhdCI6MTc5MTYwNTExOX0.bkizM5erxgzbOtTdjclDWjegjQtnRDJ1gc-0VbGFmR4
+10/10/2026 11:05:20 AM: Starting FormMainShell
+10/10/2026 11:17:01 AM: Application started
+10/10/2026 11:17:01 AM: Instantiating FormLogin
+10/10/2026 11:17:01 AM: FormLogin created successfully, calling ShowDialog
+10/10/2026 11:17:18 AM: FormLogin dialog result = OK, Token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImFkbWluIiwicm9sZSI6IkFkbWluIiwibmJmIjoxNzkxNjA1ODM3LCJleHAiOjE3OTE2MTMwMzcsImlhdCI6MTc5MTYwNTgzN30._1p1xe-MmKDFLPUPp1-JqxYUL3sjoYze9wBpnkgQvx8
+10/10/2026 11:17:19 AM: Starting FormMainShell
+10/10/2026 11:22:14 AM: Application started
+10/10/2026 11:22:14 AM: Instantiating FormLogin
+10/10/2026 11:22:14 AM: FormLogin created successfully, calling ShowDialog
+10/10/2026 11:22:42 AM: FormLogin dialog result = OK, Token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImFkbWluIiwicm9sZSI6IkFkbWluIiwibmJmIjoxNzkxNjA2MTU5LCJleHAiOjE3OTE2MTMzNTksImlhdCI6MTc5MTYwNjE1OX0.rCn4YMHrLqiqtQEloeWNUxKcBpklpL0O8CVrPUN52rM
+10/10/2026 11:22:42 AM: Starting FormMainShell
+10/10/2026 11:27:54 AM: Application started
+10/10/2026 11:27:54 AM: Instantiating FormLogin
+10/10/2026 11:27:54 AM: FormLogin created successfully, calling ShowDialog
+10/10/2026 11:27:55 AM: FormLogin dialog result = Cancel, Token = 
+10/10/2026 11:45:41 AM: Application started
+10/10/2026 11:45:41 AM: Instantiating FormLogin
+10/10/2026 11:45:41 AM: FormLogin created successfully, calling ShowDialog
+10/10/2026 11:45:51 AM: FormLogin dialog result = OK, Token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImFkbWluIiwicm9sZSI6IkFkbWluIiwibmJmIjoxNzkxNjA3NTUwLCJleHAiOjE3OTE2MTQ3NTAsImlhdCI6MTc5MTYwNzU1MH0.bm4LpgSA5Mhr-H8L1x8stGYa52YgCYR1UFVrgniG7kM
+10/10/2026 11:45:51 AM: Starting FormMainShell
+10/10/2026 11:58:05 AM: Application started
+10/10/2026 11:58:05 AM: Instantiating FormLogin
+10/10/2026 11:58:06 AM: FormLogin created successfully, calling ShowDialog
+10/10/2026 11:58:18 AM: FormLogin dialog result = OK, Token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImFkbWluIiwicm9sZSI6IkFkbWluIiwibmJmIjoxNzkxNjA4Mjk1LCJleHAiOjE3OTE2MTU0OTUsImlhdCI6MTc5MTYwODI5NX0.XSr1sFm-R8mI0DH58km6MQUW16ofOYIaVf7al9AwObk
+10/10/2026 11:58:18 AM: Starting FormMainShell
+10/10/2026 12:01:10 PM: Application started
+10/10/2026 12:01:10 PM: Instantiating FormLogin
+10/10/2026 12:01:10 PM: FormLogin created successfully, calling ShowDialog
+10/10/2026 12:01:20 PM: FormLogin dialog result = OK, Token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImFkbWluIiwicm9sZSI6IkFkbWluIiwibmJmIjoxNzkxNjA4NDc4LCJleHAiOjE3OTE2MTU2NzgsImlhdCI6MTc5MTYwODQ3OH0.JFnvRai7L6a6H6ACSfnwr7tyQyabA72ekVS1K3fRsvw
+10/10/2026 12:01:20 PM: Starting FormMainShell
+10/10/2026 12:03:36 PM: Application started
+10/10/2026 12:03:36 PM: Instantiating FormLogin
+10/10/2026 12:03:37 PM: FormLogin created successfully, calling ShowDialog
+10/10/2026 12:03:47 PM: FormLogin dialog result = OK, Token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImFkbWluIiwicm9sZSI6IkFkbWluIiwibmJmIjoxNzkxNjA4NjI1LCJleHAiOjE3OTE2MTU4MjUsImlhdCI6MTc5MTYwODYyNX0.qqVttPFZOFOyou1jwgbLobeEWfQyaMvUfRDgBQULN9E
+10/10/2026 12:03:47 PM: Starting FormMainShell
+10/10/2026 12:11:57 PM: Application started
+10/10/2026 12:11:57 PM: Instantiating FormLogin
+10/10/2026 12:11:58 PM: FormLogin created successfully, calling ShowDialog
+10/10/2026 12:12:10 PM: FormLogin dialog result = OK, Token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImFkbWluIiwicm9sZSI6IkFkbWluIiwibmJmIjoxNzkxNjA5MTI5LCJleHAiOjE3OTE2MTYzMjksImlhdCI6MTc5MTYwOTEyOX0._REQWG7QKaZnP0NLqDQqFog37ZvUNuUUQO_fIqeQUOU
+10/10/2026 12:12:10 PM: Starting FormMainShell

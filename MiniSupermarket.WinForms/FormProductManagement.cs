@@ -10,6 +10,7 @@ namespace MiniSupermarket.WinForms
 {
     public partial class FormProductManagement : Form
     {
+        private const string SearchPlaceholder = "Tên hoặc Mã vạch...";
         private readonly List<ProductDto> _products = new List<ProductDto>();
         private readonly List<CategoryDto> _categories = new List<CategoryDto>();
 
@@ -56,6 +57,7 @@ namespace MiniSupermarket.WinForms
             InitializeComponent();
             BuildUI();
             ApplyTheme();
+            this.Shown += FormProductManagement_Shown;
         }
 
         private void BuildUI()
@@ -111,7 +113,7 @@ namespace MiniSupermarket.WinForms
                 Size = new Size(130, 26),
                 Margin = new Padding(0, 2, 8, 0)
             };
-            UITheme.SetupSearchPlaceholder(txtSearch, "Tên / Mã vạch...");
+            UITheme.SetupSearchPlaceholder(txtSearch, SearchPlaceholder);
             txtSearch.KeyDown += (s, e) => { if (e.KeyCode == Keys.Enter) BtnSearch_Click(s, e); };
             panelSearchFilter.Controls.Add(txtSearch);
 
@@ -342,6 +344,14 @@ namespace MiniSupermarket.WinForms
             await LoadProductsAsync();
         }
 
+        private async void FormProductManagement_Shown(object sender, EventArgs e)
+        {
+            if (_products.Count == 0)
+            {
+                await LoadProductsAsync();
+            }
+        }
+
         // ==========================================
         // TẢI DANH MỤC: GET /api/Categories
         // ==========================================
@@ -392,7 +402,7 @@ namespace MiniSupermarket.WinForms
                 var queryParams = new List<string>();
 
                 string kw = txtSearch.Text.Trim();
-                if (!string.IsNullOrWhiteSpace(kw) && kw != "Tên hoặc Mã vạch...")
+                if (!string.IsNullOrWhiteSpace(kw) && kw != SearchPlaceholder && kw != "Tên / Mã vạch...")
                 {
                     queryParams.Add($"keyword={Uri.EscapeDataString(kw)}");
                 }
@@ -506,7 +516,7 @@ namespace MiniSupermarket.WinForms
 
         private async void BtnReload_Click(object sender, EventArgs e)
         {
-            txtSearch.Text = "Tên hoặc Mã vạch...";
+            txtSearch.Text = SearchPlaceholder;
             txtSearch.ForeColor = UITheme.TextMuted;
             cboFilterCategory.SelectedIndex = 0;
             await LoadProductsAsync();

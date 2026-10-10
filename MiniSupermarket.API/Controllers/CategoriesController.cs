@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MiniSupermarket.API.Data;
@@ -99,9 +99,23 @@ namespace MiniSupermarket.API.Controllers
                 return NotFound(new { message = "Không tìm thấy nhóm hàng cần xóa!" });
             }
 
-            _context.Categories.Remove(cat);
-            await _context.SaveChangesAsync();
-            return NoContent();
+            // Kiểm tra xem danh mục có sản phẩm nào không
+            int productCount = await _context.Products.CountAsync(p => p.CategoryId == id);
+            if (productCount > 0)
+            {
+                return BadRequest(new { message = $"Không thể xóa danh mục \"{cat.CategoryName}\" vì vẫn còn {productCount} sản phẩm trong danh mục này! Vui lòng chuyển hoặc xóa các sản phẩm thuộc danh mục trước." });
+            }
+
+            try
+            {
+                _context.Categories.Remove(cat);
+                await _context.SaveChangesAsync();
+                return NoContent();
+            }
+            catch (DbUpdateException)
+            {
+                return BadRequest(new { message = $"Không thể xóa danh mục \"{cat.CategoryName}\" vì vẫn còn dữ liệu sản phẩm liên kết ràng buộc!" });
+            }
         }
 
         // 7. Kiểm tra quyền Admin (Chỉ tài khoản có Role = Admin mới được gọi)

@@ -79,5 +79,65 @@ namespace MiniSupermarket.WinForms
         public string PaymentMethod { get; set; } = string.Empty;
         public string CustomerName { get; set; } = string.Empty;
     }
+
+    public class BrandDto
+    {
+        public int BrandId { get; set; }
+        public string BrandName { get; set; } = string.Empty;
+        public string Country { get; set; } = string.Empty;
+        public string Description { get; set; } = string.Empty;
+        public bool IsActive { get; set; } = true;
+    }
+
+    public class SupplierDto
+    {
+        public int SupplierId { get; set; }
+        public string SupplierName { get; set; } = string.Empty;
+        public string PhoneNumber { get; set; } = string.Empty;
+        public string Email { get; set; } = string.Empty;
+        public string Address { get; set; } = string.Empty;
+    }
+
+    public class OrderHeaderDto
+    {
+        public int OrderId { get; set; }
+        public string OrderCode { get; set; } = string.Empty;
+        public DateTime CreatedAt { get; set; }
+        public string Status { get; set; } = string.Empty;
+        public string PaymentMethod { get; set; } = string.Empty;
+        public decimal Subtotal { get; set; }
+        public decimal Discount { get; set; }
+        public decimal Total { get; set; }
+        public string CustomerName { get; set; }
+        public string CashierName { get; set; }
+        public int ItemCount { get; set; }
+    }
+
+    public class OrderDetailDto
+    {
+        public int OrderId { get; set; }
+        public string OrderCode { get; set; } = string.Empty;
+        public DateTime CreatedAt { get; set; }
+        public string Status { get; set; } = string.Empty;
+        public string PaymentMethod { get; set; } = string.Empty;
+        public decimal Subtotal { get; set; }
+        public decimal Discount { get; set; }
+        public decimal Total { get; set; }
+        public int? CustomerId { get; set; }
+        public int? CashierId { get; set; }
+        public string CustomerName { get; set; }
+        public string CashierName { get; set; }
+        public List<OrderItemDetailDto> Items { get; set; } = new List<OrderItemDetailDto>();
+    }
+
+    public class OrderItemDetailDto
+    {
+        public int OrderItemId { get; set; }
+        public int ProductId { get; set; }
+        public string ProductName { get; set; }
+        public int Quantity { get; set; }
+        public decimal UnitPrice { get; set; }
+        public decimal LineTotal { get; set; }
+    }
 }
 

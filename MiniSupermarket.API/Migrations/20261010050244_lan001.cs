@@ -311,7 +311,7 @@ namespace MiniSupermarket.API.Migrations
                 values: new object[,]
                 {
                     { 1, "ADMIN" },
-                    { 2, "MANAGER" },
+                    { 2, "WAREHOUSE" },
                     { 3, "CASHIER" }
                 });
 
@@ -367,17 +367,17 @@ namespace MiniSupermarket.API.Migrations
                 values: new object[,]
                 {
                     { 1, new DateTime(2026, 1, 5, 8, 0, 0, 0, DateTimeKind.Unspecified), "admin@healthymart.vn", "Quản trị hệ thống", true, "$2b$11$Kce6ZlNDqAZeWGjWjezVDuvhT5YGuqyxFMjEc6g8Zx1VbYe0Rq7B.", "0900000001", 1, "admin" },
-                    { 2, new DateTime(2026, 1, 6, 8, 0, 0, 0, DateTimeKind.Unspecified), "manager01@healthymart.vn", "Nguyễn Thị Quản Lý", true, "$2b$11$Kce6ZlNDqAZeWGjWjezVDuvhT5YGuqyxFMjEc6g8Zx1VbYe0Rq7B.", "0900000002", 2, "manager01" },
-                    { 3, new DateTime(2026, 1, 6, 8, 30, 0, 0, DateTimeKind.Unspecified), "manager02@healthymart.vn", "Trần Văn Điều Hành", true, "$2b$11$Kce6ZlNDqAZeWGjWjezVDuvhT5YGuqyxFMjEc6g8Zx1VbYe0Rq7B.", "0900000003", 2, "manager02" },
-                    { 4, new DateTime(2026, 2, 1, 8, 0, 0, 0, DateTimeKind.Unspecified), "cashier01@healthymart.vn", "Lê Thị Thu Ngân 1", true, "$2b$11$Kce6ZlNDqAZeWGjWjezVDuvhT5YGuqyxFMjEc6g8Zx1VbYe0Rq7B.", "0900000004", 3, "cashier01" },
-                    { 5, new DateTime(2026, 2, 1, 8, 10, 0, 0, DateTimeKind.Unspecified), "cashier02@healthymart.vn", "Phạm Văn Thu Ngân 2", true, "$2b$11$Kce6ZlNDqAZeWGjWjezVDuvhT5YGuqyxFMjEc6g8Zx1VbYe0Rq7B.", "0900000005", 3, "cashier02" },
-                    { 6, new DateTime(2026, 2, 1, 8, 20, 0, 0, DateTimeKind.Unspecified), "cashier03@healthymart.vn", "Hoàng Thị Thu Ngân 3", true, "$2b$11$Kce6ZlNDqAZeWGjWjezVDuvhT5YGuqyxFMjEc6g8Zx1VbYe0Rq7B.", "0900000006", 3, "cashier03" },
-                    { 7, new DateTime(2026, 2, 10, 8, 0, 0, 0, DateTimeKind.Unspecified), "cashier04@healthymart.vn", "Võ Minh Thu Ngân 4", true, "$2b$11$Kce6ZlNDqAZeWGjWjezVDuvhT5YGuqyxFMjEc6g8Zx1VbYe0Rq7B.", "0900000007", 3, "cashier04" },
-                    { 8, new DateTime(2026, 2, 10, 8, 10, 0, 0, DateTimeKind.Unspecified), "cashier05@healthymart.vn", "Đặng Thị Thu Ngân 5", true, "$2b$11$Kce6ZlNDqAZeWGjWjezVDuvhT5YGuqyxFMjEc6g8Zx1VbYe0Rq7B.", "0900000008", 3, "cashier05" },
-                    { 9, new DateTime(2026, 3, 1, 8, 0, 0, 0, DateTimeKind.Unspecified), "cashier06@healthymart.vn", "Bùi Văn Thu Ngân 6", true, "$2b$11$Kce6ZlNDqAZeWGjWjezVDuvhT5YGuqyxFMjEc6g8Zx1VbYe0Rq7B.", "0900000009", 3, "cashier06" },
-                    { 10, new DateTime(2026, 3, 1, 8, 10, 0, 0, DateTimeKind.Unspecified), "cashier07@healthymart.vn", "Ngô Thị Thu Ngân 7", true, "$2b$11$Kce6ZlNDqAZeWGjWjezVDuvhT5YGuqyxFMjEc6g8Zx1VbYe0Rq7B.", "0900000010", 3, "cashier07" },
-                    { 11, new DateTime(2026, 4, 1, 8, 0, 0, 0, DateTimeKind.Unspecified), "cashier08@healthymart.vn", "Đỗ Văn Thu Ngân 8", true, "$2b$11$Kce6ZlNDqAZeWGjWjezVDuvhT5YGuqyxFMjEc6g8Zx1VbYe0Rq7B.", "0900000011", 3, "cashier08" },
-                    { 12, new DateTime(2026, 4, 1, 8, 10, 0, 0, DateTimeKind.Unspecified), "cashier09@healthymart.vn", "Lý Thị Thu Ngân 9", false, "$2b$11$Kce6ZlNDqAZeWGjWjezVDuvhT5YGuqyxFMjEc6g8Zx1VbYe0Rq7B.", "0900000012", 3, "cashier09" }
+                    { 2, new DateTime(2026, 1, 6, 8, 0, 0, 0, DateTimeKind.Unspecified), "warehouse01@healthymart.vn", "Nguyễn Thị Mai", true, "$2b$11$Kce6ZlNDqAZeWGjWjezVDuvhT5YGuqyxFMjEc6g8Zx1VbYe0Rq7B.", "0900000002", 2, "warehouse01" },
+                    { 3, new DateTime(2026, 1, 6, 8, 30, 0, 0, DateTimeKind.Unspecified), "warehouse02@healthymart.vn", "Trần Văn Điều", true, "$2b$11$Kce6ZlNDqAZeWGjWjezVDuvhT5YGuqyxFMjEc6g8Zx1VbYe0Rq7B.", "0900000003", 2, "warehouse02" },
+                    { 4, new DateTime(2026, 2, 1, 8, 0, 0, 0, DateTimeKind.Unspecified), "cashier01@healthymart.vn", "Lê Thị Thu Ngân", true, "$2b$11$Kce6ZlNDqAZeWGjWjezVDuvhT5YGuqyxFMjEc6g8Zx1VbYe0Rq7B.", "0900000004", 3, "cashier01" },
+                    { 5, new DateTime(2026, 2, 1, 8, 10, 0, 0, DateTimeKind.Unspecified), "cashier02@healthymart.vn", "Phạm Văn Ngân", true, "$2b$11$Kce6ZlNDqAZeWGjWjezVDuvhT5YGuqyxFMjEc6g8Zx1VbYe0Rq7B.", "0900000005", 3, "cashier02" },
+                    { 6, new DateTime(2026, 2, 1, 8, 20, 0, 0, DateTimeKind.Unspecified), "cashier03@healthymart.vn", "Hoàng Thị Ngân", true, "$2b$11$Kce6ZlNDqAZeWGjWjezVDuvhT5YGuqyxFMjEc6g8Zx1VbYe0Rq7B.", "0900000006", 3, "cashier03" },
+                    { 7, new DateTime(2026, 2, 10, 8, 0, 0, 0, DateTimeKind.Unspecified), "cashier04@healthymart.vn", "Võ Minh Ngân", true, "$2b$11$Kce6ZlNDqAZeWGjWjezVDuvhT5YGuqyxFMjEc6g8Zx1VbYe0Rq7B.", "0900000007", 3, "cashier04" },
+                    { 8, new DateTime(2026, 2, 10, 8, 10, 0, 0, DateTimeKind.Unspecified), "cashier05@healthymart.vn", "Đặng ThịNgân", true, "$2b$11$Kce6ZlNDqAZeWGjWjezVDuvhT5YGuqyxFMjEc6g8Zx1VbYe0Rq7B.", "0900000008", 3, "cashier05" },
+                    { 9, new DateTime(2026, 3, 1, 8, 0, 0, 0, DateTimeKind.Unspecified), "cashier06@healthymart.vn", "Bùi Văn Ngân", true, "$2b$11$Kce6ZlNDqAZeWGjWjezVDuvhT5YGuqyxFMjEc6g8Zx1VbYe0Rq7B.", "0900000009", 3, "cashier06" },
+                    { 10, new DateTime(2026, 3, 1, 8, 10, 0, 0, DateTimeKind.Unspecified), "cashier07@healthymart.vn", "Ngô Thị Thu Ngân", true, "$2b$11$Kce6ZlNDqAZeWGjWjezVDuvhT5YGuqyxFMjEc6g8Zx1VbYe0Rq7B.", "0900000010", 3, "cashier07" },
+                    { 11, new DateTime(2026, 4, 1, 8, 0, 0, 0, DateTimeKind.Unspecified), "cashier08@healthymart.vn", "Đỗ Văn Ngân", true, "$2b$11$Kce6ZlNDqAZeWGjWjezVDuvhT5YGuqyxFMjEc6g8Zx1VbYe0Rq7B.", "0900000011", 3, "cashier08" },
+                    { 12, new DateTime(2026, 4, 1, 8, 10, 0, 0, DateTimeKind.Unspecified), "cashier09@healthymart.vn", "Lý Thị Thu Ngân", false, "$2b$11$Kce6ZlNDqAZeWGjWjezVDuvhT5YGuqyxFMjEc6g8Zx1VbYe0Rq7B.", "0900000012", 3, "cashier09" }
                 });
 
             migrationBuilder.InsertData(

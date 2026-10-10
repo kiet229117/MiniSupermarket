@@ -1300,7 +1300,7 @@ namespace MiniSupermarket.API.Migrations
                         new
                         {
                             RoleId = 2,
-                            RoleName = "MANAGER"
+                            RoleName = "WAREHOUSE"
                         },
                         new
                         {
@@ -1531,32 +1531,32 @@ namespace MiniSupermarket.API.Migrations
                         {
                             UserId = 2,
                             CreatedAt = new DateTime(2026, 1, 6, 8, 0, 0, 0, DateTimeKind.Unspecified),
-                            Email = "manager01@healthymart.vn",
-                            FullName = "Nguyễn Thị Quản Lý",
+                            Email = "warehouse01@healthymart.vn",
+                            FullName = "Nguyễn Thị Mai",
                             IsActive = true,
                             PasswordHash = "$2b$11$Kce6ZlNDqAZeWGjWjezVDuvhT5YGuqyxFMjEc6g8Zx1VbYe0Rq7B.",
                             Phone = "0900000002",
                             RoleId = 2,
-                            Username = "manager01"
+                            Username = "warehouse01"
                         },
                         new
                         {
                             UserId = 3,
                             CreatedAt = new DateTime(2026, 1, 6, 8, 30, 0, 0, DateTimeKind.Unspecified),
-                            Email = "manager02@healthymart.vn",
-                            FullName = "Trần Văn Điều Hành",
+                            Email = "warehouse02@healthymart.vn",
+                            FullName = "Trần Văn Điều",
                             IsActive = true,
                             PasswordHash = "$2b$11$Kce6ZlNDqAZeWGjWjezVDuvhT5YGuqyxFMjEc6g8Zx1VbYe0Rq7B.",
                             Phone = "0900000003",
                             RoleId = 2,
-                            Username = "manager02"
+                            Username = "warehouse02"
                         },
                         new
                         {
                             UserId = 4,
                             CreatedAt = new DateTime(2026, 2, 1, 8, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "cashier01@healthymart.vn",
-                            FullName = "Lê Thị Thu Ngân 1",
+                            FullName = "Lê Thị Thu Ngân",
                             IsActive = true,
                             PasswordHash = "$2b$11$Kce6ZlNDqAZeWGjWjezVDuvhT5YGuqyxFMjEc6g8Zx1VbYe0Rq7B.",
                             Phone = "0900000004",
@@ -1568,7 +1568,7 @@ namespace MiniSupermarket.API.Migrations
                             UserId = 5,
                             CreatedAt = new DateTime(2026, 2, 1, 8, 10, 0, 0, DateTimeKind.Unspecified),
                             Email = "cashier02@healthymart.vn",
-                            FullName = "Phạm Văn Thu Ngân 2",
+                            FullName = "Phạm Văn Ngân",
                             IsActive = true,
                             PasswordHash = "$2b$11$Kce6ZlNDqAZeWGjWjezVDuvhT5YGuqyxFMjEc6g8Zx1VbYe0Rq7B.",
                             Phone = "0900000005",
@@ -1580,7 +1580,7 @@ namespace MiniSupermarket.API.Migrations
                             UserId = 6,
                             CreatedAt = new DateTime(2026, 2, 1, 8, 20, 0, 0, DateTimeKind.Unspecified),
                             Email = "cashier03@healthymart.vn",
-                            FullName = "Hoàng Thị Thu Ngân 3",
+                            FullName = "Hoàng Thị Ngân",
                             IsActive = true,
                             PasswordHash = "$2b$11$Kce6ZlNDqAZeWGjWjezVDuvhT5YGuqyxFMjEc6g8Zx1VbYe0Rq7B.",
                             Phone = "0900000006",
@@ -1592,7 +1592,7 @@ namespace MiniSupermarket.API.Migrations
                             UserId = 7,
                             CreatedAt = new DateTime(2026, 2, 10, 8, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "cashier04@healthymart.vn",
-                            FullName = "Võ Minh Thu Ngân 4",
+                            FullName = "Võ Minh Ngân",
                             IsActive = true,
                             PasswordHash = "$2b$11$Kce6ZlNDqAZeWGjWjezVDuvhT5YGuqyxFMjEc6g8Zx1VbYe0Rq7B.",
                             Phone = "0900000007",
@@ -1604,7 +1604,7 @@ namespace MiniSupermarket.API.Migrations
                             UserId = 8,
                             CreatedAt = new DateTime(2026, 2, 10, 8, 10, 0, 0, DateTimeKind.Unspecified),
                             Email = "cashier05@healthymart.vn",
-                            FullName = "Đặng Thị Thu Ngân 5",
+                            FullName = "Đặng ThịNgân",
                             IsActive = true,
                             PasswordHash = "$2b$11$Kce6ZlNDqAZeWGjWjezVDuvhT5YGuqyxFMjEc6g8Zx1VbYe0Rq7B.",
                             Phone = "0900000008",
@@ -1616,7 +1616,7 @@ namespace MiniSupermarket.API.Migrations
                             UserId = 9,
                             CreatedAt = new DateTime(2026, 3, 1, 8, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "cashier06@healthymart.vn",
-                            FullName = "Bùi Văn Thu Ngân 6",
+                            FullName = "Bùi Văn Ngân",
                             IsActive = true,
                             PasswordHash = "$2b$11$Kce6ZlNDqAZeWGjWjezVDuvhT5YGuqyxFMjEc6g8Zx1VbYe0Rq7B.",
                             Phone = "0900000009",
@@ -1628,7 +1628,7 @@ namespace MiniSupermarket.API.Migrations
                             UserId = 10,
                             CreatedAt = new DateTime(2026, 3, 1, 8, 10, 0, 0, DateTimeKind.Unspecified),
                             Email = "cashier07@healthymart.vn",
-                            FullName = "Ngô Thị Thu Ngân 7",
+                            FullName = "Ngô Thị Thu Ngân",
                             IsActive = true,
                             PasswordHash = "$2b$11$Kce6ZlNDqAZeWGjWjezVDuvhT5YGuqyxFMjEc6g8Zx1VbYe0Rq7B.",
                             Phone = "0900000010",
@@ -1640,7 +1640,7 @@ namespace MiniSupermarket.API.Migrations
                             UserId = 11,
                             CreatedAt = new DateTime(2026, 4, 1, 8, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "cashier08@healthymart.vn",
-                            FullName = "Đỗ Văn Thu Ngân 8",
+                            FullName = "Đỗ Văn Ngân",
                             IsActive = true,
                             PasswordHash = "$2b$11$Kce6ZlNDqAZeWGjWjezVDuvhT5YGuqyxFMjEc6g8Zx1VbYe0Rq7B.",
                             Phone = "0900000011",
@@ -1652,7 +1652,7 @@ namespace MiniSupermarket.API.Migrations
                             UserId = 12,
                             CreatedAt = new DateTime(2026, 4, 1, 8, 10, 0, 0, DateTimeKind.Unspecified),
                             Email = "cashier09@healthymart.vn",
-                            FullName = "Lý Thị Thu Ngân 9",
+                            FullName = "Lý Thị Thu Ngân",
                             IsActive = false,
                             PasswordHash = "$2b$11$Kce6ZlNDqAZeWGjWjezVDuvhT5YGuqyxFMjEc6g8Zx1VbYe0Rq7B.",
                             Phone = "0900000012",

@@ -3,6 +3,33 @@
   "WorkspaceRootPath": "G:\\MiniSupermarket.API\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{6F803FED-C5FC-4C72-BCFE-C2D393BBC7B0}|MiniSupermarket.WinForms\\MiniSupermarket.WinForms.csproj|G:\\MiniSupermarket.API\\minisupermarket.winforms\\formcategorymanagement.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6F803FED-C5FC-4C72-BCFE-C2D393BBC7B0}|MiniSupermarket.WinForms\\MiniSupermarket.WinForms.csproj|solutionrelative:minisupermarket.winforms\\formcategorymanagement.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B9DD805F-386C-41A9-BEBC-0739D6DE4E04}|MiniSupermarket.API\\MiniSupermarket.API.csproj|g:\\minisupermarket.api\\minisupermarket.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B9DD805F-386C-41A9-BEBC-0739D6DE4E04}|MiniSupermarket.API\\MiniSupermarket.API.csproj|solutionrelative:minisupermarket.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B9DD805F-386C-41A9-BEBC-0739D6DE4E04}|MiniSupermarket.API\\MiniSupermarket.API.csproj|g:\\minisupermarket.api\\minisupermarket.api\\data\\supermarketdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B9DD805F-386C-41A9-BEBC-0739D6DE4E04}|MiniSupermarket.API\\MiniSupermarket.API.csproj|solutionrelative:minisupermarket.api\\data\\supermarketdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|G:\\MiniSupermarket.API\\MiniSupermarket.API\\Migrations\\20261010050244_lan001.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:MiniSupermarket.API\\Migrations\\20261010050244_lan001.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6F803FED-C5FC-4C72-BCFE-C2D393BBC7B0}|MiniSupermarket.WinForms\\MiniSupermarket.WinForms.csproj|G:\\MiniSupermarket.API\\minisupermarket.winforms\\appdtos.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6F803FED-C5FC-4C72-BCFE-C2D393BBC7B0}|MiniSupermarket.WinForms\\MiniSupermarket.WinForms.csproj|solutionrelative:minisupermarket.winforms\\appdtos.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6F803FED-C5FC-4C72-BCFE-C2D393BBC7B0}|MiniSupermarket.WinForms\\MiniSupermarket.WinForms.csproj|g:\\minisupermarket.api\\minisupermarket.winforms\\formsuppliermanagement.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6F803FED-C5FC-4C72-BCFE-C2D393BBC7B0}|MiniSupermarket.WinForms\\MiniSupermarket.WinForms.csproj|solutionrelative:minisupermarket.winforms\\formsuppliermanagement.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\PC\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\8.0.20\\THIRD-PARTY-NOTICES.TXT||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{6F803FED-C5FC-4C72-BCFE-C2D393BBC7B0}|MiniSupermarket.WinForms\\MiniSupermarket.WinForms.csproj|g:\\minisupermarket.api\\minisupermarket.winforms\\sessionmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{6F803FED-C5FC-4C72-BCFE-C2D393BBC7B0}|MiniSupermarket.WinForms\\MiniSupermarket.WinForms.csproj|solutionrelative:minisupermarket.winforms\\sessionmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -45,14 +72,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{6F803FED-C5FC-4C72-BCFE-C2D393BBC7B0}|MiniSupermarket.WinForms\\MiniSupermarket.WinForms.csproj|G:\\MiniSupermarket.API\\minisupermarket.winforms\\formcustomermanagement.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{6F803FED-C5FC-4C72-BCFE-C2D393BBC7B0}|MiniSupermarket.WinForms\\MiniSupermarket.WinForms.csproj|solutionrelative:minisupermarket.winforms\\formcustomermanagement.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{6F803FED-C5FC-4C72-BCFE-C2D393BBC7B0}|MiniSupermarket.WinForms\\MiniSupermarket.WinForms.csproj|G:\\MiniSupermarket.API\\minisupermarket.winforms\\formcategorymanagement.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{6F803FED-C5FC-4C72-BCFE-C2D393BBC7B0}|MiniSupermarket.WinForms\\MiniSupermarket.WinForms.csproj|solutionrelative:minisupermarket.winforms\\formcategorymanagement.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{6F803FED-C5FC-4C72-BCFE-C2D393BBC7B0}|MiniSupermarket.WinForms\\MiniSupermarket.WinForms.csproj|G:\\MiniSupermarket.API\\minisupermarket.winforms\\appdtos.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{6F803FED-C5FC-4C72-BCFE-C2D393BBC7B0}|MiniSupermarket.WinForms\\MiniSupermarket.WinForms.csproj|solutionrelative:minisupermarket.winforms\\appdtos.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{B9DD805F-386C-41A9-BEBC-0739D6DE4E04}|MiniSupermarket.API\\MiniSupermarket.API.csproj|g:\\minisupermarket.api\\minisupermarket.api\\dtos\\orderdtos.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -128,6 +147,14 @@
     {
       "AbsoluteMoniker": "D:0:0:{B9DD805F-386C-41A9-BEBC-0739D6DE4E04}|MiniSupermarket.API\\MiniSupermarket.API.csproj|g:\\minisupermarket.api\\minisupermarket.api\\model\\category.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{B9DD805F-386C-41A9-BEBC-0739D6DE4E04}|MiniSupermarket.API\\MiniSupermarket.API.csproj|solutionrelative:minisupermarket.api\\model\\category.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6F803FED-C5FC-4C72-BCFE-C2D393BBC7B0}|MiniSupermarket.WinForms\\MiniSupermarket.WinForms.csproj|g:\\minisupermarket.api\\minisupermarket.winforms\\formbrandmanagement.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6F803FED-C5FC-4C72-BCFE-C2D393BBC7B0}|MiniSupermarket.WinForms\\MiniSupermarket.WinForms.csproj|solutionrelative:minisupermarket.winforms\\formbrandmanagement.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6F803FED-C5FC-4C72-BCFE-C2D393BBC7B0}|MiniSupermarket.WinForms\\MiniSupermarket.WinForms.csproj|g:\\minisupermarket.api\\minisupermarket.winforms\\formordermanagement.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6F803FED-C5FC-4C72-BCFE-C2D393BBC7B0}|MiniSupermarket.WinForms\\MiniSupermarket.WinForms.csproj|solutionrelative:minisupermarket.winforms\\formordermanagement.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -141,6 +168,10 @@
           "Children": [
             {
               "$type": "Bookmark",
+              "Name": "ST:0:0:{0ad07096-bba9-4900-a651-0598d26f6d24}"
+            },
+            {
+              "$type": "Bookmark",
               "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
             },
             {
@@ -151,7 +182,7 @@
         },
         {
           "DockedHeight": 265,
-          "SelectedChildIndex": 9,
+          "SelectedChildIndex": 8,
           "Children": [
             {
               "$type": "Bookmark",
@@ -163,55 +194,122 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "FormPOS.cs",
-              "DocumentMoniker": "G:\\MiniSupermarket.API\\MiniSupermarket.WinForms\\FormPOS.cs",
-              "RelativeDocumentMoniker": "MiniSupermarket.WinForms\\FormPOS.cs",
-              "ToolTip": "G:\\MiniSupermarket.API\\MiniSupermarket.WinForms\\FormPOS.cs*",
-              "RelativeToolTip": "MiniSupermarket.WinForms\\FormPOS.cs*",
-              "ViewState": "AgIAACwCAAAAAAAAAAAswDICAAAAAAAAAAAAAA==",
+              "DocumentIndex": 1,
+              "Title": "Program.cs",
+              "DocumentMoniker": "G:\\MiniSupermarket.API\\MiniSupermarket.API\\Program.cs",
+              "RelativeDocumentMoniker": "MiniSupermarket.API\\Program.cs",
+              "ToolTip": "G:\\MiniSupermarket.API\\MiniSupermarket.API\\Program.cs",
+              "RelativeToolTip": "MiniSupermarket.API\\Program.cs",
+              "ViewState": "AgIAAHUAAAAAAAAAAAAAAH4AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-10-05T16:17:52.701Z"
+              "WhenOpened": "2026-10-10T05:05:24.476Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "SupermarketDbContext.cs",
+              "DocumentMoniker": "G:\\MiniSupermarket.API\\MiniSupermarket.API\\data\\SupermarketDbContext.cs",
+              "RelativeDocumentMoniker": "MiniSupermarket.API\\data\\SupermarketDbContext.cs",
+              "ToolTip": "G:\\MiniSupermarket.API\\MiniSupermarket.API\\data\\SupermarketDbContext.cs",
+              "RelativeToolTip": "MiniSupermarket.API\\data\\SupermarketDbContext.cs",
+              "ViewState": "AgIAADUAAAAAAAAAAAAAADkDAAB0AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-10T04:51:08.761Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 6,
-              "Title": "FormMainShell.cs",
-              "DocumentMoniker": "G:\\MiniSupermarket.API\\MiniSupermarket.WinForms\\FormMainShell.cs",
-              "RelativeDocumentMoniker": "MiniSupermarket.WinForms\\FormMainShell.cs",
-              "ToolTip": "G:\\MiniSupermarket.API\\MiniSupermarket.WinForms\\FormMainShell.cs*",
-              "RelativeToolTip": "MiniSupermarket.WinForms\\FormMainShell.cs*",
-              "ViewState": "AgIAANQAAAAAAAAAAAAUwN0AAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-10-05T16:17:52.702Z"
+              "Title": "THIRD-PARTY-NOTICES.TXT",
+              "DocumentMoniker": "C:\\Users\\PC\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\8.0.20\\THIRD-PARTY-NOTICES.TXT",
+              "ToolTip": "C:\\Users\\PC\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\8.0.20\\THIRD-PARTY-NOTICES.TXT [Read Only]",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAyAAAAAQAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003109|",
+              "WhenOpened": "2026-10-10T04:27:46.948Z",
+              "EditorCaption": " [Read Only]"
             },
             {
               "$type": "Document",
               "DocumentIndex": 5,
-              "Title": "FormMainShell.Designer.cs",
-              "DocumentMoniker": "G:\\MiniSupermarket.API\\MiniSupermarket.WinForms\\FormMainShell.Designer.cs",
-              "RelativeDocumentMoniker": "MiniSupermarket.WinForms\\FormMainShell.Designer.cs",
-              "ToolTip": "G:\\MiniSupermarket.API\\MiniSupermarket.WinForms\\FormMainShell.Designer.cs*",
-              "RelativeToolTip": "MiniSupermarket.WinForms\\FormMainShell.Designer.cs*",
-              "ViewState": "AgIAAIwAAAAAAAAAAAAUwJUAAAAAAAAAAAAAAA==",
+              "Title": "FormSupplierManagement.cs",
+              "DocumentMoniker": "G:\\MiniSupermarket.API\\MiniSupermarket.WinForms\\FormSupplierManagement.cs",
+              "RelativeDocumentMoniker": "MiniSupermarket.WinForms\\FormSupplierManagement.cs",
+              "ToolTip": "G:\\MiniSupermarket.API\\MiniSupermarket.WinForms\\FormSupplierManagement.cs",
+              "RelativeToolTip": "MiniSupermarket.WinForms\\FormSupplierManagement.cs",
+              "ViewState": "AgIAAIgAAAAAAAAAAAAAwJUAAAAlAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-10-05T16:17:52.703Z"
+              "WhenOpened": "2026-10-10T04:15:23.492Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 37,
+              "Title": "FormBrandManagement.cs",
+              "DocumentMoniker": "G:\\MiniSupermarket.API\\MiniSupermarket.WinForms\\FormBrandManagement.cs",
+              "RelativeDocumentMoniker": "MiniSupermarket.WinForms\\FormBrandManagement.cs",
+              "ToolTip": "G:\\MiniSupermarket.API\\MiniSupermarket.WinForms\\FormBrandManagement.cs",
+              "RelativeToolTip": "MiniSupermarket.WinForms\\FormBrandManagement.cs",
+              "ViewState": "AgIAAI4AAAAAAAAAAABhwPoBAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-10T04:15:12.95Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
               "Title": "FormProductManagement.cs",
               "DocumentMoniker": "G:\\MiniSupermarket.API\\MiniSupermarket.WinForms\\FormProductManagement.cs",
               "RelativeDocumentMoniker": "MiniSupermarket.WinForms\\FormProductManagement.cs",
               "ToolTip": "G:\\MiniSupermarket.API\\MiniSupermarket.WinForms\\FormProductManagement.cs",
               "RelativeToolTip": "MiniSupermarket.WinForms\\FormProductManagement.cs",
-              "ViewState": "AgIAAJsBAAAAAAAAAAAQwF8CAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAADcAAAAAAAAAAIBZwGkCAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-10-05T16:17:52.704Z"
+              "WhenOpened": "2026-10-05T16:17:52.704Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "FormCategoryManagement.cs",
+              "DocumentMoniker": "G:\\MiniSupermarket.API\\MiniSupermarket.WinForms\\FormCategoryManagement.cs",
+              "RelativeDocumentMoniker": "MiniSupermarket.WinForms\\FormCategoryManagement.cs",
+              "ToolTip": "G:\\MiniSupermarket.API\\MiniSupermarket.WinForms\\FormCategoryManagement.cs",
+              "RelativeToolTip": "MiniSupermarket.WinForms\\FormCategoryManagement.cs",
+              "ViewState": "AgIAALQCAAAAAAAAAAAgwA4AAAAZAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-05T16:17:52.851Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 3,
+              "Title": "20261010050244_lan001.cs",
+              "DocumentMoniker": "G:\\MiniSupermarket.API\\MiniSupermarket.API\\Migrations\\20261010050244_lan001.cs",
+              "RelativeDocumentMoniker": "MiniSupermarket.API\\Migrations\\20261010050244_lan001.cs",
+              "ToolTip": "G:\\MiniSupermarket.API\\MiniSupermarket.API\\Migrations\\20261010050244_lan001.cs",
+              "RelativeToolTip": "MiniSupermarket.API\\Migrations\\20261010050244_lan001.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-10T05:02:45.168Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "AppDtos.cs",
+              "DocumentMoniker": "G:\\MiniSupermarket.API\\MiniSupermarket.WinForms\\AppDtos.cs",
+              "RelativeDocumentMoniker": "MiniSupermarket.WinForms\\AppDtos.cs",
+              "ToolTip": "G:\\MiniSupermarket.API\\MiniSupermarket.WinForms\\AppDtos.cs",
+              "RelativeToolTip": "MiniSupermarket.WinForms\\AppDtos.cs",
+              "ViewState": "AgIAAH8AAAAAAAAAAAAzwAkAAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-05T16:17:52.82Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
               "Title": "FormQuickReport.cs",
               "DocumentMoniker": "G:\\MiniSupermarket.API\\MiniSupermarket.WinForms\\FormQuickReport.cs",
               "RelativeDocumentMoniker": "MiniSupermarket.WinForms\\FormQuickReport.cs",
@@ -223,7 +321,33 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 7,
+              "Title": "SessionManager.cs",
+              "DocumentMoniker": "G:\\MiniSupermarket.API\\MiniSupermarket.WinForms\\SessionManager.cs",
+              "RelativeDocumentMoniker": "MiniSupermarket.WinForms\\SessionManager.cs",
+              "ToolTip": "G:\\MiniSupermarket.API\\MiniSupermarket.WinForms\\SessionManager.cs",
+              "RelativeToolTip": "MiniSupermarket.WinForms\\SessionManager.cs",
+              "ViewState": "AgIAACgAAAAAAAAAAAAmwDAAAABCAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-05T16:17:52.712Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 38,
+              "Title": "FormOrderManagement.cs",
+              "DocumentMoniker": "G:\\MiniSupermarket.API\\MiniSupermarket.WinForms\\FormOrderManagement.cs",
+              "RelativeDocumentMoniker": "MiniSupermarket.WinForms\\FormOrderManagement.cs",
+              "ToolTip": "G:\\MiniSupermarket.API\\MiniSupermarket.WinForms\\FormOrderManagement.cs",
+              "RelativeToolTip": "MiniSupermarket.WinForms\\FormOrderManagement.cs",
+              "ViewState": "AgIAACQBAAAAAAAAAEBdwCUCAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-10T04:15:39.855Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
               "Title": "FormUserManagement.cs",
               "DocumentMoniker": "G:\\MiniSupermarket.API\\MiniSupermarket.WinForms\\FormUserManagement.cs",
               "RelativeDocumentMoniker": "MiniSupermarket.WinForms\\FormUserManagement.cs",
@@ -235,7 +359,45 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 12,
+              "Title": "FormMainShell.Designer.cs",
+              "DocumentMoniker": "G:\\MiniSupermarket.API\\MiniSupermarket.WinForms\\FormMainShell.Designer.cs",
+              "RelativeDocumentMoniker": "MiniSupermarket.WinForms\\FormMainShell.Designer.cs",
+              "ToolTip": "G:\\MiniSupermarket.API\\MiniSupermarket.WinForms\\FormMainShell.Designer.cs",
+              "RelativeToolTip": "MiniSupermarket.WinForms\\FormMainShell.Designer.cs",
+              "ViewState": "AgIAADUAAAAAAAAAAIBJwJ4AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-05T16:17:52.703Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "FormMainShell.cs",
+              "DocumentMoniker": "G:\\MiniSupermarket.API\\MiniSupermarket.WinForms\\FormMainShell.cs",
+              "RelativeDocumentMoniker": "MiniSupermarket.WinForms\\FormMainShell.cs",
+              "ToolTip": "G:\\MiniSupermarket.API\\MiniSupermarket.WinForms\\FormMainShell.cs",
+              "RelativeToolTip": "MiniSupermarket.WinForms\\FormMainShell.cs",
+              "ViewState": "AgIAAI4AAAAAAAAAAABZwPkAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-05T16:17:52.702Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "FormPOS.cs",
+              "DocumentMoniker": "G:\\MiniSupermarket.API\\MiniSupermarket.WinForms\\FormPOS.cs",
+              "RelativeDocumentMoniker": "MiniSupermarket.WinForms\\FormPOS.cs",
+              "ToolTip": "G:\\MiniSupermarket.API\\MiniSupermarket.WinForms\\FormPOS.cs*",
+              "RelativeToolTip": "MiniSupermarket.WinForms\\FormPOS.cs*",
+              "ViewState": "AgIAACwCAAAAAAAAAAAswDICAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-05T16:17:52.701Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
               "Title": "Program.cs",
               "DocumentMoniker": "G:\\MiniSupermarket.API\\MiniSupermarket.WinForms\\Program.cs",
               "RelativeDocumentMoniker": "MiniSupermarket.WinForms\\Program.cs",
@@ -247,20 +409,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "SessionManager.cs",
-              "DocumentMoniker": "G:\\MiniSupermarket.API\\MiniSupermarket.WinForms\\SessionManager.cs",
-              "RelativeDocumentMoniker": "MiniSupermarket.WinForms\\SessionManager.cs",
-              "ToolTip": "G:\\MiniSupermarket.API\\MiniSupermarket.WinForms\\SessionManager.cs",
-              "RelativeToolTip": "MiniSupermarket.WinForms\\SessionManager.cs",
-              "ViewState": "AgIAAAsAAAAAAAAAAAAxwBMAAAAkAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-10-05T16:17:52.712Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 15,
               "Title": "UITheme.cs",
               "DocumentMoniker": "G:\\MiniSupermarket.API\\MiniSupermarket.WinForms\\UITheme.cs",
               "RelativeDocumentMoniker": "MiniSupermarket.WinForms\\UITheme.cs",
@@ -272,19 +421,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
-              "Title": "AppDtos.cs",
-              "DocumentMoniker": "G:\\MiniSupermarket.API\\MiniSupermarket.WinForms\\AppDtos.cs",
-              "RelativeDocumentMoniker": "MiniSupermarket.WinForms\\AppDtos.cs",
-              "ToolTip": "G:\\MiniSupermarket.API\\MiniSupermarket.WinForms\\AppDtos.cs",
-              "RelativeToolTip": "MiniSupermarket.WinForms\\AppDtos.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAFMAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-10-05T16:17:52.82Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 19,
               "Title": "UsersController.cs",
               "DocumentMoniker": "G:\\MiniSupermarket.API\\MiniSupermarket.API\\Controllers\\UsersController.cs",
               "RelativeDocumentMoniker": "MiniSupermarket.API\\Controllers\\UsersController.cs",
@@ -292,12 +429,11 @@
               "RelativeToolTip": "MiniSupermarket.API\\Controllers\\UsersController.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-10-05T16:17:52.829Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-10-05T16:17:52.829Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 17,
               "Title": "FormCustomerManagement.cs",
               "DocumentMoniker": "G:\\MiniSupermarket.API\\MiniSupermarket.WinForms\\FormCustomerManagement.cs",
               "RelativeDocumentMoniker": "MiniSupermarket.WinForms\\FormCustomerManagement.cs",
@@ -309,19 +445,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
-              "Title": "FormCategoryManagement.cs",
-              "DocumentMoniker": "G:\\MiniSupermarket.API\\MiniSupermarket.WinForms\\FormCategoryManagement.cs",
-              "RelativeDocumentMoniker": "MiniSupermarket.WinForms\\FormCategoryManagement.cs",
-              "ToolTip": "G:\\MiniSupermarket.API\\MiniSupermarket.WinForms\\FormCategoryManagement.cs",
-              "RelativeToolTip": "MiniSupermarket.WinForms\\FormCategoryManagement.cs",
-              "ViewState": "AgIAAEMAAAAAAAAAAAAAwBsAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-10-05T16:17:52.851Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 16,
               "Title": "FormLogin.cs",
               "DocumentMoniker": "G:\\MiniSupermarket.API\\MiniSupermarket.WinForms\\FormLogin.cs",
               "RelativeDocumentMoniker": "MiniSupermarket.WinForms\\FormLogin.cs",
@@ -333,7 +457,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 20,
               "Title": "ReportsController.cs",
               "DocumentMoniker": "G:\\MiniSupermarket.API\\MiniSupermarket.API\\Controllers\\ReportsController.cs",
               "RelativeDocumentMoniker": "MiniSupermarket.API\\Controllers\\ReportsController.cs",
@@ -341,12 +465,11 @@
               "RelativeToolTip": "MiniSupermarket.API\\Controllers\\ReportsController.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAFUAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-10-05T16:17:52.855Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-10-05T16:17:52.855Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 18,
               "Title": "OrderDtos.cs",
               "DocumentMoniker": "G:\\MiniSupermarket.API\\MiniSupermarket.API\\dtos\\OrderDtos.cs",
               "RelativeDocumentMoniker": "MiniSupermarket.API\\dtos\\OrderDtos.cs",
@@ -354,12 +477,11 @@
               "RelativeToolTip": "MiniSupermarket.API\\dtos\\OrderDtos.cs",
               "ViewState": "AgIAAAwAAAAAAAAAAAAYwCAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-10-05T16:17:52.877Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-10-05T16:17:52.877Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 17,
+              "DocumentIndex": 22,
               "Title": "FormProductManagement.Designer.cs",
               "DocumentMoniker": "G:\\MiniSupermarket.API\\MiniSupermarket.WinForms\\FormProductManagement.Designer.cs",
               "RelativeDocumentMoniker": "MiniSupermarket.WinForms\\FormProductManagement.Designer.cs",
@@ -367,11 +489,12 @@
               "RelativeToolTip": "MiniSupermarket.WinForms\\FormProductManagement.Designer.cs",
               "ViewState": "AgIAAB0AAAAAAAAAAAAgwCcAAAA2AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-10-05T16:17:52.882Z"
+              "WhenOpened": "2026-10-05T16:17:52.882Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 16,
+              "DocumentIndex": 21,
               "Title": "OrderController.cs",
               "DocumentMoniker": "G:\\MiniSupermarket.API\\MiniSupermarket.API\\Controllers\\OrderController.cs",
               "RelativeDocumentMoniker": "MiniSupermarket.API\\Controllers\\OrderController.cs",
@@ -379,12 +502,11 @@
               "RelativeToolTip": "MiniSupermarket.API\\Controllers\\OrderController.cs",
               "ViewState": "AgIAAKoAAAAAAAAAAADwv6kAAAA3AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-10-05T16:17:52.885Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-10-05T16:17:52.885Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 19,
+              "DocumentIndex": 24,
               "Title": "appsettings.json",
               "DocumentMoniker": "G:\\MiniSupermarket.API\\MiniSupermarket.API\\appsettings.json",
               "RelativeDocumentMoniker": "MiniSupermarket.API\\appsettings.json",
@@ -392,12 +514,11 @@
               "RelativeToolTip": "MiniSupermarket.API\\appsettings.json",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAOAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2026-10-05T16:17:52.922Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-10-05T16:17:52.922Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 18,
+              "DocumentIndex": 23,
               "Title": "CategoriesController.cs",
               "DocumentMoniker": "G:\\MiniSupermarket.API\\MiniSupermarket.API\\Controllers\\CategoriesController.cs",
               "RelativeDocumentMoniker": "MiniSupermarket.API\\Controllers\\CategoriesController.cs",
@@ -405,12 +526,11 @@
               "RelativeToolTip": "MiniSupermarket.API\\Controllers\\CategoriesController.cs",
               "ViewState": "AgIAABUAAAAAAAAAAAAYwBoAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-10-05T16:17:52.941Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-10-05T16:17:52.941Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 20,
+              "DocumentIndex": 25,
               "Title": "FormCustomerManagement.cs [Design]",
               "DocumentMoniker": "G:\\MiniSupermarket.API\\MiniSupermarket.WinForms\\FormCustomerManagement.cs",
               "RelativeDocumentMoniker": "MiniSupermarket.WinForms\\FormCustomerManagement.cs",
@@ -421,18 +541,19 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 21,
+              "DocumentIndex": 26,
               "Title": "FormProductManagement.cs [Design]",
               "DocumentMoniker": "G:\\MiniSupermarket.API\\MiniSupermarket.WinForms\\FormProductManagement.cs",
               "RelativeDocumentMoniker": "MiniSupermarket.WinForms\\FormProductManagement.cs",
               "ToolTip": "G:\\MiniSupermarket.API\\MiniSupermarket.WinForms\\FormProductManagement.cs [Design]",
               "RelativeToolTip": "MiniSupermarket.WinForms\\FormProductManagement.cs [Design]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-10-05T16:17:52.952Z"
+              "WhenOpened": "2026-10-05T16:17:52.952Z",
+              "EditorCaption": " [Design]"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 22,
+              "DocumentIndex": 27,
               "Title": "Product.cs",
               "DocumentMoniker": "G:\\MiniSupermarket.API\\MiniSupermarket.API\\model\\Product.cs",
               "RelativeDocumentMoniker": "MiniSupermarket.API\\model\\Product.cs",
@@ -440,12 +561,11 @@
               "RelativeToolTip": "MiniSupermarket.API\\model\\Product.cs",
               "ViewState": "AgIAABkAAAAAAAAAAAAkwB4AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-10-05T16:17:52.956Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-10-05T16:17:52.956Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 23,
+              "DocumentIndex": 28,
               "Title": "Role.cs",
               "DocumentMoniker": "G:\\MiniSupermarket.API\\MiniSupermarket.API\\model\\Role.cs",
               "RelativeDocumentMoniker": "MiniSupermarket.API\\model\\Role.cs",
@@ -453,12 +573,11 @@
               "RelativeToolTip": "MiniSupermarket.API\\model\\Role.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAABQAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-10-05T16:17:52.963Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-10-05T16:17:52.963Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 24,
+              "DocumentIndex": 29,
               "Title": "20261003052016_lan001.cs",
               "DocumentMoniker": "D:\\MiniSupermarket.API\\MiniSupermarket.API\\Migrations\\20261003052016_lan001.cs",
               "ToolTip": "D:\\MiniSupermarket.API\\MiniSupermarket.API\\Migrations\\20261003052016_lan001.cs",
@@ -467,7 +586,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 26,
+              "DocumentIndex": 31,
               "Title": "Order.cs",
               "DocumentMoniker": "G:\\MiniSupermarket.API\\MiniSupermarket.API\\model\\Order.cs",
               "RelativeDocumentMoniker": "MiniSupermarket.API\\model\\Order.cs",
@@ -475,12 +594,11 @@
               "RelativeToolTip": "MiniSupermarket.API\\model\\Order.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-10-05T16:17:52.983Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-10-05T16:17:52.983Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 25,
+              "DocumentIndex": 30,
               "Title": "User.cs",
               "DocumentMoniker": "G:\\MiniSupermarket.API\\MiniSupermarket.API\\model\\User.cs",
               "RelativeDocumentMoniker": "MiniSupermarket.API\\model\\User.cs",
@@ -488,12 +606,11 @@
               "RelativeToolTip": "MiniSupermarket.API\\model\\User.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-10-05T16:17:52.99Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-10-05T16:17:52.99Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 27,
+              "DocumentIndex": 32,
               "Title": "Supplier.cs",
               "DocumentMoniker": "G:\\MiniSupermarket.API\\MiniSupermarket.API\\model\\Supplier.cs",
               "RelativeDocumentMoniker": "MiniSupermarket.API\\model\\Supplier.cs",
@@ -501,12 +618,11 @@
               "RelativeToolTip": "MiniSupermarket.API\\model\\Supplier.cs",
               "ViewState": "AgIAAAIAAAAAAAAAAAAAwBgAAAAsAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-10-05T16:17:52.997Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-10-05T16:17:52.997Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 28,
+              "DocumentIndex": 33,
               "Title": "OrderItem.cs",
               "DocumentMoniker": "G:\\MiniSupermarket.API\\MiniSupermarket.API\\model\\OrderItem.cs",
               "RelativeDocumentMoniker": "MiniSupermarket.API\\model\\OrderItem.cs",
@@ -514,12 +630,11 @@
               "RelativeToolTip": "MiniSupermarket.API\\model\\OrderItem.cs",
               "ViewState": "AgIAAA0AAAAAAAAAAAAQwB8AAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-10-05T16:17:53.004Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-10-05T16:17:53.004Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 30,
+              "DocumentIndex": 35,
               "Title": "RefreshToken.cs",
               "DocumentMoniker": "G:\\MiniSupermarket.API\\MiniSupermarket.API\\model\\RefreshToken.cs",
               "RelativeDocumentMoniker": "MiniSupermarket.API\\model\\RefreshToken.cs",
@@ -527,12 +642,11 @@
               "RelativeToolTip": "MiniSupermarket.API\\model\\RefreshToken.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAvAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-10-05T16:17:53.01Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-10-05T16:17:53.01Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 29,
+              "DocumentIndex": 34,
               "Title": "Brand.cs",
               "DocumentMoniker": "G:\\MiniSupermarket.API\\MiniSupermarket.API\\model\\Brand.cs",
               "RelativeDocumentMoniker": "MiniSupermarket.API\\model\\Brand.cs",
@@ -540,12 +654,11 @@
               "RelativeToolTip": "MiniSupermarket.API\\model\\Brand.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAWAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-10-05T16:17:53.016Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-10-05T16:17:53.016Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 31,
+              "DocumentIndex": 36,
               "Title": "Category.cs",
               "DocumentMoniker": "G:\\MiniSupermarket.API\\MiniSupermarket.API\\model\\Category.cs",
               "RelativeDocumentMoniker": "MiniSupermarket.API\\model\\Category.cs",
@@ -553,8 +666,7 @@
               "RelativeToolTip": "MiniSupermarket.API\\model\\Category.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABUAAAAEAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-10-05T16:17:53.022Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-10-05T16:17:53.022Z"
             }
           ]
         }

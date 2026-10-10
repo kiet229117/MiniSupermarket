@@ -620,11 +620,27 @@ namespace MiniSupermarket.WinForms
                     string error =
                         await response.Content.ReadAsStringAsync();
 
+                    string displayMessage = error;
+                    try
+                    {
+                        using (var doc = System.Text.Json.JsonDocument.Parse(error))
+                        {
+                            if (doc.RootElement.TryGetProperty("message", out var msgProp))
+                            {
+                                displayMessage = msgProp.GetString();
+                            }
+                        }
+                    }
+                    catch
+                    {
+                        // Giữ nguyên chuỗi nếu không phải JSON
+                    }
+
                     MessageBox.Show(
-                        "Xóa thất bại!\n\n" + error,
-                        "Lỗi",
+                        displayMessage,
+                        "Không thể xóa nhóm hàng",
                         MessageBoxButtons.OK,
-                        MessageBoxIcon.Error);
+                        MessageBoxIcon.Warning);
                 }
             }
             catch (Exception ex)

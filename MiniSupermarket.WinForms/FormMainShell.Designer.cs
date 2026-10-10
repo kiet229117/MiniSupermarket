@@ -39,8 +39,11 @@ namespace MiniSupermarket.WinForms
 
             // Buttons on sidebar
             this.btnPOS = new System.Windows.Forms.Button();
+            this.btnOrder = new System.Windows.Forms.Button();
             this.btnProduct = new System.Windows.Forms.Button();
             this.btnCategory = new System.Windows.Forms.Button();
+            this.btnBrand = new System.Windows.Forms.Button();
+            this.btnSupplier = new System.Windows.Forms.Button();
             this.btnCustomer = new System.Windows.Forms.Button();
             this.btnReports = new System.Windows.Forms.Button();
             this.btnUserManage = new System.Windows.Forms.Button();
@@ -48,8 +51,8 @@ namespace MiniSupermarket.WinForms
 
             // Common button style
             var sidebarButtons = new System.Windows.Forms.Button[] {
-                this.btnPOS, this.btnProduct, this.btnCategory,
-                this.btnCustomer, this.btnReports, this.btnUserManage, this.btnLogout };
+                this.btnPOS, this.btnOrder, this.btnProduct, this.btnCategory,
+                this.btnBrand, this.btnSupplier, this.btnCustomer, this.btnReports, this.btnUserManage, this.btnLogout };
 
             int topPos = 20;
             foreach (var btn in sidebarButtons)
@@ -70,8 +73,11 @@ namespace MiniSupermarket.WinForms
             }
 
             this.btnPOS.Text = "  🛒 Bán Hàng (POS)";
+            this.btnOrder.Text = "  🧾 Đơn Hàng";
             this.btnProduct.Text = "  📦 Sản Phẩm & Kho";
             this.btnCategory.Text = "  📁 Nhóm Hàng";
+            this.btnBrand.Text = "  🔖 Thương Hiệu";
+            this.btnSupplier.Text = "  🚚 Nhà Cung Cấp";
             this.btnCustomer.Text = "  👥 Khách Hàng";
             this.btnReports.Text = "  📊 Báo Cáo";
             this.btnUserManage.Text = "  👤 Quản Trị User";
@@ -81,7 +87,10 @@ namespace MiniSupermarket.WinForms
             // Wire click handlers
             this.btnPOS.Click += new System.EventHandler(this.btnPOS_Click);
             this.btnProduct.Click += new System.EventHandler(this.btnProduct_Click);
+            this.btnOrder.Click += new System.EventHandler(this.btnOrder_Click);
             this.btnCategory.Click += new System.EventHandler(this.btnCategory_Click);
+            this.btnBrand.Click += new System.EventHandler(this.btnBrand_Click);
+            this.btnSupplier.Click += new System.EventHandler(this.btnSupplier_Click);
             this.btnCustomer.Click += new System.EventHandler(this.btnCustomer_Click);
             this.btnReports.Click += new System.EventHandler(this.btnReports_Click);
             this.btnUserManage.Click += new System.EventHandler(this.btnUser_Click);

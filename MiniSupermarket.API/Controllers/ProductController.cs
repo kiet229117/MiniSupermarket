@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MiniSupermarket.API.Data;
@@ -130,7 +130,7 @@ namespace MiniSupermarket.API.Controllers
                 return Conflict("Mã vạch đã tồn tại");
             if (!await _db.Categories.AnyAsync(c => c.CategoryId == model.CategoryId))
                 return BadRequest("Nhóm hàng không tồn tại");
-            if (model.BrandId != null && !await _db.Brands.AnyAsync(b => b.BrandId == model.BrandId))
+            if (model.BrandId > 0 && !await _db.Brands.AnyAsync(b => b.BrandId == model.BrandId))
                 return BadRequest("Thương hiệu không tồn tại");
             if (model.SupplierId != null && !await _db.Suppliers.AnyAsync(s => s.SupplierId == model.SupplierId))
                 return BadRequest("Nhà cung cấp không tồn tại");

@@ -1,0 +1,134 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Net.Http.Json;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace MiniSupermarket.WinForms
+{
+    public class FormBrandManagement : Form
+    {
+        private DataGridView dgv;
+        private Label lblStatus;
+        private Button btnReload;
+
+        private TextBox txtName;
+        private TextBox txtDescription;
+        private Button btnAdd;
+        private Button btnUpdate;
+        private Button btnDelete;
+        private Button btnClear;
+
+        private List<ApiBrand> brands = new List<ApiBrand>();
+
+        public FormBrandManagement()
+        {
+            BuildUI();
+            this.Load += FormBrandManagement_Load;
+        }
+
+        private void BuildUI()
+        {
+            this.Text = "QUẢN LÝ THƯƠNG HIỆU";
+            this.Dock = DockStyle.Fill;
+
+            var top = new Panel { Dock = DockStyle.Top, Height = 48, BackColor = Color.White };
+            lblStatus = new Label { Text = "Sẵn sàng", AutoSize = true, Location = new Point(12, 14) };
+            btnReload = new Button { Text = "Tải lại", Location = new Point(120, 8), Size = new Size(80, 28) };
+            btnReload.Click += async (s, e) => await LoadDataAsync();
+            top.Controls.Add(lblStatus);
+            top.Controls.Add(btnReload);
+
+            dgv = new DataGridView { Dock = DockStyle.Fill, ReadOnly = true, AllowUserToAddRows = false };
+            dgv.Columns.Add("BrandId", "ID");
+            dgv.Columns.Add("BrandName", "Tên Thương Hiệu");
+            dgv.Columns.Add("Description", "Mô tả");
+
+            dgv.CellClick += Dgv_CellClick;
+
+            // Right panel for details and CRUD
+            var right = new Panel { Dock = DockStyle.Right, Width = 320, BackColor = Color.White, Padding = new Padding(12) };
+            var grp = new GroupBox { Text = "Chi tiết thương hiệu", Dock = DockStyle.Top, Height = 220 };
+
+            var lbl1 = new Label { Text = "Tên thương hiệu:", Location = new Point(12, 28), AutoSize = true };
+            txtName = new TextBox { Location = new Point(12, 48), Width = 280 };
+            var lbl2 = new Label { Text = "Mô tả:", Location = new Point(12, 82), AutoSize = true };
+            txtDescription = new TextBox { Location = new Point(12, 102), Width = 280, Height = 60, Multiline = true };
+
+            grp.Controls.Add(lbl1);
+            grp.Controls.Add(txtName);
+            grp.Controls.Add(lbl2);
+            grp.Controls.Add(txtDescription);
+
+            btnAdd = new Button { Text = "Thêm", Location = new Point(12, 140), Size = new Size(70, 30) };
+            btnUpdate = new Button { Text = "Sửa", Location = new Point(92, 140), Size = new Size(70, 30) };
+            btnDelete = new Button { Text = "Xóa", Location = new Point(172, 140), Size = new Size(70, 30) };
+            btnClear = new Button { Text = "Clear", Location = new Point(252, 140), Size = new Size(70, 30) };
+
+            btnAdd.Click += async (s, e) => await CreateBrandAsync();
+            btnUpdate.Click += async (s, e) => await UpdateBrandAsync();
+            btnDelete.Click += async (s, e) => await DeleteBrandAsync();
+            btnClear.Click += (s, e) => ClearForm();
+
+            grp.Controls.Add(btnAdd);
+            grp.Controls.Add(btnUpdate);
+            grp.Controls.Add(btnDelete);
+            grp.Controls.Add(btnClear);
+
+            right.Controls.Add(grp);
+            this.Controls.Add(right);
+
+            this.Controls.Add(dgv);
+            this.Controls.Add(top);
+        }
+
+        private async void FormBrandManagement_Load(object sender, EventArgs e)
+        {
+            await LoadDataAsync();
+        }
+
+        private async Task LoadDataAsync()
+        {
+            try
+            {
+                lblStatus.Text = "Đang tải dữ liệu...";
+                var response = await SessionManager.ApiClientService.Client.GetAsync("Brands");
+                if (!response.IsSuccessStatusCode)
+                {
+                    await SessionManager.ApiClientService.ShowApiErrorAsync(response, "Tải danh sách thương hiệu");
+                    lblStatus.Text = "Lỗi tải dữ liệu";
+                    return;
+                }
+
+                var list = await response.Content.ReadFromJsonAsync<List<ApiBrand>>();
+                brands.Clear();
+                if (list != null) brands.AddRange(list);
+
+                dgv.Rows.Clear();
+                foreach (var b in brands)
+                {
+                    int idx = dgv.Rows.Add();
+                    var row = dgv.Rows[idx];
+                    row.Cells[0].Value = b.BrandId;
+                    row.Cells[1].Value = b.BrandName;
+                    row.Cells[2].Value = b.Description;
+                }
+
+                lblStatus.Text = $"Có {brands.Count} thương hiệu";
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi kết nối API: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                lblStatus.Text = "Lỗi tải dữ liệu";
+            }
+        }
+
+        public class ApiBrand
+        {
+            public int BrandId { get; set; }
+            public string BrandName { get; set; } = string.Empty;
+            public string Description { get; set; } = string.Empty;
+        }
+    }
+}

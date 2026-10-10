@@ -490,4 +490,3 @@ G:\MiniSupermarket.API\MiniSupermarket.API\obj\Debug\net8.0\refint\MiniSupermark
 G:\MiniSupermarket.API\MiniSupermarket.API\obj\Debug\net8.0\MiniSupermarket.API.pdb
 G:\MiniSupermarket.API\MiniSupermarket.API\obj\Debug\net8.0\MiniSupermarket.API.genruntimeconfig.cache
 G:\MiniSupermarket.API\MiniSupermarket.API\obj\Debug\net8.0\ref\MiniSupermarket.API.dll
-G:\MiniSupermarket.API\MiniSupermarket.API\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt

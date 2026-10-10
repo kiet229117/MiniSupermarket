@@ -15,6 +15,10 @@ namespace MiniSupermarket.WinForms
         private Panel panelSidebar;
         private Button btnLogout;
         private Button btnPOS;
+
+        private Button btnOrder;
+        private Button btnBrand;
+        private Button btnSupplier;
         private Button btnCategory;
         private Button btnProduct;
         private Button btnCustomer;
@@ -48,8 +52,11 @@ namespace MiniSupermarket.WinForms
             {
                 case "ADMIN":
                     btnPOS.Visible = true;
+                    btnOrder.Visible = true;
                     btnProduct.Visible = true;
                     btnCategory.Visible = true;
+                    btnBrand.Visible = true;
+                    btnSupplier.Visible = true;
                     btnCustomer.Visible = true;
                     btnReports.Visible = true;
                     btnUserManage.Visible = true;
@@ -57,20 +64,26 @@ namespace MiniSupermarket.WinForms
 
                 case "CASHIER":
                     btnPOS.Visible = true;
+                    btnOrder.Visible = true;
                     btnCustomer.Visible = true;
                     btnProduct.Visible = false;
                     btnCategory.Visible = false;
+                    btnBrand.Visible = false;
+                    btnSupplier.Visible = false;
                     btnReports.Visible = false;
                     btnUserManage.Visible = false;
                     break;
 
                 case "WAREHOUSE":
                     btnPOS.Visible = false;
+                    btnOrder.Visible = false;
                     btnCustomer.Visible = false;
                     btnReports.Visible = false;
                     btnUserManage.Visible = false;
                     btnCategory.Visible = true;
                     btnProduct.Visible = true;
+                    btnBrand.Visible = true;
+                    btnSupplier.Visible = true;
                     break;
 
                 default:
@@ -115,6 +128,21 @@ namespace MiniSupermarket.WinForms
         private void btnCategory_Click(object sender, EventArgs e)
         {
             OpenChildForm(new FormCategoryManagement(), "QUẢN LÝ DANH MỤC NHÓM HÀNG", btnCategory);
+        }
+
+        private void btnOrder_Click(object sender, EventArgs e)
+        {
+            OpenChildForm(new FormOrderManagement(), "QUẢN LÝ ĐƠN HÀNG", btnOrder);
+        }
+
+        private void btnBrand_Click(object sender, EventArgs e)
+        {
+            OpenChildForm(new FormBrandManagement(), "QUẢN LÝ THƯƠNG HIỆU", btnBrand);
+        }
+
+        private void btnSupplier_Click(object sender, EventArgs e)
+        {
+            OpenChildForm(new FormSupplierManagement(), "QUẢN LÝ NHÀ CUNG CẤP", btnSupplier);
         }
 
         private void btnCustomer_Click(object sender, EventArgs e)

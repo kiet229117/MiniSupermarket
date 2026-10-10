@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using MiniSupermarket.API.Models;
 
 namespace MiniSupermarket.API.Data
@@ -813,17 +813,17 @@ namespace MiniSupermarket.API.Data
             const string seedHash = "$2b$11$Kce6ZlNDqAZeWGjWjezVDuvhT5YGuqyxFMjEc6g8Zx1VbYe0Rq7B.";
             modelBuilder.Entity<User>().HasData(
                 new User { UserId = 1, Username = "admin", PasswordHash = seedHash, FullName = "Quản trị hệ thống", Email = "admin@healthymart.vn", Phone = "0900000001", IsActive = true, RoleId = 1, CreatedAt = new DateTime(2026, 1, 5, 8, 0, 0) },
-                new User { UserId = 2, Username = "manager01", PasswordHash = seedHash, FullName = "Nguyễn Thị Quản Lý", Email = "manager01@healthymart.vn", Phone = "0900000002", IsActive = true, RoleId = 2, CreatedAt = new DateTime(2026, 1, 6, 8, 0, 0) },
-                new User { UserId = 3, Username = "manager02", PasswordHash = seedHash, FullName = "Trần Văn Điều Hành", Email = "manager02@healthymart.vn", Phone = "0900000003", IsActive = true, RoleId = 2, CreatedAt = new DateTime(2026, 1, 6, 8, 30, 0) },
-                new User { UserId = 4, Username = "cashier01", PasswordHash = seedHash, FullName = "Lê Thị Thu Ngân 1", Email = "cashier01@healthymart.vn", Phone = "0900000004", IsActive = true, RoleId = 3, CreatedAt = new DateTime(2026, 2, 1, 8, 0, 0) },
-                new User { UserId = 5, Username = "cashier02", PasswordHash = seedHash, FullName = "Phạm Văn Thu Ngân 2", Email = "cashier02@healthymart.vn", Phone = "0900000005", IsActive = true, RoleId = 3, CreatedAt = new DateTime(2026, 2, 1, 8, 10, 0) },
-                new User { UserId = 6, Username = "cashier03", PasswordHash = seedHash, FullName = "Hoàng Thị Thu Ngân 3", Email = "cashier03@healthymart.vn", Phone = "0900000006", IsActive = true, RoleId = 3, CreatedAt = new DateTime(2026, 2, 1, 8, 20, 0) },
-                new User { UserId = 7, Username = "cashier04", PasswordHash = seedHash, FullName = "Võ Minh Thu Ngân 4", Email = "cashier04@healthymart.vn", Phone = "0900000007", IsActive = true, RoleId = 3, CreatedAt = new DateTime(2026, 2, 10, 8, 0, 0) },
-                new User { UserId = 8, Username = "cashier05", PasswordHash = seedHash, FullName = "Đặng Thị Thu Ngân 5", Email = "cashier05@healthymart.vn", Phone = "0900000008", IsActive = true, RoleId = 3, CreatedAt = new DateTime(2026, 2, 10, 8, 10, 0) },
-                new User { UserId = 9, Username = "cashier06", PasswordHash = seedHash, FullName = "Bùi Văn Thu Ngân 6", Email = "cashier06@healthymart.vn", Phone = "0900000009", IsActive = true, RoleId = 3, CreatedAt = new DateTime(2026, 3, 1, 8, 0, 0) },
-                new User { UserId = 10, Username = "cashier07", PasswordHash = seedHash, FullName = "Ngô Thị Thu Ngân 7", Email = "cashier07@healthymart.vn", Phone = "0900000010", IsActive = true, RoleId = 3, CreatedAt = new DateTime(2026, 3, 1, 8, 10, 0) },
-                new User { UserId = 11, Username = "cashier08", PasswordHash = seedHash, FullName = "Đỗ Văn Thu Ngân 8", Email = "cashier08@healthymart.vn", Phone = "0900000011", IsActive = true, RoleId = 3, CreatedAt = new DateTime(2026, 4, 1, 8, 0, 0) },
-                new User { UserId = 12, Username = "cashier09", PasswordHash = seedHash, FullName = "Lý Thị Thu Ngân 9", Email = "cashier09@healthymart.vn", Phone = "0900000012", IsActive = false, RoleId = 3, CreatedAt = new DateTime(2026, 4, 1, 8, 10, 0) }
+                new User { UserId = 2, Username = "warehouse01", PasswordHash = seedHash, FullName = "Nguyễn Thị Mai", Email = "warehouse01@healthymart.vn", Phone = "0900000002", IsActive = true, RoleId = 2, CreatedAt = new DateTime(2026, 1, 6, 8, 0, 0) },
+                new User { UserId = 3, Username = "warehouse02", PasswordHash = seedHash, FullName = "Trần Văn Điều", Email = "warehouse02@healthymart.vn", Phone = "0900000003", IsActive = true, RoleId = 2, CreatedAt = new DateTime(2026, 1, 6, 8, 30, 0) },
+                new User { UserId = 4, Username = "cashier01", PasswordHash = seedHash, FullName = "Lê Thị Thu Ngân", Email = "cashier01@healthymart.vn", Phone = "0900000004", IsActive = true, RoleId = 3, CreatedAt = new DateTime(2026, 2, 1, 8, 0, 0) },
+                new User { UserId = 5, Username = "cashier02", PasswordHash = seedHash, FullName = "Phạm Văn Ngân", Email = "cashier02@healthymart.vn", Phone = "0900000005", IsActive = true, RoleId = 3, CreatedAt = new DateTime(2026, 2, 1, 8, 10, 0) },
+                new User { UserId = 6, Username = "cashier03", PasswordHash = seedHash, FullName = "Hoàng Thị Ngân", Email = "cashier03@healthymart.vn", Phone = "0900000006", IsActive = true, RoleId = 3, CreatedAt = new DateTime(2026, 2, 1, 8, 20, 0) },
+                new User { UserId = 7, Username = "cashier04", PasswordHash = seedHash, FullName = "Võ Minh Ngân", Email = "cashier04@healthymart.vn", Phone = "0900000007", IsActive = true, RoleId = 3, CreatedAt = new DateTime(2026, 2, 10, 8, 0, 0) },
+                new User { UserId = 8, Username = "cashier05", PasswordHash = seedHash, FullName = "Đặng ThịNgân", Email = "cashier05@healthymart.vn", Phone = "0900000008", IsActive = true, RoleId = 3, CreatedAt = new DateTime(2026, 2, 10, 8, 10, 0) },
+                new User { UserId = 9, Username = "cashier06", PasswordHash = seedHash, FullName = "Bùi Văn Ngân", Email = "cashier06@healthymart.vn", Phone = "0900000009", IsActive = true, RoleId = 3, CreatedAt = new DateTime(2026, 3, 1, 8, 0, 0) },
+                new User { UserId = 10, Username = "cashier07", PasswordHash = seedHash, FullName = "Ngô Thị Thu Ngân", Email = "cashier07@healthymart.vn", Phone = "0900000010", IsActive = true, RoleId = 3, CreatedAt = new DateTime(2026, 3, 1, 8, 10, 0) },
+                new User { UserId = 11, Username = "cashier08", PasswordHash = seedHash, FullName = "Đỗ Văn Ngân", Email = "cashier08@healthymart.vn", Phone = "0900000011", IsActive = true, RoleId = 3, CreatedAt = new DateTime(2026, 4, 1, 8, 0, 0) },
+                new User { UserId = 12, Username = "cashier09", PasswordHash = seedHash, FullName = "Lý Thị Thu Ngân", Email = "cashier09@healthymart.vn", Phone = "0900000012", IsActive = false, RoleId = 3, CreatedAt = new DateTime(2026, 4, 1, 8, 10, 0) }
             );
 
             // ---------- Orders (12) ----------
