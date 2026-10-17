@@ -12,7 +12,7 @@ using MiniSupermarket.API.Data;
 namespace MiniSupermarket.API.Migrations
 {
     [DbContext(typeof(SupermarketDbContext))]
-    [Migration("20261010050244_lan001")]
+    [Migration("20261010100142_lan001")]
     partial class lan001
     {
         /// <inheritdoc />

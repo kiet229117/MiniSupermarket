@@ -251,6 +251,38 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "MiniSupermarket.API.Controllers.CheckoutController",
+    "Method": "ProcessCheckout",
+    "RelativePath": "api/Checkout",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "MiniSupermarket.API.Models.CheckoutRequestDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MiniSupermarket.API.Controllers.CheckoutController",
+    "Method": "CancelOrder",
+    "RelativePath": "api/Checkout/cancel/{orderId}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "orderId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "MiniSupermarket.API.Controllers.CustomersController",
     "Method": "GetAll",
     "RelativePath": "api/Customers",
@@ -661,6 +693,68 @@
         "IsRequired": false
       }
     ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MiniSupermarket.API.Controllers.ReportsController",
+    "Method": "GetDateRangeReport",
+    "RelativePath": "api/Reports/date-range",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "fromDate",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "toDate",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MiniSupermarket.API.Controllers.ReportsController",
+    "Method": "GetRevenueByCashier",
+    "RelativePath": "api/Reports/revenue-by-cashier",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MiniSupermarket.API.Controllers.ReportsController",
+    "Method": "GetRevenueByDateRange",
+    "RelativePath": "api/Reports/revenue-by-date-range",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "fromDate",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "toDate",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "MiniSupermarket.API.Controllers.ReportsController",
+    "Method": "GetTop5SellingProducts",
+    "RelativePath": "api/Reports/top-5-selling-products",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
     "ReturnTypes": []
   },
   {

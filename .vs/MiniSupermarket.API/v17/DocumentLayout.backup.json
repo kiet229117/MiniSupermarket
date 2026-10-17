@@ -1,0 +1,37 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "E:\\MiniSupermarket.API\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{B9DD805F-386C-41A9-BEBC-0739D6DE4E04}|MiniSupermarket.API\\MiniSupermarket.API.csproj|e:\\minisupermarket.api\\minisupermarket.api\\migrations\\20261010100142_lan001.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B9DD805F-386C-41A9-BEBC-0739D6DE4E04}|MiniSupermarket.API\\MiniSupermarket.API.csproj|solutionrelative:minisupermarket.api\\migrations\\20261010100142_lan001.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "20261010100142_lan001.cs",
+              "DocumentMoniker": "E:\\MiniSupermarket.API\\MiniSupermarket.API\\Migrations\\20261010100142_lan001.cs",
+              "RelativeDocumentMoniker": "MiniSupermarket.API\\Migrations\\20261010100142_lan001.cs",
+              "ToolTip": "E:\\MiniSupermarket.API\\MiniSupermarket.API\\Migrations\\20261010100142_lan001.cs",
+              "RelativeToolTip": "MiniSupermarket.API\\Migrations\\20261010100142_lan001.cs",
+              "ViewState": "AgIAACkAAAAAAAAAAAAUwEkAAAATAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-10T10:01:42.205Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
