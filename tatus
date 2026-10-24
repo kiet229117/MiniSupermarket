@@ -1,0 +1,245 @@
+ .gitignore.txt                                     |    5 [32m+[m
+ .../8C4FF10FA29EB76E310193F3A8BD2F08               |    1 [32m+[m
+ .../A43E0C28EED4302408BDE21B5CFFD6C8               |    1 [32m+[m
+ .../A5C0816AD8F48F29F15DADC133D25BA9               |  221 [32m+[m
+ .../BA3137E6874AE3D1E78B4CA3E2C92B7D               |  647 [32m++[m
+ .../DA474E5B6B3A4AE3A87939D55530F410               |   47 [32m+[m
+ .../DD9675121CB59307C484F4D7592CC007               |   47 [32m+[m
+ .../F7209AEC24A9626B2FCAD2D4F9F25DBA               |    1 [32m+[m
+ .../0B23CE7CC9354FCD476A666B59E883B0               |    1 [32m+[m
+ .../2676A7BCAF4DE1DF50114988F01FC7DF               |    1 [32m+[m
+ .../495BEAC6830044AE58E54DECDCC6E180               |  149 [32m+[m
+ .../6772985944552CAD80AA37B1293CB76E               |    1 [32m+[m
+ .../6B29A53F7F2E2E346155F01B33144635               |  221 [32m+[m
+ .../8BCED6E201DF76F29C24CD4C88CC0DB0               |  225 [32m+[m
+ .../8C4FF10FA29EB76E310193F3A8BD2F08               |    1 [32m+[m
+ .../A43E0C28EED4302408BDE21B5CFFD6C8               |    1 [32m+[m
+ .../A5C0816AD8F48F29F15DADC133D25BA9               |  221 [32m+[m
+ .../BA3137E6874AE3D1E78B4CA3E2C92B7D               |  647 [32m++[m
+ .../DA474E5B6B3A4AE3A87939D55530F410               |  149 [32m+[m
+ .../F7209AEC24A9626B2FCAD2D4F9F25DBA               |    1 [32m+[m
+ .../104E2F3F10B443B4EE8AF44F7AF2A242               |  141 [32m+[m
+ .../21825EBA409AAFEFA6D941B5AF263D9A               |  106 [32m+[m
+ .../2F5AF584E32FF8785D37AF336453513B               |   93 [32m+[m
+ .../3D37113B4B9E572F8CA59A99A5DCFCCC               |  647 [32m++[m
+ .../619FCD4BF0D4A48C37522A27F11235E1               |  102 [32m+[m
+ .../7CAD85DCB2344C56134A794737DEE18D               |   99 [32m+[m
+ .../8C4FF10FA29EB76E310193F3A8BD2F08               |   93 [32m+[m
+ .../A43E0C28EED4302408BDE21B5CFFD6C8               |   99 [32m+[m
+ .../BA3137E6874AE3D1E78B4CA3E2C92B7D               |  647 [32m++[m
+ .../D487F87C13F847FFF772CA9B23E0052E               |  134 [32m+[m
+ .../E812039EA17DE0C17F6F79CB194B99DA               |   96 [32m+[m
+ .../F7209AEC24A9626B2FCAD2D4F9F25DBA               |   96 [32m+[m
+ .../04A22DD9FC649A4BBC06C5D0C60124D8/state.mpack   |  Bin [31m0[m -> [32m18401[m bytes
+ .../18.11.979.32481/SemanticSymbols.db             |  Bin [31m0[m -> [32m425984[m bytes
+ .../DesignTimeBuild/.dtbcache.v2                   |  Bin [31m0[m -> [32m177200[m bytes
+ .../06d10e79-3695-4885-864e-827556fe3b48.vsidx     |  Bin [31m0[m -> [32m220867[m bytes
+ .../2fedde47-8773-45f6-b664-36fe0e48a232.vsidx     |  Bin [31m0[m -> [32m3245[m bytes
+ .../51de45ab-aa81-4d6b-8512-2a34d2a75893.vsidx     |  Bin [31m0[m -> [32m2143[m bytes
+ .../b4bf853b-fad2-4237-ac19-152add79e670.vsidx     |  Bin [31m0[m -> [32m15129[m bytes
+ .../c025d4b5-d0a9-43f4-866d-f12408592cde.vsidx     |  Bin [31m0[m -> [32m2407[m bytes
+ .../config/applicationhost.config                  | 1016 [32m+++[m
+ .../sessions/72bb8765-f5d4-421e-b282-0bb02e178a0d  |  Bin [31m0[m -> [32m7031[m bytes
+ .../sessions/9d86970f-8ad8-4f4d-b7bc-d672a134f74b  |  Bin [31m0[m -> [32m6059[m bytes
+ .../sessions/d92da204-64fc-4b9a-bc06-c5d0c60124d8  |  Bin [31m0[m -> [32m972057[m bytes
+ .vs/MiniSupermarket.API/v17/.futdcache.v2          |  Bin [31m0[m -> [32m134[m bytes
+ .vs/MiniSupermarket.API/v17/.suo                   |  Bin [31m0[m -> [32m107008[m bytes
+ .../v17/DocumentLayout.backup.json                 |   37 [32m+[m
+ .vs/MiniSupermarket.API/v17/DocumentLayout.json    |   37 [32m+[m
+ .../v17/ResourceExplorer/settings.json             |   16 [32m+[m
+ .vs/MiniSupermarket.API/v18/.futdcache.v2          |  Bin [31m0[m -> [32m394[m bytes
+ .vs/MiniSupermarket.API/v18/.suo                   |  Bin [31m0[m -> [32m202752[m bytes
+ .../v18/DocumentLayout.backup.json                 |  131 [32m+[m
+ .vs/MiniSupermarket.API/v18/DocumentLayout.json    |  131 [32m+[m
+ .../v18/ResourceExplorer/settings.json             |   16 [32m+[m
+ .../minisupermarket.api.metadata.v10.bin           |  Bin [31m0[m -> [32m2520[m bytes
+ .../minisupermarket.api.projects.v10.bin           |  Bin [31m0[m -> [32m100042[m bytes
+ .../minisupermarket.api.strings.v10.bin            |  Bin [31m0[m -> [32m161285[m bytes
+ FormLogin/App.config                               |    6 [32m+[m
+ FormLogin/Form1.Designer.cs                        |  123 [32m+[m
+ FormLogin/Form1.cs                                 |   74 [32m+[m
+ {MiniSupermarket.WinForms => FormLogin}/Form1.resx |    0
+ FormLogin/FormCategoryManagement.cs                |   12 [32m+[m
+ FormLogin/FormLogin.csproj                         |  132 [32m+[m
+ FormLogin/Program.cs                               |   22 [32m+[m
+ FormLogin/Properties/AssemblyInfo.cs               |   33 [32m+[m
+ FormLogin/Properties/Resources.Designer.cs         |   71 [32m+[m
+ FormLogin/Properties/Resources.resx                |  117 [32m+[m
+ FormLogin/Properties/Settings.Designer.cs          |   30 [32m+[m
+ FormLogin/Properties/Settings.settings             |    7 [32m+[m
+ FormLogin/bin/Debug/FormLogin.exe                  |  Bin [31m0[m -> [32m14336[m bytes
+ FormLogin/bin/Debug/FormLogin.exe.config           |    6 [32m+[m
+ FormLogin/bin/Debug/FormLogin.pdb                  |  Bin [31m0[m -> [32m36352[m bytes
+ .../bin/Debug/Microsoft.Bcl.AsyncInterfaces.dll    |  Bin [31m0[m -> [32m27944[m bytes
+ .../bin/Debug/Microsoft.Bcl.AsyncInterfaces.xml    |  420 [32m++[m
+ FormLogin/bin/Debug/MiniSupermarket.WinForms.exe   |  Bin [31m0[m -> [32m28672[m bytes
+ .../bin/Debug/MiniSupermarket.WinForms.exe.config  |    6 [32m+[m
+ FormLogin/bin/Debug/MiniSupermarket.WinForms.pdb   |  Bin [31m0[m -> [32m62976[m bytes
+ FormLogin/bin/Debug/System.Buffers.dll             |  Bin [31m0[m -> [32m23816[m bytes
+ FormLogin/bin/Debug/System.Buffers.xml             |  173 [32m+[m
+ FormLogin/bin/Debug/System.IO.Pipelines.dll        |  Bin [31m0[m -> [32m85288[m bytes
+ FormLogin/bin/Debug/System.IO.Pipelines.xml        |  391 [32m++[m
+ FormLogin/bin/Debug/System.Memory.dll              |  Bin [31m0[m -> [32m145200[m bytes
+ FormLogin/bin/Debug/System.Memory.xml              | 3489 [32m+++++++++++[m
+ FormLogin/bin/Debug/System.Net.Http.Json.dll       |  Bin [31m0[m -> [32m74536[m bytes
+ FormLogin/bin/Debug/System.Net.Http.Json.xml       |  644 [32m++[m
+ FormLogin/bin/Debug/System.Numerics.Vectors.dll    |  Bin [31m0[m -> [32m110344[m bytes
+ FormLogin/bin/Debug/System.Numerics.Vectors.xml    | 3451 [32m+++++++++++[m
+ .../System.Runtime.CompilerServices.Unsafe.dll     |  Bin [31m0[m -> [32m19256[m bytes
+ .../System.Runtime.CompilerServices.Unsafe.xml     |  353 [32m++[m
+ FormLogin/bin/Debug/System.Text.Encodings.Web.dll  |  Bin [31m0[m -> [32m87376[m bytes
+ FormLogin/bin/Debug/System.Text.Encodings.Web.xml  |  939 [32m+++[m
+ FormLogin/bin/Debug/System.Text.Json.dll           |  Bin [31m0[m -> [32m778064[m bytes
+ FormLogin/bin/Debug/System.Text.Json.xml           | 6513 [32m++++++++++++++++++++[m
+ .../Debug/System.Threading.Tasks.Extensions.dll    |  Bin [31m0[m -> [32m27960[m bytes
+ .../Debug/System.Threading.Tasks.Extensions.xml    |  545 [32m++[m
+ ...TFramework,Version=v4.7.2.AssemblyAttributes.cs |    4 [32m+[m
+ .../DesignTimeResolveAssemblyReferences.cache      |  Bin [31m0[m -> [32m368[m bytes
+ .../DesignTimeResolveAssemblyReferencesInput.cache |  Bin [31m0[m -> [32m3473[m bytes
+ .../obj/Debug/FormLogin.Form1.resources            |  Bin
+ .../Debug/FormLogin.Properties.Resources.resources |  Bin [31m0[m -> [32m180[m bytes
+ .../Debug/FormLogin.csproj.AssemblyReference.cache |  Bin [31m0[m -> [32m18283[m bytes
+ .../Debug/FormLogin.csproj.CoreCompileInputs.cache |    1 [32m+[m
+ .../Debug/FormLogin.csproj.FileListAbsolute.txt    |   35 [32m+[m
+ .../Debug/FormLogin.csproj.GenerateResource.cache  |  Bin [31m0[m -> [32m126[m bytes
+ FormLogin/obj/Debug/FormLogin.csproj.Up2Date       |    0
+ FormLogin/obj/Debug/FormLogin.exe                  |  Bin [31m0[m -> [32m14336[m bytes
+ FormLogin/obj/Debug/FormLogin.exe.config           |    6 [32m+[m
+ FormLogin/obj/Debug/FormLogin.pdb                  |  Bin [31m0[m -> [32m36352[m bytes
+ ...TFramework,Version=v4.7.2.AssemblyAttributes.cs |    4 [32m+[m
+ .../FormLogin.csproj.AssemblyReference.cache       |  Bin [31m0[m -> [32m17266[m bytes
+ FormLogin/packages.config                          |   14 [32m+[m
+ MiniSupermarket.API.sln                            |    4 [32m+[m[31m-[m
+ MiniSupermarket.API.slnLaunch.user                 |   16 [32m+[m
+ MiniSupermarket.API/Controllers/AuthController.cs  |   70 [32m+[m
+ MiniSupermarket.API/Controllers/BrandController.cs |   84 [32m+[m
+ .../Controllers/CategoriesController.cs            |  129 [32m+[m[31m-[m
+ .../Controllers/CheckoutController.cs              |  347 [32m++[m
+ .../Controllers/CustomerController.cs              |   92 [32m+[m
+ MiniSupermarket.API/Controllers/OrderController.cs |  287 [32m+[m
+ .../Controllers/ProductController.cs               |  140 [32m+[m
+ .../Controllers/ReportsController.cs               |  386 [32m++[m
+ .../Controllers/SupplierController.cs              |   74 [32m+[m
+ MiniSupermarket.API/Controllers/UsersController.cs |  197 [32m+[m
+ .../Migrations/20261010100142_lan001.Designer.cs   | 1774 [32m++++++[m
+ .../Migrations/20261010100142_lan001.cs            |  558 [32m++[m
+ .../SupermarketDbContextModelSnapshot.cs           | 1771 [32m++++++[m
+ MiniSupermarket.API/MiniSupermarket.API.csproj     |   37 [32m+[m[31m-[m
+ .../MiniSupermarket.API.csproj.user                |    3 [32m+[m
+ MiniSupermarket.API/Program.cs                     |  266 [32m+[m[31m-[m
+ MiniSupermarket.API/appsettings.json               |    6 [32m+[m
+ .../bin/Debug/net8.0/Azure.Core.dll                |  Bin [31m0[m -> [32m400936[m bytes
+ .../bin/Debug/net8.0/Azure.Identity.dll            |  Bin [31m0[m -> [32m342960[m bytes
+ .../bin/Debug/net8.0/EntityFramework.SqlServer.dll |  Bin [31m0[m -> [32m592456[m bytes
+ .../bin/Debug/net8.0/EntityFramework.dll           |  Bin [31m0[m -> [32m4985376[m bytes
+ MiniSupermarket.API/bin/Debug/net8.0/Humanizer.dll |  Bin [31m0[m -> [32m355944[m bytes
+ ...crosoft.AspNetCore.Authentication.JwtBearer.dll |  Bin [31m0[m -> [32m52008[m bytes
+ .../Debug/net8.0/Microsoft.Bcl.AsyncInterfaces.dll |  Bin [31m0[m -> [32m16000[m bytes
+ .../Debug/net8.0/Microsoft.Bcl.Cryptography.dll    |  Bin [31m0[m -> [32m296712[m bytes
+ .../bin/Debug/net8.0/Microsoft.Build.Locator.dll   |  Bin [31m0[m -> [32m44576[m bytes
+ .../Microsoft.CodeAnalysis.CSharp.Workspaces.dll   |  Bin [31m0[m -> [32m870048[m bytes
+ .../Debug/net8.0/Microsoft.CodeAnalysis.CSharp.dll |  Bin [31m0[m -> [32m6221488[m bytes
+ ...t.CodeAnalysis.Workspaces.MSBuild.BuildHost.dll |  Bin [31m0[m -> [32m86688[m bytes
+ .../Microsoft.CodeAnalysis.Workspaces.MSBuild.dll  |  Bin [31m0[m -> [32m72864[m bytes
+ .../net8.0/Microsoft.CodeAnalysis.Workspaces.dll   |  Bin [31m0[m -> [32m3643568[m bytes
+ .../bin/Debug/net8.0/Microsoft.CodeAnalysis.dll    |  Bin [31m0[m -> [32m2856112[m bytes
+ .../bin/Debug/net8.0/Microsoft.Data.SqlClient.dll  |  Bin [31m0[m -> [32m275984[m bytes
+ .../net8.0/Microsoft.EntityFramework.SqlServer.dll |  Bin [31m0[m -> [32m506440[m bytes
+ .../Microsoft.EntityFrameworkCore.Abstractions.dll |  Bin [31m0[m -> [32m34864[m bytes
+ .../Microsoft.EntityFrameworkCore.Design.dll       |  Bin [31m0[m -> [32m486424[m bytes
+ .../Microsoft.EntityFrameworkCore.Relational.dll   |  Bin [31m0[m -> [32m1995832[m bytes
+ .../Microsoft.EntityFrameworkCore.SqlServer.dll    |  Bin [31m0[m -> [32m548896[m bytes
+ .../Debug/net8.0/Microsoft.EntityFrameworkCore.dll |  Bin [31m0[m -> [32m2534960[m bytes
+ .../Microsoft.Extensions.Caching.Abstractions.dll  |  Bin [31m0[m -> [32m36176[m bytes
+ .../net8.0/Microsoft.Extensions.Caching.Memory.dll |  Bin [31m0[m -> [32m45832[m bytes
+ ...osoft.Extensions.Configuration.Abstractions.dll |  Bin [31m0[m -> [32m27944[m bytes
+ ...Extensions.DependencyInjection.Abstractions.dll |  Bin [31m0[m -> [32m63768[m bytes
+ .../Microsoft.Extensions.DependencyInjection.dll   |  Bin [31m0[m -> [32m92952[m bytes
+ .../Microsoft.Extensions.DependencyModel.dll       |  Bin [31m0[m -> [32m79664[m bytes
+ .../Microsoft.Extensions.Logging.Abstractions.dll  |  Bin [31m0[m -> [32m65320[m bytes
+ .../Debug/net8.0/Microsoft.Extensions.Logging.dll  |  Bin [31m0[m -> [32m50976[m bytes
+ .../Debug/net8.0/Microsoft.Extensions.Options.dll  |  Bin [31m0[m -> [32m64776[m bytes
+ .../net8.0/Microsoft.Extensions.Primitives.dll     |  Bin [31m0[m -> [32m43816[m bytes
+ .../Microsoft.Identity.Client.Extensions.Msal.dll  |  Bin [31m0[m -> [32m66592[m bytes
+ .../bin/Debug/net8.0/Microsoft.Identity.Client.dll |  Bin [31m0[m -> [32m1005600[m bytes
+ .../Microsoft.IdentityModel.Abstractions.dll       |  Bin [31m0[m -> [32m19376[m bytes
+ .../Microsoft.IdentityModel.JsonWebTokens.dll      |  Bin [31m0[m -> [32m127520[m bytes
+ .../net8.0/Microsoft.IdentityModel.Logging.dll     |  Bin [31m0[m -> [32m36896[m bytes
+ ...osoft.IdentityModel.Protocols.OpenIdConnect.dll |  Bin [31m0[m -> [32m120240[m bytes
+ .../net8.0/Microsoft.IdentityModel.Protocols.dll   |  Bin [31m0[m -> [32m40376[m bytes
+ .../net8.0/Microsoft.IdentityModel.Tokens.dll      |  Bin [31m0[m -> [32m285728[m bytes
+ .../bin/Debug/net8.0/Microsoft.OpenApi.dll         |  Bin [31m486752[m -> [32m233408[m bytes
+ .../Debug/net8.0/Microsoft.SqlServer.Server.dll    |  Bin [31m0[m -> [32m23976[m bytes
+ .../bin/Debug/net8.0/Microsoft.SqlServer.Types.dll |  Bin [31m0[m -> [32m358816[m bytes
+ .../Debug/net8.0/Microsoft.Win32.SystemEvents.dll  |  Bin [31m0[m -> [32m26224[m bytes
+ .../bin/Debug/net8.0/MiniSupermarket.API.deps.json | 1217 [32m+++[m[31m-[m
+ .../bin/Debug/net8.0/MiniSupermarket.API.dll       |  Bin [31m14848[m -> [32m307200[m bytes
+ .../bin/Debug/net8.0/MiniSupermarket.API.exe       |  Bin [31m151552[m -> [32m152064[m bytes
+ .../bin/Debug/net8.0/MiniSupermarket.API.pdb       |  Bin [31m22680[m -> [32m71336[m bytes
+ .../net8.0/MiniSupermarket.API.runtimeconfig.json  |    1 [32m+[m
+ .../bin/Debug/net8.0/Mono.TextTemplating.dll       |  Bin [31m0[m -> [32m114688[m bytes
+ .../net8.0/Swashbuckle.AspNetCore.Swagger.dll      |  Bin [31m23040[m -> [32m17408[m bytes
+ .../net8.0/Swashbuckle.AspNetCore.SwaggerGen.dll   |  Bin [31m157184[m -> [32m118784[m bytes
+ .../net8.0/Swashbuckle.AspNetCore.SwaggerUI.dll    |  Bin [31m720896[m -> [32m2270720[m bytes
+ .../bin/Debug/net8.0/System.ClientModel.dll        |  Bin [31m0[m -> [32m28608[m bytes
+ .../bin/Debug/net8.0/System.CodeDom.dll            |  Bin [31m0[m -> [32m187224[m bytes
+ .../net8.0/System.Composition.AttributedModel.dll  |  Bin [31m0[m -> [32m18536[m bytes
+ .../Debug/net8.0/System.Composition.Convention.dll |  Bin [31m0[m -> [32m52840[m bytes
+ .../Debug/net8.0/System.Composition.Hosting.dll    |  Bin [31m0[m -> [32m54376[m bytes
+ .../Debug/net8.0/System.Composition.Runtime.dll    |  Bin [31m0[m -> [32m24680[m bytes
+ .../Debug/net8.0/System.Composition.TypedParts.dll |  Bin [31m0[m -> [32m61032[m bytes
+ .../System.Configuration.ConfigurationManager.dll  |  Bin [31m0[m -> [32m396424[m bytes
+ .../bin/Debug/net8.0/System.Data.SqlClient.dll     |  Bin [31m0[m -> [32m268320[m bytes
+ .../net8.0/System.Diagnostics.DiagnosticSource.dll |  Bin [31m0[m -> [32m172840[m bytes
+ .../Debug/net8.0/System.Diagnostics.EventLog.dll   |  Bin [31m0[m -> [32m51992[m bytes
+ .../bin/Debug/net8.0/System.Drawing.Common.dll     |  Bin [31m0[m -> [32m175216[m bytes
+ .../bin/Debug/net8.0/System.Formats.Asn1.dll       |  Bin [31m0[m -> [32m96048[m bytes
+ .../bin/Debug/net8.0/System.IO.Pipelines.dll       |  Bin [31m0[m -> [32m77096[m bytes
+ .../net8.0/System.IdentityModel.Tokens.Jwt.dll     |  Bin [31m0[m -> [32m82352[m bytes
+ .../bin/Debug/net8.0/System.Memory.Data.dll        |  Bin [31m0[m -> [32m21368[m bytes
+ .../bin/Debug/net8.0/System.Runtime.Caching.dll    |  Bin [31m0[m -> [32m89200[m bytes
+ .../net8.0/System.Security.Cryptography.Pkcs.dll   |  Bin [31m0[m -> [32m264864[m bytes
+ .../System.Security.Cryptography.ProtectedData.dll |  Bin [31m0[m -> [32m20592[m bytes
+ .../Debug/net8.0/System.Security.Permissions.dll   |  Bin [31m0[m -> [32m104048[m bytes
+ .../bin/Debug/net8.0/System.Text.Encodings.Web.dll |  Bin [31m0[m -> [32m70480[m bytes
+ .../bin/Debug/net8.0/System.Text.Json.dll          |  Bin [31m0[m -> [32m643368[m bytes
+ .../bin/Debug/net8.0/System.Windows.Extensions.dll |  Bin [31m0[m -> [32m25712[m bytes
+ .../bin/Debug/net8.0/appsettings.json              |    6 [32m+[m
+ ...ft.CodeAnalysis.CSharp.Workspaces.resources.dll |  Bin [31m0[m -> [32m18048[m bytes
+ .../cs/Microsoft.CodeAnalysis.CSharp.resources.dll |  Bin [31m0[m -> [32m395440[m bytes
+ ...ysis.Workspaces.MSBuild.BuildHost.resources.dll |  Bin [31m0[m -> [32m17568[m bytes
+ ...Microsoft.CodeAnalysis.Workspaces.resources.dll |  Bin [31m0[m -> [32m47744[m bytes
+ .../net8.0/cs/Microsoft.CodeAnalysis.resources.dll |  Bin [31m0[m -> [32m45744[m bytes
+ .../cs/Microsoft.Data.SqlClient.resources.dll      |  Bin [31m0[m -> [32m257656[m bytes
+ ...ft.CodeAnalysis.CSharp.Workspaces.resources.dll |  Bin [31m0[m -> [32m18560[m bytes
+ .../de/Microsoft.CodeAnalysis.CSharp.resources.dll |  Bin [31m0[m -> [32m425632[m bytes
+ ...ysis.Workspaces.MSBuild.BuildHost.resources.dll |  Bin [31m0[m -> [32m17568[m bytes
+ ...Microsoft.CodeAnalysis.Workspaces.resources.dll |  Bin [31m0[m -> [32m49784[m bytes
+ .../net8.0/de/Microsoft.CodeAnalysis.resources.dll |  Bin [31m0[m -> [32m47280[m bytes
+ .../de/Microsoft.Data.SqlClient.resources.dll      |  Bin [31m0[m -> [32m267424[m bytes
+ .../de/Microsoft.SqlServer.Types.resources.dll     |  Bin [31m0[m -> [32m32672[m bytes
+ ...ft.CodeAnalysis.CSharp.Workspaces.resources.dll |  Bin [31m0[m -> [32m18080[m bytes
+ .../es/Microsoft.CodeAnalysis.CSharp.resources.dll |  Bin [31m0[m -> [32m415904[m bytes
+ ...ysis.Workspaces.MSBuild.BuildHost.resources.dll |  Bin [31m0[m -> [32m17584[m bytes
+ ...Microsoft.CodeAnalysis.Workspaces.resources.dll |  Bin [31m0[m -> [32m49272[m bytes
+ .../net8.0/es/Microsoft.CodeAnalysis.resources.dll |  Bin [31m0[m -> [32m47280[m bytes
+ .../es/Microsoft.Data.SqlClient.resources.dll      |  Bin [31m0[m -> [32m259192[m bytes
+ .../es/Microsoft.SqlServer.Types.resources.dll     |  Bin [31m0[m -> [32m32672[m bytes
+ ...ft.CodeAnalysis.CSharp.Workspaces.resources.dll |  Bin [31m0[m -> [32m18080[m bytes
+ .../fr/Microsoft.CodeAnalysis.CSharp.resources.dll |  Bin [31m0[m -> [32m425648[m bytes
+ ...ysis.Workspaces.MSBuild.BuildHost.resources.dll |  Bin [31m0[m -> [32m17680[m bytes
+ ...Microsoft.CodeAnalysis.Workspaces.resources.dll |  Bin [31m0[m -> [32m50320[m bytes
+ .../net8.0/fr/Microsoft.CodeAnalysis.resources.dll |  Bin [31m0[m -> [32m47792[m bytes
+ .../fr/Microsoft.Data.SqlClient.resources.dll      |  Bin [31m0[m -> [32m268448[m bytes
+ .../fr/Microsoft.SqlServer.Types.resources.dll     |  Bin [31m0[m -> [32m33184[m bytes
+ ...ft.CodeAnalysis.CSharp.Workspaces.resources.dll |  Bin [31m0[m -> [32m18040[m bytes
+ .../it/Microsoft.CodeAnalysis.CSharp.resources.dll |  Bin [31m0[m -> [32m422576[m bytes
+ ...ysis.Workspaces.MSBuild.BuildHost.resources.dll |  Bin [31m0[m -> [32m17584[m bytes
+ ...Microsoft.CodeAnalysis.Workspaces.resources.dll |  Bin [31m0[m -> [32m49792[m bytes
+ .../net8.0/it/Microsoft.CodeAnalysis.resources.dll |  Bin [31m0[m -> [32m47792[m bytes
+ .../it/Microsoft.Data.SqlClient.resources.dll      |  Bin [31m0[m -> [32m260216[m bytes
+ .../it/Microsoft.SqlServer.Types.resources.dll     |  Bin [31m0[m -> [32m32672[m bytes
+ ...ft.CodeAnalysis.CSharp.Workspaces.resources.dll |  Bin [31m0[m -> [32m18592[m bytes
+ .../ja/Microsoft.CodeAnalysis.CSharp.resources.dll |  Bin [31m0[m -> [32m465056[m bytes
+ ...ysis.Workspaces.MSBuild.BuildHost.resources.dll |  Bin [31m0[m -> [32m17584[m bytes
+ ...Micro
