@@ -28,10 +28,18 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
+            this.SuspendLayout();
+            // 
+            // FormUserManagement
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Name = "FormUserManagement";
             this.Text = "FormUserManagement";
+            this.Load += new System.EventHandler(this.FormUserManagement_Load_1);
+            this.ResumeLayout(false);
+
         }
 
         #endregion

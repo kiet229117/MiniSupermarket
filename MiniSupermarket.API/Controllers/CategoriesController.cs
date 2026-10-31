@@ -48,7 +48,7 @@ namespace MiniSupermarket.API.Controllers
                 return BadRequest(new { message = "Vui lòng nhập từ khóa tìm kiếm!" });
             }
             // EF Core dịch biểu thức LINQ thành câu lệnh SQL LIKE tương ứng
-            var result = await _context.Categories
+            var result = await _context.Categories.AsNoTracking()
                 .Where(c => c.CategoryName.Contains(keyword))
                 .ToListAsync();
             return Ok(result);
@@ -121,7 +121,7 @@ namespace MiniSupermarket.API.Controllers
         // 7. Kiểm tra quyền Admin (Chỉ tài khoản có Role = Admin mới được gọi)
         [HttpGet("admin-dashboard")]
         [Authorize(Roles = "Admin")]
-        public IActionResult GetAdminDashboard()
+        public async Task<IActionResult> GetAdminDashboard()
         {
             return Ok(new { message = "Chào mừng Admin! Bạn có toàn quyền quản trị hệ thống siêu thị mini." });
         }
@@ -129,7 +129,7 @@ namespace MiniSupermarket.API.Controllers
         // 8. Kiểm tra quyền chung cho nhân viên (Cả Admin và Cashier đều gọi được)
         [HttpGet("staff-pos")]
         [Authorize(Roles = "Admin,Cashier")]
-        public IActionResult GetStaffPos()
+        public async Task<IActionResult> GetStaffPos()
         {
             return Ok(new { message = "Màn hình POS Thu ngân sẵn sàng phục vụ bán hàng." });
         }

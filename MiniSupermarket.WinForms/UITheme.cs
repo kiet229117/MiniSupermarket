@@ -68,6 +68,9 @@ namespace MiniSupermarket.WinForms
 
             // Cấu hình Header cột
             dgv.EnableHeadersVisualStyles = false;
+            dgv.ColumnHeadersVisible = true;
+            dgv.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            dgv.ColumnHeadersHeight = 36;
             dgv.ColumnHeadersDefaultCellStyle = new DataGridViewCellStyle
             {
                 BackColor = HeaderDark,
@@ -76,7 +79,7 @@ namespace MiniSupermarket.WinForms
                 Alignment = DataGridViewContentAlignment.MiddleLeft,
                 Padding = new Padding(8, 0, 0, 0)
             };
-            dgv.ColumnHeadersHeight = 38;
+
 
             // Cấu hình dòng dữ liệu
             dgv.DefaultCellStyle = new DataGridViewCellStyle
@@ -106,6 +109,15 @@ namespace MiniSupermarket.WinForms
             dgv.AllowUserToAddRows = false;
             dgv.AllowUserToDeleteRows = false;
             dgv.AllowUserToResizeRows = false;
+
+            // Bật DoubleBuffered để loại bỏ hoàn toàn giật lag và tối ưu tốc độ render bảng
+            try
+            {
+                typeof(DataGridView).InvokeMember("DoubleBuffered",
+                    System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.SetProperty,
+                    null, dgv, new object[] { true });
+            }
+            catch { }
         }
 
         // ==========================================

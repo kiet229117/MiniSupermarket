@@ -1,80 +1,254 @@
 using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using static MiniSupermarket.WinForms.SessionManager;
 
 namespace MiniSupermarket.WinForms
 {
     public partial class FormCategoryManagement : Form
     {
-        // =====================================================
-        // API
-        // =====================================================
+        private const string SearchPlaceholder = "Nhập tên nhóm hàng...";
+        private readonly List<CategoryDto> _categories = new List<CategoryDto>();
 
+        // Controls giao diện
+        private Panel panelTop;
+                private Label lblStatus;
+        private PaginationControl<CategoryDto> pager;
+        private Label lblSearch;
+        private TextBox txtSearch;
+        private Button btnSearch;
+        private Button btnReload;
 
+        private DataGridView dgvCategories;
 
-        // =====================================================
-        // DANH SÁCH NHÓM HÀNG
-        // =====================================================
+        private Panel panelRight;
+        private GroupBox grbDetails;
+        private Label lblId;
+        private TextBox txtId;
+        private Label lblName;
+        private TextBox txtName;
+        private Label lblDescription;
+        private TextBox txtDescription;
 
-        private List<ApiCategory> categories =
-            new List<ApiCategory>();
-
-        // =====================================================
-        // CONSTRUCTOR
-        // =====================================================
+        private Button btnAdd;
+        private Button btnUpdate;
+        private Button btnDelete;
+        private Button btnClear;
 
         public FormCategoryManagement()
         {
             InitializeComponent();
-
-           
+            BuildUI();
+            ApplyTheme();
+            this.Load += FormCategoryManagement_Load;
         }
 
-        // =====================================================
-        // FORM LOAD
-        // =====================================================
+        private void BuildUI()
+        {
+           
 
-        private async void FormCategoryManagement_Load_1(
-           object sender,
-           EventArgs e)
+            // 1. Panel Top (Tiêu đề và Tìm kiếm)
+            panelTop = new Panel
+            {
+                Dock = DockStyle.Top,
+                Height = 52,
+                BackColor = Color.White
+            };
+
+            lblStatus = new Label
+            {
+                Text = "Sẵn sàng",
+                Font = UITheme.FontSmall,
+                ForeColor = UITheme.TextMuted,
+                Location = new Point(18, 17),
+                AutoSize = true
+            };
+            panelTop.Controls.Add(lblStatus);
+
+            FlowLayoutPanel panelSearchFilter = new FlowLayoutPanel
+            {
+                Dock = DockStyle.Right,
+                AutoSize = true,
+                FlowDirection = FlowDirection.LeftToRight,
+                WrapContents = false,
+                Padding = new Padding(0, 10, 16, 0)
+            };
+
+            lblSearch = new Label
+            {
+                Text = "Tìm kiếm:",
+                Font = UITheme.FontBodyBold,
+                ForeColor = UITheme.TextPrimary,
+                AutoSize = true,
+                Margin = new Padding(0, 6, 6, 0)
+            };
+            panelSearchFilter.Controls.Add(lblSearch);
+
+            txtSearch = new TextBox
+            {
+                Font = UITheme.FontBody,
+                Size = new Size(220, 26),
+                Margin = new Padding(0, 2, 8, 0)
+            };
+            UITheme.SetupSearchPlaceholder(txtSearch, SearchPlaceholder);
+            txtSearch.KeyDown += async (s, e) => { if (e.KeyCode == Keys.Enter) await SearchCategoryAsync(); };
+            panelSearchFilter.Controls.Add(txtSearch);
+
+            btnSearch = new Button
+            {
+                Text = "Tìm",
+                Size = new Size(70, 28),
+                Margin = new Padding(0, 0, 6, 0)
+            };
+            UITheme.ApplyButtonTheme(btnSearch, UITheme.ButtonStyle.Primary);
+            btnSearch.Click += async (s, e) => await SearchCategoryAsync();
+            panelSearchFilter.Controls.Add(btnSearch);
+
+            btnReload = new Button
+            {
+                Text = "Tải lại",
+                Size = new Size(75, 28),
+                Margin = new Padding(0, 0, 0, 0)
+            };
+            UITheme.ApplyButtonTheme(btnReload, UITheme.ButtonStyle.Secondary);
+            btnReload.Click += async (s, e) => await ReloadDataAsync();
+            panelSearchFilter.Controls.Add(btnReload);
+
+            panelTop.Controls.Add(panelSearchFilter);
+
+            // 2. DataGridView hiển thị danh sách nhóm hàng
+            dgvCategories = new DataGridView { Dock = DockStyle.Fill };
+            dgvCategories.Columns.Add("CategoryId", "Mã ID");
+            dgvCategories.Columns.Add("CategoryName", "Tên Nhóm Hàng");
+            dgvCategories.Columns.Add("Description", "Mô Tả");
+
+            dgvCategories.Columns["CategoryId"].Width = 80;
+            dgvCategories.Columns["CategoryName"].Width = 260;
+            dgvCategories.Columns["Description"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+
+            dgvCategories.CellClick += DgvCategories_CellClick;
+
+            // 3. Panel bên phải chứa GroupBox thông tin và các nút chức năng
+            panelRight = new Panel
+            {
+                Dock = DockStyle.Right,
+                Width = 350,
+                BackColor = Color.White,
+                Padding = new Padding(12),
+                AutoScroll = true
+            };
+
+            grbDetails = new GroupBox
+            {
+                Text = "Thông tin nhóm hàng",
+                Font = UITheme.FontSubtitle,
+                ForeColor = UITheme.TextPrimary,
+                Dock = DockStyle.Top,
+                Height = 245
+            };
+            panelRight.Controls.Add(grbDetails);
+
+            lblId = new Label { Text = "Mã ID:", Font = UITheme.FontBodyBold, Location = new Point(14, 25), AutoSize = true };
+            txtId = new TextBox { Font = UITheme.FontBody, Location = new Point(14, 45), Size = new Size(305, 25), ReadOnly = true, BackColor = Color.FromArgb(245, 245, 245) };
+
+            lblName = new Label { Text = "Tên nhóm hàng (*):", Font = UITheme.FontBodyBold, Location = new Point(14, 75), AutoSize = true };
+            txtName = new TextBox { Font = UITheme.FontBody, Location = new Point(14, 95), Size = new Size(305, 25) };
+
+            lblDescription = new Label { Text = "Mô tả:", Font = UITheme.FontBodyBold, Location = new Point(14, 125), AutoSize = true };
+            txtDescription = new TextBox { Font = UITheme.FontBody, Location = new Point(14, 145), Size = new Size(305, 80), Multiline = true, ScrollBars = ScrollBars.Vertical };
+
+            grbDetails.Controls.AddRange(new Control[] {
+                lblId, txtId,
+                lblName, txtName,
+                lblDescription, txtDescription
+            });
+
+            // 4 Nút thao tác CRUD (2 hàng x 2 cột gọn gàng)
+            FlowLayoutPanel panelButtons = new FlowLayoutPanel
+            {
+                Dock = DockStyle.Top,
+                AutoSize = true,
+                AutoSizeMode = AutoSizeMode.GrowAndShrink,
+                FlowDirection = FlowDirection.LeftToRight,
+                WrapContents = true,
+                Padding = new Padding(0, 10, 0, 10)
+            };
+
+            int btnWidth = 155;
+            int btnHeight = 36;
+
+            btnAdd = new Button
+            {
+                Text = "➕ Thêm mới",
+                Size = new Size(btnWidth, btnHeight),
+                Margin = new Padding(3)
+            };
+            UITheme.ApplyButtonTheme(btnAdd, UITheme.ButtonStyle.Success);
+            btnAdd.Click += async (s, e) => await CreateCategoryAsync();
+
+            btnUpdate = new Button
+            {
+                Text = "✏ Cập nhật",
+                Size = new Size(btnWidth, btnHeight),
+                Margin = new Padding(3)
+            };
+            UITheme.ApplyButtonTheme(btnUpdate, UITheme.ButtonStyle.Warning);
+            btnUpdate.Click += async (s, e) => await UpdateCategoryAsync();
+
+            btnDelete = new Button
+            {
+                Text = "🗑 Xóa",
+                Size = new Size(btnWidth, btnHeight),
+                Margin = new Padding(3)
+            };
+            UITheme.ApplyButtonTheme(btnDelete, UITheme.ButtonStyle.Danger);
+            btnDelete.Click += async (s, e) => await DeleteCategoryAsync();
+
+            btnClear = new Button
+            {
+                Text = "🔄 Làm mới ô",
+                Size = new Size(btnWidth, btnHeight),
+                Margin = new Padding(3)
+            };
+            UITheme.ApplyButtonTheme(btnClear, UITheme.ButtonStyle.Secondary);
+            btnClear.Click += (s, e) => ClearForm();
+
+            panelButtons.Controls.AddRange(new Control[] { btnAdd, btnUpdate, btnDelete, btnClear });
+            panelRight.Controls.Add(panelButtons);
+            panelButtons.BringToFront();
+
+            pager = new PaginationControl<CategoryDto>();
+            pager.Bind(DisplayCategories, "nhóm hàng");
+
+            this.Controls.Add(dgvCategories);
+            this.Controls.Add(pager);
+            this.Controls.Add(panelRight);
+            this.Controls.Add(panelTop);
+        }
+
+        private void ApplyTheme()
         {
             UITheme.ApplyFormTheme(this);
-            UITheme.ApplyGridTheme(dataGridView1);
-            UITheme.ApplyButtonTheme(btnSearch, UITheme.ButtonStyle.Primary);
-            UITheme.ApplyButtonTheme(btnReload, UITheme.ButtonStyle.Secondary);
-            UITheme.ApplyButtonTheme(btnAdd, UITheme.ButtonStyle.Success);
-            UITheme.ApplyButtonTheme(btnUpdate, UITheme.ButtonStyle.Warning);
-            UITheme.ApplyButtonTheme(btnDelete, UITheme.ButtonStyle.Danger);
-
-            txtSearch.Text = "Nhập từ khóa...";
-            txtSearch.ForeColor = Color.Gray;
-
-            lblStatus.Text = "Đang tải dữ liệu...";
-
-            SetPermission();
-
-            await LoadDataAsync();
+            UITheme.ApplyGridTheme(dgvCategories);
         }
-
-        // =====================================================
-        // PHÂN QUYỀN
-        // =====================================================
 
         private void SetPermission()
         {
-            if (SessionManager.CurrentRole == "Admin")
+            string role = (SessionManager.CurrentRole ?? "").ToUpper();
+            if (role == "ADMIN")
             {
                 btnAdd.Enabled = true;
                 btnUpdate.Enabled = true;
                 btnDelete.Enabled = true;
+            }
+            else if (role == "WAREHOUSE")
+            {
+                btnAdd.Enabled = true;
+                btnUpdate.Enabled = true;
+                btnDelete.Enabled = false;
             }
             else
             {
@@ -84,659 +258,259 @@ namespace MiniSupermarket.WinForms
             }
         }
 
- 
+        private async void FormCategoryManagement_Load(object sender, EventArgs e)
+        {
+            SetPermission();
+            await LoadDataAsync();
+        }
 
-      
-
-        // =====================================================
-        // GET ALL
-        // GET /api/Categories
-        // =====================================================
-
-        private async Task LoadDataAsync()
+        private async Task LoadDataAsync(string keyword = null)
         {
             try
             {
-                var response =
-                    await SessionManager.ApiClientService.Client
-                        .GetAsync("Categories");
+                lblStatus.Text = "Đang tải dữ liệu...";
+                string endpoint = "Categories";
+                if (!string.IsNullOrWhiteSpace(keyword))
+                {
+                    endpoint = $"Categories/search?keyword={Uri.EscapeDataString(keyword)}";
+                }
 
+                var response = await SessionManager.ApiClientService.Client.GetAsync(endpoint);
                 if (!response.IsSuccessStatusCode)
                 {
-                    string error =
-                        await response.Content.ReadAsStringAsync();
-
-                    MessageBox.Show(
-                        $"Không lấy được dữ liệu từ API!\n\n" +
-                        $"HTTP: {(int)response.StatusCode}\n\n" +
-                        error,
-                        "Lỗi",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Error);
-
+                    await SessionManager.ApiClientService.ShowApiErrorAsync(response, "Tải danh sách nhóm hàng");
+                    lblStatus.Text = "Lỗi tải dữ liệu";
                     return;
                 }
 
-                var apiCategories =
-                    await response.Content
-                        .ReadFromJsonAsync<List<ApiCategory>>();
+                var list = await response.Content.ReadFromJsonAsync<List<CategoryDto>>();
+                _categories.Clear();
+                if (list != null) _categories.AddRange(list);
 
-                categories.Clear();
-
-                if (apiCategories != null)
-                {
-                    categories.AddRange(apiCategories);
-                }
-
-                DisplayCategories(categories);
-
-                SelectFirstRow();
-
-                lblStatus.Text =
-                    "Có " + categories.Count + " nhóm hàng";
+                pager.SetDataSource(_categories);
+                lblStatus.Text = $"Có {_categories.Count} nhóm hàng";
             }
             catch (Exception ex)
             {
-                MessageBox.Show(
-                    "Lỗi kết nối API:\n\n" + ex.Message,
-                    "Lỗi",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
+                MessageBox.Show("Lỗi kết nối API: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                lblStatus.Text = "Lỗi tải dữ liệu";
             }
         }
 
-        // =====================================================
-        // HIỂN THỊ DANH SÁCH
-        // =====================================================
-
-        private void DisplayCategories(
-            List<ApiCategory> list)
+        private void DisplayCategories(List<CategoryDto> list)
         {
-            dataGridView1.Rows.Clear();
-
-            foreach (ApiCategory category in list)
+            if (this.IsDisposed || this.Disposing || dgvCategories == null || dgvCategories.IsDisposed || dgvCategories.Columns.Count == 0) return;
+            dgvCategories.SuspendLayout();
+            try
             {
-                int rowIndex =
-                    dataGridView1.Rows.Add();
+                dgvCategories.Rows.Clear();
+                foreach (var c in list)
+                {
+                    int idx = dgvCategories.Rows.Add();
+                    var row = dgvCategories.Rows[idx];
+                    row.Cells[0].Value = c.CategoryId;
+                    row.Cells[1].Value = c.CategoryName;
+                    row.Cells[2].Value = c.Description;
+                }
 
-                DataGridViewRow row =
-                    dataGridView1.Rows[rowIndex];
-
-                row.Cells[0].Value =
-                    category.CategoryId;
-
-                row.Cells[1].Value =
-                    category.CategoryName;
-
-                row.Cells[2].Value =
-                    category.Description;
+                if (list.Count > 0)
+                {
+                    dgvCategories.ClearSelection();
+                    dgvCategories.Rows[0].Selected = true;
+                    ShowCategory(0);
+                }
+                else
+                {
+                    ClearForm();
+                }
             }
-
-            lblStatus.Text =
-                "Có " + list.Count + " nhóm hàng";
+            finally
+            {
+                dgvCategories.ResumeLayout();
+            }
         }
 
-        // =====================================================
-        // CLICK VÀO DÒNG
-        // =====================================================
-
-        private void dataGridView1_CellClick(
-            object sender,
-            DataGridViewCellEventArgs e)
+        private void DgvCategories_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.RowIndex < 0)
-                return;
-
+            if (e.RowIndex < 0) return;
             ShowCategory(e.RowIndex);
         }
 
-        // =====================================================
-        // HIỂN THỊ CHI TIẾT
-        // =====================================================
-
-        private void ShowCategory(
-            int rowIndex)
+        private void ShowCategory(int rowIndex)
         {
-            if (rowIndex < 0 ||
-                rowIndex >= dataGridView1.Rows.Count)
-            {
-                return;
-            }
+            if (rowIndex < 0 || rowIndex >= dgvCategories.Rows.Count) return;
+            var row = dgvCategories.Rows[rowIndex];
+            if (row.Cells[0].Value == null) return;
 
-            DataGridViewRow row =
-                dataGridView1.Rows[rowIndex];
+            int cId = Convert.ToInt32(row.Cells[0].Value);
+            var c = _categories.FirstOrDefault(x => x.CategoryId == cId);
+            if (c == null) return;
 
-            txtID.Text =
-                Convert.ToString(
-                    row.Cells[0].Value);
-
-            txtName.Text =
-                Convert.ToString(
-                    row.Cells[1].Value);
-
-            txtDescription.Text =
-                Convert.ToString(
-                    row.Cells[2].Value);
+            txtId.Text = c.CategoryId.ToString();
+            txtName.Text = c.CategoryName;
+            txtDescription.Text = c.Description ?? "";
         }
 
-        // =====================================================
-        // CHỌN DÒNG ĐẦU TIÊN
-        // =====================================================
-
-        private void SelectFirstRow()
+        private void ClearForm()
         {
-            if (dataGridView1.Rows.Count > 0)
-            {
-                dataGridView1.ClearSelection();
-
-                dataGridView1.Rows[0].Selected =
-                    true;
-
-                dataGridView1.CurrentCell =
-                    dataGridView1.Rows[0].Cells[0];
-
-                ShowCategory(0);
-            }
-            else
-            {
-                ClearInput();
-            }
-        }
-
-        // =====================================================
-        // XÓA Ô NHẬP
-        // =====================================================
-
-        private void ClearInput()
-        {
-            txtID.Clear();
+            txtId.Clear();
             txtName.Clear();
             txtDescription.Clear();
+            txtName.Focus();
         }
 
-        // =====================================================
-        // TÌM KIẾM
-        // GET /api/Categories/search?keyword=
-        // =====================================================
-
-        private async void btnSearch_Click(
-    object sender,
-    EventArgs e)
+        private async Task SearchCategoryAsync()
         {
-            string keyword =
-                txtSearch.Text.Trim();
-
-            if (string.IsNullOrWhiteSpace(keyword) ||
-                keyword == "Nhập từ khóa...")
+            string kw = txtSearch.Text.Trim();
+            if (string.IsNullOrWhiteSpace(kw) || kw == SearchPlaceholder)
             {
                 await LoadDataAsync();
                 return;
             }
-
-            try
-            {
-                string url =
-                    "Categories/search?keyword=" +
-                    Uri.EscapeDataString(keyword);
-
-                var response =
-                    await SessionManager.ApiClientService.Client
-                        .GetAsync(url);
-
-                if (!response.IsSuccessStatusCode)
-                {
-                    string error =
-                        await response.Content.ReadAsStringAsync();
-
-                    MessageBox.Show(
-                        $"Tìm kiếm thất bại!\n\n" +
-                        $"HTTP: {(int)response.StatusCode}\n\n" +
-                        error,
-                        "Lỗi",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Error);
-
-                    return;
-                }
-
-                var result =
-                    await response.Content
-                        .ReadFromJsonAsync<List<ApiCategory>>();
-
-                if (result == null)
-                {
-                    result = new List<ApiCategory>();
-                }
-
-                DisplayCategories(result);
-
-                if (result.Count > 0)
-                {
-                    dataGridView1.ClearSelection();
-
-                    dataGridView1.Rows[0].Selected = true;
-
-                    dataGridView1.CurrentCell =
-                        dataGridView1.Rows[0].Cells[0];
-
-                    ShowCategory(0);
-
-                    lblStatus.Text =
-                        "Tìm thấy " +
-                        result.Count +
-                        " nhóm hàng";
-                }
-                else
-                {
-                    ClearInput();
-
-                    lblStatus.Text =
-                        "Không tìm thấy";
-
-                    MessageBox.Show(
-                        "Không tìm thấy nhóm hàng!",
-                        "Thông báo",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Information);
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(
-                    "Lỗi tìm kiếm:\n\n" + ex.Message,
-                    "Lỗi",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
-            }
+            await LoadDataAsync(kw);
         }
 
-        // =====================================================
-        // TẢI LẠI
-        // =====================================================
-
-        private async void btnReload_Click(
-            object sender,
-            EventArgs e)
+        private async Task ReloadDataAsync()
         {
-            txtSearch.Text =
-                "Nhập từ khóa...";
-
-            txtSearch.ForeColor =
-                Color.Gray;
-
-            ClearInput();
-
+            txtSearch.Text = SearchPlaceholder;
+            txtSearch.ForeColor = UITheme.TextMuted;
             await LoadDataAsync();
-
-            lblStatus.Text =
-                "Đã tải lại dữ liệu";
         }
 
-        // =====================================================
-        // THÊM MỚI
-        // POST /api/Categories
-        // =====================================================
-
-        private async void btnAdd_Click(
-     object sender,
-     EventArgs e)
+        private async Task CreateCategoryAsync()
         {
             if (string.IsNullOrWhiteSpace(txtName.Text))
             {
-                MessageBox.Show(
-                    "Vui lòng nhập Tên Nhóm hàng!",
-                    "Thông báo",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning);
-
+                MessageBox.Show("Vui lòng nhập tên nhóm hàng!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtName.Focus();
                 return;
             }
 
+            var c = new CategoryDto
+            {
+                CategoryName = txtName.Text.Trim(),
+                Description = txtDescription.Text.Trim()
+            };
+
             try
             {
-                ApiCategory category =
-                    new ApiCategory
-                    {
-                        CategoryName =
-                            txtName.Text.Trim(),
-
-                        Description =
-                            txtDescription.Text.Trim()
-                    };
-
-                var response =
-                    await SessionManager.ApiClientService.Client
-                        .PostAsJsonAsync(
-                            "Categories",
-                            category);
-
-                if (response.IsSuccessStatusCode)
+                var resp = await SessionManager.ApiClientService.Client.PostAsJsonAsync("Categories", c);
+                if (resp.IsSuccessStatusCode)
                 {
-                    MessageBox.Show(
-                        "Thêm mới thành công!",
-                        "Thông báo",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Information);
-
-                    ClearInput();
-
+                    SessionManager.DataCache.Categories = null;
+                    MessageBox.Show("Thêm nhóm hàng thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     await LoadDataAsync();
-                }
-                else if (
-                    response.StatusCode ==
-                    System.Net.HttpStatusCode.Forbidden)
-                {
-                    MessageBox.Show(
-                        "Chỉ Admin mới được thêm nhóm hàng!",
-                        "Không có quyền",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Warning);
+                    ClearForm();
                 }
                 else
                 {
-                    string error =
-                        await response.Content.ReadAsStringAsync();
-
-                    MessageBox.Show(
-                        "Thêm thất bại!\n\n" + error,
-                        "Lỗi",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Error);
+                    await SessionManager.ApiClientService.ShowApiErrorAsync(resp, "Thêm nhóm hàng");
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show(
-                    "Lỗi khi thêm:\n\n" + ex.Message,
-                    "Lỗi",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
+                MessageBox.Show("Lỗi khi thêm: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
-        // =====================================================
-        // CẬP NHẬT
-        // PUT /api/Categories/{id}
-        // =====================================================
-
-        private async void btnUpdate_Click(
-    object sender,
-    EventArgs e)
+        private async Task UpdateCategoryAsync()
         {
-            if (!int.TryParse(txtID.Text, out int id))
+            if (!int.TryParse(txtId.Text, out int id) || id <= 0)
             {
-                MessageBox.Show(
-                    "Vui lòng chọn nhóm hàng cần cập nhật!",
-                    "Thông báo",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning);
-
+                MessageBox.Show("Vui lòng chọn 1 nhóm hàng từ danh sách để sửa!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
             if (string.IsNullOrWhiteSpace(txtName.Text))
             {
-                MessageBox.Show(
-                    "Vui lòng nhập Tên Nhóm hàng!",
-                    "Thông báo",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning);
-
+                MessageBox.Show("Vui lòng nhập tên nhóm hàng!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtName.Focus();
                 return;
             }
 
+            var c = new CategoryDto
+            {
+                CategoryId = id,
+                CategoryName = txtName.Text.Trim(),
+                Description = txtDescription.Text.Trim()
+            };
+
             try
             {
-                ApiCategory category =
-                    new ApiCategory
-                    {
-                        CategoryId = id,
-
-                        CategoryName =
-                            txtName.Text.Trim(),
-
-                        Description =
-                            txtDescription.Text.Trim()
-                    };
-
-                var response =
-                    await SessionManager.ApiClientService.Client
-                        .PutAsJsonAsync(
-                            $"Categories/{id}",
-                            category);
-
-                if (response.IsSuccessStatusCode)
+                var resp = await SessionManager.ApiClientService.Client.PutAsJsonAsync($"Categories/{id}", c);
+                if (resp.IsSuccessStatusCode)
                 {
-                    MessageBox.Show(
-                        "Cập nhật thành công!",
-                        "Thông báo",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Information);
-
+                    SessionManager.DataCache.Categories = null;
+                    MessageBox.Show("Cập nhật nhóm hàng thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     await LoadDataAsync();
-
-                    SelectCategoryByID(id);
-                }
-                else if (
-                    response.StatusCode ==
-                    System.Net.HttpStatusCode.Forbidden)
-                {
-                    MessageBox.Show(
-                        "Chỉ Admin mới được cập nhật nhóm hàng!",
-                        "Không có quyền",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Warning);
+                    SelectCategoryById(id);
                 }
                 else
                 {
-                    string error =
-                        await response.Content.ReadAsStringAsync();
-
-                    MessageBox.Show(
-                        "Cập nhật thất bại!\n\n" + error,
-                        "Lỗi",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Error);
+                    await SessionManager.ApiClientService.ShowApiErrorAsync(resp, "Cập nhật nhóm hàng");
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show(
-                    "Lỗi khi cập nhật:\n\n" + ex.Message,
-                    "Lỗi",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
+                MessageBox.Show("Lỗi khi cập nhật: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
-        // =====================================================
-        // XÓA
-        // DELETE /api/Categories/{id}
-        // =====================================================
-
-        private async void btnDelete_Click(
-     object sender,
-     EventArgs e)
+        private async Task DeleteCategoryAsync()
         {
-            if (!int.TryParse(txtID.Text, out int id))
+            if (!int.TryParse(txtId.Text, out int id) || id <= 0)
             {
-                MessageBox.Show(
-                    "Vui lòng chọn nhóm hàng cần xóa!",
-                    "Thông báo",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Warning);
-
+                MessageBox.Show("Vui lòng chọn 1 nhóm hàng từ danh sách để xóa!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            DialogResult result =
-                MessageBox.Show(
-                    "Bạn có chắc muốn xóa nhóm hàng \"" +
-                    txtName.Text +
-                    "\" không?",
+            var confirm = MessageBox.Show(
+                $"Bạn có chắc chắn muốn xóa nhóm hàng \"{txtName.Text}\" (ID: {id}) không?\n\nLưu ý: Nếu nhóm hàng này đã có sản phẩm thuộc về nó thì không thể xóa.",
+                "Xác nhận xóa",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Warning);
 
-                    "Xác nhận xóa",
-
-                    MessageBoxButtons.YesNo,
-
-                    MessageBoxIcon.Question);
-
-            if (result != DialogResult.Yes)
-                return;
+            if (confirm != DialogResult.Yes) return;
 
             try
             {
-                var response =
-                    await SessionManager.ApiClientService.Client
-                        .DeleteAsync(
-                            $"Categories/{id}");
-
-                if (response.IsSuccessStatusCode)
+                var resp = await SessionManager.ApiClientService.Client.DeleteAsync($"Categories/{id}");
+                if (resp.IsSuccessStatusCode)
                 {
-                    MessageBox.Show(
-                        "Xóa thành công!",
-                        "Thông báo",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Information);
-
-                    ClearInput();
-
+                    SessionManager.DataCache.Categories = null;
+                    MessageBox.Show("Xóa nhóm hàng thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    ClearForm();
                     await LoadDataAsync();
-                }
-                else if (
-                    response.StatusCode ==
-                    System.Net.HttpStatusCode.Forbidden)
-                {
-                    MessageBox.Show(
-                        "Chỉ Admin mới được xóa nhóm hàng!",
-                        "Không có quyền",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Warning);
                 }
                 else
                 {
-                    string error =
-                        await response.Content.ReadAsStringAsync();
-
-                    string displayMessage = error;
-                    try
-                    {
-                        using (var doc = System.Text.Json.JsonDocument.Parse(error))
-                        {
-                            if (doc.RootElement.TryGetProperty("message", out var msgProp))
-                            {
-                                displayMessage = msgProp.GetString();
-                            }
-                        }
-                    }
-                    catch
-                    {
-                        // Giữ nguyên chuỗi nếu không phải JSON
-                    }
-
-                    MessageBox.Show(
-                        displayMessage,
-                        "Không thể xóa nhóm hàng",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Warning);
+                    await SessionManager.ApiClientService.ShowApiErrorAsync(resp, "Xóa nhóm hàng");
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show(
-                    "Lỗi khi xóa:\n\n" + ex.Message,
-                    "Lỗi",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
+                MessageBox.Show("Lỗi khi xóa: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
-        // =====================================================
-        // CHỌN NHÓM HÀNG THEO ID
-        // =====================================================
-
-        private void SelectCategoryByID(
-            int id)
+        private void SelectCategoryById(int id)
         {
-            for (int i = 0;
-                 i < dataGridView1.Rows.Count;
-                 i++)
+            for (int i = 0; i < dgvCategories.Rows.Count; i++)
             {
-                string currentID =
-                    Convert.ToString(
-                        dataGridView1.Rows[i]
-                            .Cells[0].Value);
-
-                if (currentID ==
-                    id.ToString())
+                if (Convert.ToInt32(dgvCategories.Rows[i].Cells[0].Value) == id)
                 {
-                    dataGridView1.ClearSelection();
-
-                    dataGridView1.Rows[i].Selected =
-                        true;
-
-                    dataGridView1.CurrentCell =
-                        dataGridView1.Rows[i].Cells[0];
-
+                    dgvCategories.ClearSelection();
+                    dgvCategories.Rows[i].Selected = true;
+                    dgvCategories.CurrentCell = dgvCategories.Rows[i].Cells[0];
                     ShowCategory(i);
-
-                    return;
+                    break;
                 }
             }
         }
 
-        // =====================================================
-        // PLACEHOLDER - ENTER
-        // =====================================================
-
-        private void txtSearch_Enter(
-            object sender,
-            EventArgs e)
+        private void FormCategoryManagement_Load_1(object sender, EventArgs e)
         {
-            if (txtSearch.Text ==
-                "Nhập từ khóa...")
-            {
-                txtSearch.Clear();
 
-                txtSearch.ForeColor =
-                    Color.Black;
-            }
-        }
-
-        // =====================================================
-        // PLACEHOLDER - LEAVE
-        // =====================================================
-
-        private void txtSearch_Leave(
-            object sender,
-            EventArgs e)
-        {
-            if (string.IsNullOrWhiteSpace(
-                txtSearch.Text))
-            {
-                txtSearch.Text =
-                    "Nhập từ khóa...";
-
-                txtSearch.ForeColor =
-                    Color.Gray;
-            }
-        }
-
-        // =====================================================
-        // MODEL CATEGORY
-        // =====================================================
-
-        public class ApiCategory
-        {
-            public int CategoryId { get; set; }
-
-            public string CategoryName { get; set; }
-                = string.Empty;
-
-            public string Description { get; set; }
-                = string.Empty;
         }
     }
 }

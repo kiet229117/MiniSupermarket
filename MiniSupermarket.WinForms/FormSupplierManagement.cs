@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -14,8 +15,8 @@ namespace MiniSupermarket.WinForms
 
         // Controls giao diện
         private Panel panelTop;
-        private Label lblTitle;
-        private Label lblStatus;
+                private Label lblStatus;
+        private PaginationControl<SupplierDto> pager;
         private Label lblSearch;
         private TextBox txtSearch;
         private Button btnSearch;
@@ -58,26 +59,16 @@ namespace MiniSupermarket.WinForms
             panelTop = new Panel
             {
                 Dock = DockStyle.Top,
-                Height = 65,
+                Height = 52,
                 BackColor = Color.White
             };
-
-            lblTitle = new Label
-            {
-                Text = "QUẢN LÝ NHÀ CUNG CẤP & ĐỐI TÁC",
-                Font = UITheme.FontTitle,
-                ForeColor = UITheme.PrimaryColor,
-                Location = new Point(16, 12),
-                AutoSize = true
-            };
-            panelTop.Controls.Add(lblTitle);
 
             lblStatus = new Label
             {
                 Text = "Sẵn sàng",
                 Font = UITheme.FontSmall,
                 ForeColor = UITheme.TextMuted,
-                Location = new Point(18, 38),
+                Location = new Point(18, 17),
                 AutoSize = true
             };
             panelTop.Controls.Add(lblStatus);
@@ -88,7 +79,7 @@ namespace MiniSupermarket.WinForms
                 AutoSize = true,
                 FlowDirection = FlowDirection.LeftToRight,
                 WrapContents = false,
-                Padding = new Padding(0, 16, 16, 0)
+                Padding = new Padding(0, 10, 16, 0)
             };
 
             lblSearch = new Label
@@ -246,7 +237,11 @@ namespace MiniSupermarket.WinForms
             panelRight.Controls.Add(panelButtons);
             panelButtons.BringToFront();
 
+            pager = new PaginationControl<SupplierDto>();
+            pager.Bind(DisplaySuppliers, "nhà cung cấp");
+
             this.Controls.Add(dgvSuppliers);
+            this.Controls.Add(pager);
             this.Controls.Add(panelRight);
             this.Controls.Add(panelTop);
         }
@@ -309,7 +304,7 @@ namespace MiniSupermarket.WinForms
                 _suppliers.Clear();
                 if (list != null) _suppliers.AddRange(list);
 
-                DisplaySuppliers(_suppliers);
+                pager.SetDataSource(_suppliers);
                 lblStatus.Text = $"Có {_suppliers.Count} nhà cung cấp";
             }
             catch (Exception ex)
@@ -321,27 +316,36 @@ namespace MiniSupermarket.WinForms
 
         private void DisplaySuppliers(List<SupplierDto> list)
         {
-            dgvSuppliers.Rows.Clear();
-            foreach (var s in list)
+            if (this.IsDisposed || this.Disposing || dgvSuppliers == null || dgvSuppliers.IsDisposed || dgvSuppliers.Columns.Count == 0) return;
+            dgvSuppliers.SuspendLayout();
+            try
             {
-                int idx = dgvSuppliers.Rows.Add();
-                var row = dgvSuppliers.Rows[idx];
-                row.Cells[0].Value = s.SupplierId;
-                row.Cells[1].Value = s.SupplierName;
-                row.Cells[2].Value = s.PhoneNumber;
-                row.Cells[3].Value = s.Email;
-                row.Cells[4].Value = s.Address;
-            }
+                dgvSuppliers.Rows.Clear();
+                foreach (var s in list)
+                {
+                    int idx = dgvSuppliers.Rows.Add();
+                    var row = dgvSuppliers.Rows[idx];
+                    row.Cells[0].Value = s.SupplierId;
+                    row.Cells[1].Value = s.SupplierName;
+                    row.Cells[2].Value = s.PhoneNumber;
+                    row.Cells[3].Value = s.Email;
+                    row.Cells[4].Value = s.Address;
+                }
 
-            if (list.Count > 0)
-            {
-                dgvSuppliers.ClearSelection();
-                dgvSuppliers.Rows[0].Selected = true;
-                ShowSupplier(0);
+                if (list.Count > 0)
+                {
+                    dgvSuppliers.ClearSelection();
+                    dgvSuppliers.Rows[0].Selected = true;
+                    ShowSupplier(0);
+                }
+                else
+                {
+                    ClearForm();
+                }
             }
-            else
+            finally
             {
-                ClearForm();
+                dgvSuppliers.ResumeLayout();
             }
         }
 
@@ -353,8 +357,13 @@ namespace MiniSupermarket.WinForms
 
         private void ShowSupplier(int rowIndex)
         {
-            if (rowIndex < 0 || rowIndex >= _suppliers.Count) return;
-            var s = _suppliers[rowIndex];
+            if (rowIndex < 0 || rowIndex >= dgvSuppliers.Rows.Count) return;
+            var row = dgvSuppliers.Rows[rowIndex];
+            if (row.Cells[0].Value == null) return;
+
+            int sId = Convert.ToInt32(row.Cells[0].Value);
+            var s = _suppliers.FirstOrDefault(x => x.SupplierId == sId);
+            if (s == null) return;
 
             txtId.Text = s.SupplierId.ToString();
             txtName.Text = s.SupplierName;
@@ -413,6 +422,7 @@ namespace MiniSupermarket.WinForms
                 var resp = await SessionManager.ApiClientService.Client.PostAsJsonAsync("Suppliers", s);
                 if (resp.IsSuccessStatusCode)
                 {
+                    SessionManager.DataCache.Suppliers = null;
                     MessageBox.Show("Thêm nhà cung cấp thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     await LoadDataAsync();
                     ClearForm();
@@ -457,6 +467,7 @@ namespace MiniSupermarket.WinForms
                 var resp = await SessionManager.ApiClientService.Client.PutAsJsonAsync($"Suppliers/{id}", s);
                 if (resp.IsSuccessStatusCode)
                 {
+                    SessionManager.DataCache.Suppliers = null;
                     MessageBox.Show("Cập nhật nhà cung cấp thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     await LoadDataAsync();
                 }
@@ -487,6 +498,7 @@ namespace MiniSupermarket.WinForms
                 var resp = await SessionManager.ApiClientService.Client.DeleteAsync($"Suppliers/{id}");
                 if (resp.IsSuccessStatusCode)
                 {
+                    SessionManager.DataCache.Suppliers = null;
                     MessageBox.Show("Xóa nhà cung cấp thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     ClearForm();
                     await LoadDataAsync();

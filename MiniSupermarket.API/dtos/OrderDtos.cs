@@ -37,6 +37,7 @@ namespace MiniSupermarket.API.Dtos
         public string? CustomerPhone { get; set; }
         public string PaymentMethod { get; set; } = "CASH";
         public decimal Discount { get; set; } = 0;
+        public int PointsToRedeem { get; set; } = 0; // Tiêu chí 47: Đổi điểm thưởng trừ tiền (1 điểm = 1.000 VNĐ)
         public List<PosCheckoutItemDto> Items { get; set; } = new();
     }
 

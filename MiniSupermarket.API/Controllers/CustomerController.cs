@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MiniSupermarket.API.Data;
@@ -13,14 +13,20 @@ namespace MiniSupermarket.API.Controllers
         private readonly SupermarketDbContext _db;
         public CustomersController(SupermarketDbContext db) => _db = db;
 
-        // GET api/customers?keyword=0901
+        // GET api/customers?keyword=0901&page=1&pageSize=10
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Customer>>> GetAll([FromQuery] string? keyword)
+        public async Task<ActionResult<IEnumerable<Customer>>> GetAll([FromQuery] string? keyword, [FromQuery] int? page = null, [FromQuery] int? pageSize = null)
         {
             var q = _db.Customers.AsNoTracking();
             if (!string.IsNullOrWhiteSpace(keyword))
                 q = q.Where(c => c.CustomerName.Contains(keyword) || c.PhoneNumber.Contains(keyword));
-            return await q.OrderBy(c => c.CustomerName).ToListAsync();
+
+            var ordered = q.OrderBy(c => c.CustomerName);
+            if (page.HasValue && pageSize.HasValue && page.Value > 0 && pageSize.Value > 0)
+            {
+                return await ordered.Skip((page.Value - 1) * pageSize.Value).Take(pageSize.Value).ToListAsync();
+            }
+            return await ordered.ToListAsync();
         }
 
         [HttpGet("{id:int}")]

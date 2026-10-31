@@ -15,12 +15,12 @@ namespace MiniSupermarket.WinForms
         // Controls giao diện
         private Panel panelTop;
         private DataGridView dgvCustomers;
-        private Label lblTitle;
-        private Label lblSearch;
+                private Label lblSearch;
         private TextBox txtSearch;
         private Button btnSearch;
         private Button btnReload;
         private Label lblStatus;
+        private PaginationControl<CustomerDto> pager;
 
         private Panel panelRight;
         private GroupBox grbDetails;
@@ -56,24 +56,14 @@ namespace MiniSupermarket.WinForms
             this.Load += FormCustomerManagement_Load;
 
             // 1. Panel Top (Tiêu đề và Tìm kiếm)
-            panelTop = new Panel { Dock = DockStyle.Top, Height = 65, BackColor = Color.White };
-
-            lblTitle = new Label
-            {
-                Text = "QUẢN LÝ KHÁCH HÀNG & THÀNH VIÊN",
-                Font = UITheme.FontTitle,
-                ForeColor = UITheme.PrimaryColor,
-                Location = new Point(16, 12),
-                AutoSize = true
-            };
-            panelTop.Controls.Add(lblTitle);
+            panelTop = new Panel { Dock = DockStyle.Top, Height = 52, BackColor = Color.White };
 
             lblStatus = new Label
             {
                 Text = "Sẵn sàng",
                 Font = UITheme.FontSmall,
                 ForeColor = UITheme.TextMuted,
-                Location = new Point(18, 38),
+                Location = new Point(18, 17),
                 AutoSize = true
             };
             panelTop.Controls.Add(lblStatus);
@@ -83,7 +73,7 @@ namespace MiniSupermarket.WinForms
                 Text = "Tìm kiếm:",
                 Font = UITheme.FontBodyBold,
                 ForeColor = UITheme.TextPrimary,
-                Location = new Point(460, 20),
+                Location = new Point(460, 17),
                 AutoSize = true
             };
             panelTop.Controls.Add(lblSearch);
@@ -91,7 +81,7 @@ namespace MiniSupermarket.WinForms
             txtSearch = new TextBox
             {
                 Font = UITheme.FontBody,
-                Location = new Point(530, 17),
+                Location = new Point(530, 13),
                 Size = new Size(200, 26)
             };
             UITheme.SetupSearchPlaceholder(txtSearch, "Tên hoặc Số điện thoại...");
@@ -101,7 +91,7 @@ namespace MiniSupermarket.WinForms
             btnSearch = new Button
             {
                 Text = "Tìm",
-                Location = new Point(740, 16),
+                Location = new Point(740, 12),
                 Size = new Size(70, 28)
             };
             UITheme.ApplyButtonTheme(btnSearch, UITheme.ButtonStyle.Primary);
@@ -111,7 +101,7 @@ namespace MiniSupermarket.WinForms
             btnReload = new Button
             {
                 Text = "Tải lại",
-                Location = new Point(820, 16),
+                Location = new Point(820, 12),
                 Size = new Size(75, 28)
             };
             UITheme.ApplyButtonTheme(btnReload, UITheme.ButtonStyle.Secondary);
@@ -221,7 +211,11 @@ namespace MiniSupermarket.WinForms
             panelRight.Controls.Add(panelButtons);
             panelButtons.BringToFront();
 
+            pager = new PaginationControl<CustomerDto>();
+            pager.Bind(DisplayCustomers, "khách hàng");
+
             this.Controls.Add(dgvCustomers);
+            this.Controls.Add(pager);
             this.Controls.Add(panelTop);
             this.Controls.Add(panelRight);
         }
@@ -283,7 +277,7 @@ namespace MiniSupermarket.WinForms
                     _customers.Clear();
                     if (data != null) _customers.AddRange(data);
 
-                    DisplayCustomers(_customers);
+                    pager.SetDataSource(_customers);
                     lblStatus.Text = $"Có {_customers.Count} khách hàng";
                 }
                 else
@@ -300,28 +294,37 @@ namespace MiniSupermarket.WinForms
 
         private void DisplayCustomers(List<CustomerDto> list)
         {
-            dgvCustomers.Rows.Clear();
-            foreach (var item in list)
+            if (this.IsDisposed || this.Disposing || dgvCustomers == null || dgvCustomers.IsDisposed || dgvCustomers.Columns.Count == 0) return;
+            dgvCustomers.SuspendLayout();
+            try
             {
-                int idx = dgvCustomers.Rows.Add();
-                var row = dgvCustomers.Rows[idx];
-                row.Cells[0].Value = item.CustomerId;
-                row.Cells[1].Value = item.CustomerName;
-                row.Cells[2].Value = item.PhoneNumber;
-                row.Cells[3].Value = item.Address;
-                row.Cells[4].Value = item.RewardPoints;
-                row.Cells[5].Value = item.MembershipRank;
-            }
+                dgvCustomers.Rows.Clear();
+                foreach (var item in list)
+                {
+                    int idx = dgvCustomers.Rows.Add();
+                    var row = dgvCustomers.Rows[idx];
+                    row.Cells[0].Value = item.CustomerId;
+                    row.Cells[1].Value = item.CustomerName;
+                    row.Cells[2].Value = item.PhoneNumber;
+                    row.Cells[3].Value = item.Address;
+                    row.Cells[4].Value = item.RewardPoints;
+                    row.Cells[5].Value = item.MembershipRank;
+                }
 
-            if (list.Count > 0)
-            {
-                dgvCustomers.ClearSelection();
-                dgvCustomers.Rows[0].Selected = true;
-                ShowCustomer(0);
+                if (list.Count > 0)
+                {
+                    dgvCustomers.ClearSelection();
+                    dgvCustomers.Rows[0].Selected = true;
+                    ShowCustomer(0);
+                }
+                else
+                {
+                    ClearInput();
+                }
             }
-            else
+            finally
             {
-                ClearInput();
+                dgvCustomers.ResumeLayout();
             }
         }
 
@@ -496,6 +499,11 @@ namespace MiniSupermarket.WinForms
             {
                 MessageBox.Show("Lỗi kết nối API: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void FormCustomerManagement_Load_1(object sender, EventArgs e)
+        {
+
         }
     }
 }

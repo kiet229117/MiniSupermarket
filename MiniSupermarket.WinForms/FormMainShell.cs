@@ -7,6 +7,7 @@ namespace MiniSupermarket.WinForms
     public partial class FormMainShell : Form
     {
         private Form _activeForm = null;
+        private FormPOS _cachedFormPOS = null;
 
         // Khai báo controls tương ứng trong FormMainShell.Designer.cs
         private Label lblUserInfo;
@@ -14,6 +15,7 @@ namespace MiniSupermarket.WinForms
         private Label lblTitle;
         private Panel panelSidebar;
         private Button btnLogout;
+        private Button btnDashboard;
         private Button btnPOS;
 
         private Button btnOrder;
@@ -28,6 +30,12 @@ namespace MiniSupermarket.WinForms
         public FormMainShell()
         {
             InitializeComponent();
+            if (panelSidebar != null)
+            {
+                panelSidebar.Resize += (s, e) => RelayoutLogoutButton();
+            }
+            // Đảm bảo khi Form đã hiển thị (Shown) thì dồn lại một lần nữa để chắc chắn 100%
+            this.Shown += (s, e) => ApplyRolePermissions(SessionManager.CurrentRole);
         }
 
         private void FormMainShell_Load(object sender, EventArgs e)
@@ -35,7 +43,7 @@ namespace MiniSupermarket.WinForms
             // 1. Hiển thị thông tin phiên làm việc
             lblUserInfo.Text = $"👤 {SessionManager.CurrentUsername ?? "User"} | Quyền: [{SessionManager.CurrentRole ?? "N/A"}]";
 
-            // 2. Kích hoạt phân quyền giao diện theo vai trò (Role-Based Access)
+            // 2. Kích hoạt phân quyền giao diện và dồn nút ngay từ lúc nạp
             ApplyRolePermissions(SessionManager.CurrentRole);
 
             // 3. Mở màn hình mặc định tương ứng với vai trò
@@ -43,53 +51,95 @@ namespace MiniSupermarket.WinForms
         }
 
         /// <summary>
-        /// Phân định quyền truy cập hiển thị theo vai trò người dùng
+        /// Phân định quyền truy cập hiển thị theo vai trò người dùng và dồn nút liền mạch không để lại khoảng trống
         /// </summary>
         private void ApplyRolePermissions(string role)
         {
             string r = (role ?? "").ToUpper();
+
+            // Danh sách toàn bộ 10 nút chức năng của hệ thống
+            var allButtons = new Button[] {
+                btnDashboard,
+                btnPOS,
+                btnOrder,
+                btnProduct,
+                btnCategory,
+                btnBrand,
+                btnSupplier,
+                btnCustomer,
+                btnReports,
+                btnUserManage
+            };
+
+            Button[] activeButtons;
             switch (r)
             {
-                case "ADMIN":
-                    btnPOS.Visible = true;
-                    btnOrder.Visible = true;
-                    btnProduct.Visible = true;
-                    btnCategory.Visible = true;
-                    btnBrand.Visible = true;
-                    btnSupplier.Visible = true;
-                    btnCustomer.Visible = true;
-                    btnReports.Visible = true;
-                    btnUserManage.Visible = true;
-                    break;
-
                 case "CASHIER":
-                    btnPOS.Visible = true;
-                    btnOrder.Visible = true;
-                    btnCustomer.Visible = true;
-                    btnProduct.Visible = false;
-                    btnCategory.Visible = false;
-                    btnBrand.Visible = false;
-                    btnSupplier.Visible = false;
-                    btnReports.Visible = false;
-                    btnUserManage.Visible = false;
+                    // Thu ngân: Chỉ hiển thị 3 nút POS, Đơn hàng, Khách hàng dồn sát nhau trên cùng
+                    activeButtons = new Button[] {
+                        btnPOS,
+                        btnOrder,
+                        btnCustomer
+                    };
                     break;
 
                 case "WAREHOUSE":
-                    btnPOS.Visible = false;
-                    btnOrder.Visible = false;
-                    btnCustomer.Visible = false;
-                    btnReports.Visible = false;
-                    btnUserManage.Visible = false;
-                    btnCategory.Visible = true;
-                    btnProduct.Visible = true;
-                    btnBrand.Visible = true;
-                    btnSupplier.Visible = true;
+                    // Thủ kho: Chỉ hiển thị 4 nút Kho hàng, dồn sát nhau trên cùng
+                    activeButtons = new Button[] {
+                        btnProduct,
+                        btnCategory,
+                        btnBrand,
+                        btnSupplier
+                    };
+                    break;
+
+                case "ADMIN":
+                    // Quản trị viên: Toàn quyền hiển thị cả 10 nút
+                    activeButtons = allButtons;
                     break;
 
                 default:
                     MessageBox.Show("Tài khoản chưa được cấp vai trò hợp lệ trong hệ thống!", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     this.Close();
-                    break;
+                    return;
+            }
+
+            // 1. Ẩn tất cả các nút không thuộc vai trò
+            foreach (var btn in allButtons)
+            {
+                if (btn != null && Array.IndexOf(activeButtons, btn) < 0)
+                {
+                    btn.Visible = false;
+                }
+            }
+
+            // 2. Xếp dồn các nút của vai trò từ trên xuống dưới (KHÔNG check btn.Visible vì lúc Load nó luôn là false)
+            int topPos = 20;
+            foreach (var btn in activeButtons)
+            {
+                if (btn != null)
+                {
+                    btn.Visible = true;
+                    btn.Top = topPos;
+                    topPos += 50; // Chiều cao nút 42 + khoảng cách 8
+                }
+            }
+
+            // 3. Neo nút Đăng xuất ở đáy thanh sidebar
+            RelayoutLogoutButton();
+        }
+
+        /// <summary>
+        /// Neo cố định nút Đăng xuất ở đáy thanh Sidebar, ngay phía trên thông tin tài khoản
+        /// </summary>
+        private void RelayoutLogoutButton()
+        {
+            if (btnLogout != null && panelSidebar != null)
+            {
+                btnLogout.Visible = true;
+                int bottomPadding = (lblUserInfo != null && lblUserInfo.Visible) ? lblUserInfo.Height + 12 : 16;
+                btnLogout.Top = Math.Max(180, panelSidebar.ClientSize.Height - btnLogout.Height - bottomPadding);
+                btnLogout.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             }
         }
 
@@ -102,22 +152,33 @@ namespace MiniSupermarket.WinForms
             switch (r)
             {
                 case "ADMIN":
-                    OpenChildForm(new FormPOS(), "BÁN HÀNG & QUÉT MÃ VẠCH (POS)", btnPOS);
+                    if (_cachedFormPOS == null || _cachedFormPOS.IsDisposed) _cachedFormPOS = new FormPOS();
+                    OpenChildForm(_cachedFormPOS, "BÁN HÀNG & QUÉT MÃ VẠCH (POS)", btnPOS);
                     break;
                 case "WAREHOUSE":
                     OpenChildForm(new FormProductManagement(), "QUẢN LÝ SẢN PHẨM & KHO HÀNG", btnProduct);
                     break;
                 case "CASHIER":
-                    OpenChildForm(new FormPOS(), "BÁN HÀNG & QUÉT MÃ VẠCH (POS)", btnPOS);
+                    if (_cachedFormPOS == null || _cachedFormPOS.IsDisposed) _cachedFormPOS = new FormPOS();
+                    OpenChildForm(_cachedFormPOS, "BÁN HÀNG & QUÉT MÃ VẠCH (POS)", btnPOS);
                     break;
             }
         }
 
         // ================= CÁC SỰ KIỆN CLICK NÚT TRÊN SIDEBAR =================
 
+        private void btnDashboard_Click(object sender, EventArgs e)
+        {
+            OpenChildForm(new FormDashboard(), "DASHBOARD QUẢN TRỊ & HIỆU SUẤT", btnDashboard);
+        }
+
         private void btnPOS_Click(object sender, EventArgs e)
         {
-            OpenChildForm(new FormPOS(), "BÁN HÀNG & QUÉT MÃ VẠCH (POS)", btnPOS);
+            if (_cachedFormPOS == null || _cachedFormPOS.IsDisposed)
+            {
+                _cachedFormPOS = new FormPOS();
+            }
+            OpenChildForm(_cachedFormPOS, "BÁN HÀNG & QUÉT MÃ VẠCH (POS)", btnPOS);
         }
 
         private void btnProduct_Click(object sender, EventArgs e)
@@ -180,6 +241,11 @@ namespace MiniSupermarket.WinForms
             if (confirm == DialogResult.Yes)
             {
                 SessionManager.Logout();
+                if (_cachedFormPOS != null && !_cachedFormPOS.IsDisposed)
+                {
+                    _cachedFormPOS.Dispose();
+                    _cachedFormPOS = null;
+                }
 
                 this.Hide();
                 using (FormLogin formLogin = new FormLogin())
@@ -205,9 +271,23 @@ namespace MiniSupermarket.WinForms
         /// </summary>
         private void OpenChildForm(Form childForm, string screenTitle, Button senderButton)
         {
+            if (_activeForm == childForm)
+            {
+                HighlightActiveButton(senderButton);
+                return;
+            }
+
             if (_activeForm != null)
             {
-                _activeForm.Close();
+                if (_activeForm == _cachedFormPOS)
+                {
+                    panelMainContent.Controls.Remove(_activeForm);
+                    _activeForm.Hide();
+                }
+                else
+                {
+                    _activeForm.Close();
+                }
             }
 
             HighlightActiveButton(senderButton);
@@ -217,8 +297,10 @@ namespace MiniSupermarket.WinForms
             childForm.FormBorderStyle = FormBorderStyle.None;
             childForm.Dock = DockStyle.Fill;
 
-            panelMainContent.Controls.Clear();
-            panelMainContent.Controls.Add(childForm);
+            if (!panelMainContent.Controls.Contains(childForm))
+            {
+                panelMainContent.Controls.Add(childForm);
+            }
             panelMainContent.Tag = childForm;
 
             lblTitle.Text = screenTitle;

@@ -20,15 +20,33 @@ namespace MiniSupermarket.WinForms
             JwtToken = string.Empty;
             CurrentRole = string.Empty;
             CurrentUsername = string.Empty;
+            DataCache.Clear();
             if (ApiClientService.RawClient != null)
             {
                 ApiClientService.RawClient.DefaultRequestHeaders.Authorization = null;
             }
         }
 
+        public static class DataCache
+        {
+            public static System.Collections.Generic.List<CategoryDto> Categories { get; set; }
+            public static System.Collections.Generic.List<BrandDto> Brands { get; set; }
+            public static System.Collections.Generic.List<SupplierDto> Suppliers { get; set; }
+            public static System.Collections.Generic.List<ProductDto> ActiveProducts { get; set; }
+
+            public static void Clear()
+            {
+                Categories = null;
+                Brands = null;
+                Suppliers = null;
+                ActiveProducts = null;
+            }
+        }
+
         public static class ApiClientService
         {
-            private static readonly HttpClient _client = new HttpClient
+            private static readonly HttpClientHandler _handler = new HttpClientHandler { AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate };
+            private static readonly HttpClient _client = new HttpClient(_handler)
             {
                 BaseAddress = new Uri("https://localhost:7054/api/")
             };

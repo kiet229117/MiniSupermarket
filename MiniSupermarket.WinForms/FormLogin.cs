@@ -87,6 +87,11 @@ namespace MiniSupermarket.WinForms
                 btnLogin.Text = "ĐĂNG NHẬP HỆ THỐNG";
             }
         }
+
+        private void FormLogin_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }
 

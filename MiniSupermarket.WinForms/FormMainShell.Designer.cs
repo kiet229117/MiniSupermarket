@@ -38,6 +38,7 @@ namespace MiniSupermarket.WinForms
             this.panelSidebar.BackColor = System.Drawing.Color.FromArgb(24, 30, 48);
 
             // Buttons on sidebar
+            this.btnDashboard = new System.Windows.Forms.Button();
             this.btnPOS = new System.Windows.Forms.Button();
             this.btnOrder = new System.Windows.Forms.Button();
             this.btnProduct = new System.Windows.Forms.Button();
@@ -51,7 +52,7 @@ namespace MiniSupermarket.WinForms
 
             // Common button style
             var sidebarButtons = new System.Windows.Forms.Button[] {
-                this.btnPOS, this.btnOrder, this.btnProduct, this.btnCategory,
+                this.btnDashboard, this.btnPOS, this.btnOrder, this.btnProduct, this.btnCategory,
                 this.btnBrand, this.btnSupplier, this.btnCustomer, this.btnReports, this.btnUserManage, this.btnLogout };
 
             int topPos = 20;
@@ -72,6 +73,7 @@ namespace MiniSupermarket.WinForms
                 this.panelSidebar.Controls.Add(btn);
             }
 
+            this.btnDashboard.Text = "  📈 Dashboard";
             this.btnPOS.Text = "  🛒 Bán Hàng (POS)";
             this.btnOrder.Text = "  🧾 Đơn Hàng";
             this.btnProduct.Text = "  📦 Sản Phẩm & Kho";
@@ -85,6 +87,7 @@ namespace MiniSupermarket.WinForms
             this.btnLogout.BackColor = System.Drawing.Color.FromArgb(35, 42, 65);
 
             // Wire click handlers
+            this.btnDashboard.Click += new System.EventHandler(this.btnDashboard_Click);
             this.btnPOS.Click += new System.EventHandler(this.btnPOS_Click);
             this.btnProduct.Click += new System.EventHandler(this.btnProduct_Click);
             this.btnOrder.Click += new System.EventHandler(this.btnOrder_Click);
@@ -109,7 +112,7 @@ namespace MiniSupermarket.WinForms
             this.lblTitle = new System.Windows.Forms.Label();
             this.lblTitle.Dock = System.Windows.Forms.DockStyle.Top;
             this.lblTitle.Height = 52;
-            this.lblTitle.Text = "HỆ THỐNG BÁCH HÓA THỰC PHẨM HEALTHY MART";
+            this.lblTitle.Text = "HỆ THỐNG BÁCH HÓA THỰC PHẨM HEATHY MART";
             this.lblTitle.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.lblTitle.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
             this.lblTitle.BackColor = System.Drawing.Color.White;
@@ -146,7 +149,7 @@ namespace MiniSupermarket.WinForms
             this.ClientSize = new System.Drawing.Size(1180, 700);
             this.MinimumSize = new System.Drawing.Size(1100, 650);
             this.Name = "FormMainShell";
-            this.Text = "Hệ thống Bách Hóa Thực Phẩm Healthy Mart";
+            this.Text = "Hệ thống Bách Hóa Thực Phẩm Nutri Mart";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Load += new System.EventHandler(this.FormMainShell_Load);
             this.ResumeLayout(false);

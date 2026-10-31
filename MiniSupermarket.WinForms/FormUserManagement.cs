@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -13,8 +14,8 @@ namespace MiniSupermarket.WinForms
 
         // Controls
         private Panel panelTop;
-        private Label lblTitle;
-        private Label lblStatus;
+                private Label lblStatus;
+        private PaginationControl<UserDto> pager;
         private Label lblSearch;
         private TextBox txtSearch;
         private Button btnSearch;
@@ -59,24 +60,14 @@ namespace MiniSupermarket.WinForms
             this.Load += FormUserManagement_Load;
 
             // 1. Top Panel
-            panelTop = new Panel { Dock = DockStyle.Top, Height = 65, BackColor = Color.White };
-
-            lblTitle = new Label
-            {
-                Text = "QUẢN TRỊ TÀI KHOẢN & PHÂN QUYỀN",
-                Font = UITheme.FontTitle,
-                ForeColor = UITheme.PrimaryColor,
-                Location = new Point(16, 12),
-                AutoSize = true
-            };
-            panelTop.Controls.Add(lblTitle);
+            panelTop = new Panel { Dock = DockStyle.Top, Height = 52, BackColor = Color.White };
 
             lblStatus = new Label
             {
                 Text = "Sẵn sàng",
                 Font = UITheme.FontSmall,
                 ForeColor = UITheme.TextMuted,
-                Location = new Point(18, 38),
+                Location = new Point(18, 17),
                 AutoSize = true
             };
             panelTop.Controls.Add(lblStatus);
@@ -85,7 +76,7 @@ namespace MiniSupermarket.WinForms
             {
                 Text = "Tìm kiếm:",
                 Font = UITheme.FontBodyBold,
-                Location = new Point(480, 20),
+                Location = new Point(480, 17),
                 AutoSize = true
             };
             panelTop.Controls.Add(lblSearch);
@@ -93,7 +84,7 @@ namespace MiniSupermarket.WinForms
             txtSearch = new TextBox
             {
                 Font = UITheme.FontBody,
-                Location = new Point(550, 17),
+                Location = new Point(550, 13),
                 Size = new Size(180, 26)
             };
             UITheme.SetupSearchPlaceholder(txtSearch, "Tên đăng nhập hoặc Họ tên...");
@@ -231,7 +222,11 @@ namespace MiniSupermarket.WinForms
             panelRight.Controls.Add(panelButtons);
             panelButtons.BringToFront();
 
+            pager = new PaginationControl<UserDto>();
+            pager.Bind(DisplayUsers, "tài khoản");
+
             this.Controls.Add(dgvUsers);
+            this.Controls.Add(pager);
             this.Controls.Add(panelTop);
             this.Controls.Add(panelRight);
         }
@@ -268,7 +263,7 @@ namespace MiniSupermarket.WinForms
                     _users.Clear();
                     if (data != null) _users.AddRange(data);
 
-                    DisplayUsers(_users);
+                    pager.SetDataSource(_users);
                     lblStatus.Text = $"Có {_users.Count} tài khoản";
                 }
                 else
@@ -285,29 +280,38 @@ namespace MiniSupermarket.WinForms
 
         private void DisplayUsers(List<UserDto> list)
         {
-            dgvUsers.Rows.Clear();
-            foreach (var u in list)
+            if (this.IsDisposed || this.Disposing || dgvUsers == null || dgvUsers.IsDisposed || dgvUsers.Columns.Count == 0) return;
+            dgvUsers.SuspendLayout();
+            try
             {
-                int idx = dgvUsers.Rows.Add();
-                var row = dgvUsers.Rows[idx];
-                row.Cells[0].Value = u.UserId;
-                row.Cells[1].Value = u.Username;
-                row.Cells[2].Value = u.FullName;
-                row.Cells[3].Value = u.Role;
-                row.Cells[4].Value = u.Email;
-                row.Cells[5].Value = u.Phone;
-                row.Cells[6].Value = u.IsActive ? "Hoạt động" : "Bị khóa";
-            }
+                dgvUsers.Rows.Clear();
+                foreach (var u in list)
+                {
+                    int idx = dgvUsers.Rows.Add();
+                    var row = dgvUsers.Rows[idx];
+                    row.Cells[0].Value = u.UserId;
+                    row.Cells[1].Value = u.Username;
+                    row.Cells[2].Value = u.FullName;
+                    row.Cells[3].Value = u.Role;
+                    row.Cells[4].Value = u.Email;
+                    row.Cells[5].Value = u.Phone;
+                    row.Cells[6].Value = u.IsActive ? "Hoạt động" : "Bị khóa";
+                }
 
-            if (list.Count > 0)
-            {
-                dgvUsers.ClearSelection();
-                dgvUsers.Rows[0].Selected = true;
-                ShowUser(0);
+                if (list.Count > 0)
+                {
+                    dgvUsers.ClearSelection();
+                    dgvUsers.Rows[0].Selected = true;
+                    ShowUser(0);
+                }
+                else
+                {
+                    ClearForm();
+                }
             }
-            else
+            finally
             {
-                ClearForm();
+                dgvUsers.ResumeLayout();
             }
         }
 
@@ -319,8 +323,13 @@ namespace MiniSupermarket.WinForms
 
         private void ShowUser(int rowIndex)
         {
-            if (rowIndex < 0 || rowIndex >= _users.Count) return;
-            var u = _users[rowIndex];
+            if (rowIndex < 0 || rowIndex >= dgvUsers.Rows.Count) return;
+            var row = dgvUsers.Rows[rowIndex];
+            if (row.Cells[0].Value == null) return;
+
+            int uId = Convert.ToInt32(row.Cells[0].Value);
+            var u = _users.FirstOrDefault(x => x.UserId == uId);
+            if (u == null) return;
 
             txtId.Text = u.UserId.ToString();
             txtUsername.Text = u.Username;
@@ -476,6 +485,11 @@ namespace MiniSupermarket.WinForms
             {
                 MessageBox.Show("Lỗi kết nối API: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void FormUserManagement_Load_1(object sender, EventArgs e)
+        {
+
         }
     }
 }

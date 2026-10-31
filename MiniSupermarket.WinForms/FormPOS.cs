@@ -18,6 +18,9 @@ namespace MiniSupermarket.WinForms
         private Label lblScanTitle;
         private TextBox txtBarcode;
         private Button btnAddBarcode;
+        private Button btnLookupProduct;
+        private Button btnIncreaseQty;
+        private Button btnDecreaseQty;
         private Button btnRemoveItem;
         private Button btnClearCart;
 
@@ -30,6 +33,7 @@ namespace MiniSupermarket.WinForms
         private Label lblPhone;
         private TextBox txtCustomerPhone;
         private Button btnFindCustomer;
+        private Button btnQuickRegisterCustomer;
         private Label lblCustomerName;
         private Label lblCustomerPoints;
 
@@ -38,6 +42,10 @@ namespace MiniSupermarket.WinForms
         private Label lblSubtotal;
         private Label lblDiscountTitle;
         private NumericUpDown nudDiscount;
+        // Tiêu chí 47: Đổi điểm thưởng trừ tiền
+        private Label lblRedeemPointsTitle;
+        private NumericUpDown nudRedeemPoints;
+        private Label lblRedeemPointsInfo;
         private Label lblPaymentMethodTitle;
         private ComboBox cboPaymentMethod;
         private Label lblTotalTitle;
@@ -61,13 +69,13 @@ namespace MiniSupermarket.WinForms
             this.Size = new Size(1100, 650);
 
             // 1. Panel Top (Quét Barcode)
-            panelTop = new Panel { Dock = DockStyle.Top, Height = 65, BackColor = Color.White };
+            panelTop = new Panel { Dock = DockStyle.Top, Height = 52, BackColor = Color.White };
 
             lblScanTitle = new Label
             {
                 Text = "Quét mã vạch (Barcode):",
                 Font = UITheme.FontBodyBold,
-                Location = new Point(16, 20),
+                Location = new Point(16, 17),
                 AutoSize = true
             };
             panelTop.Controls.Add(lblScanTitle);
@@ -75,8 +83,8 @@ namespace MiniSupermarket.WinForms
             txtBarcode = new TextBox
             {
                 Font = new Font("Segoe UI", 11F, FontStyle.Bold),
-                Location = new Point(180, 16),
-                Size = new Size(260, 27)
+                Location = new Point(175, 12),
+                Size = new Size(185, 27)
             };
             txtBarcode.KeyDown += async (s, e) =>
             {
@@ -92,8 +100,9 @@ namespace MiniSupermarket.WinForms
             btnAddBarcode = new Button
             {
                 Text = "Thêm SP",
-                Location = new Point(450, 15),
-                Size = new Size(85, 30)
+                Location = new Point(368, 11),
+                Size = new Size(72, 30),
+                Cursor = Cursors.Hand
             };
             UITheme.ApplyButtonTheme(btnAddBarcode, UITheme.ButtonStyle.Primary);
             btnAddBarcode.Click += async (s, e) =>
@@ -107,11 +116,54 @@ namespace MiniSupermarket.WinForms
             };
             panelTop.Controls.Add(btnAddBarcode);
 
+            btnLookupProduct = new Button
+            {
+                Text = "🔍 Tra cứu",
+                Location = new Point(446, 11),
+                Size = new Size(88, 30),
+                Cursor = Cursors.Hand
+            };
+            UITheme.ApplyButtonTheme(btnLookupProduct, UITheme.ButtonStyle.Info);
+            btnLookupProduct.Click += async (s, e) =>
+            {
+                using (var lookup = new FormProductLookup())
+                {
+                    if (lookup.ShowDialog(this) == DialogResult.OK && !string.IsNullOrEmpty(lookup.SelectedBarcode))
+                    {
+                        await AddProductToCartByBarcodeAsync(lookup.SelectedBarcode);
+                    }
+                }
+            };
+            panelTop.Controls.Add(btnLookupProduct);
+
+            btnIncreaseQty = new Button
+            {
+                Text = "➕ Tăng",
+                Location = new Point(540, 11),
+                Size = new Size(78, 30),
+                Cursor = Cursors.Hand
+            };
+            UITheme.ApplyButtonTheme(btnIncreaseQty, UITheme.ButtonStyle.Success);
+            btnIncreaseQty.Click += (s, e) => IncreaseSelectedItem();
+            panelTop.Controls.Add(btnIncreaseQty);
+
+            btnDecreaseQty = new Button
+            {
+                Text = "➖ Giảm",
+                Location = new Point(624, 11),
+                Size = new Size(78, 30),
+                Cursor = Cursors.Hand
+            };
+            UITheme.ApplyButtonTheme(btnDecreaseQty, UITheme.ButtonStyle.Secondary);
+            btnDecreaseQty.Click += (s, e) => DecreaseSelectedItem();
+            panelTop.Controls.Add(btnDecreaseQty);
+
             btnRemoveItem = new Button
             {
-                Text = "Xóa dòng chọn",
-                Location = new Point(545, 15),
-                Size = new Size(115, 30)
+                Text = "🗑️ Xóa dòng",
+                Location = new Point(708, 11),
+                Size = new Size(95, 30),
+                Cursor = Cursors.Hand
             };
             UITheme.ApplyButtonTheme(btnRemoveItem, UITheme.ButtonStyle.Warning);
             btnRemoveItem.Click += (s, e) => RemoveSelectedItem();
@@ -120,8 +172,9 @@ namespace MiniSupermarket.WinForms
             btnClearCart = new Button
             {
                 Text = "Hủy toàn bộ giỏ",
-                Location = new Point(670, 15),
-                Size = new Size(125, 30)
+                Location = new Point(809, 11),
+                Size = new Size(118, 30),
+                Cursor = Cursors.Hand
             };
             UITheme.ApplyButtonTheme(btnClearCart, UITheme.ButtonStyle.Danger);
             btnClearCart.Click += (s, e) => ClearCart();
@@ -148,6 +201,58 @@ namespace MiniSupermarket.WinForms
             dgvCart.Columns["UnitPrice"].DefaultCellStyle.Format = "N0";
             dgvCart.Columns["Quantity"].DefaultCellStyle.Format = "N0";
             dgvCart.Columns["TotalPrice"].DefaultCellStyle.Format = "N0";
+            dgvCart.Columns["Quantity"].HeaderText = "Số Lượng ✎";
+
+            // Cho phép gõ sửa trực tiếp ô Số lượng
+            dgvCart.ReadOnly = false;
+            foreach (DataGridViewColumn col in dgvCart.Columns)
+            {
+                col.ReadOnly = (col.Name != "Quantity");
+            }
+
+            dgvCart.CellEndEdit += (s, e) =>
+            {
+                if (e.RowIndex >= 0 && e.RowIndex < _cart.Count && dgvCart.Columns[e.ColumnIndex].Name == "Quantity")
+                {
+                    var cellVal = dgvCart.Rows[e.RowIndex].Cells["Quantity"].Value;
+                    if (int.TryParse(cellVal?.ToString(), out int newQty) && newQty > 0)
+                    {
+                        _cart[e.RowIndex].Quantity = newQty;
+                        UpdateCartGrid(e.RowIndex);
+                    }
+                    else if (newQty == 0)
+                    {
+                        _cart.RemoveAt(e.RowIndex);
+                        int nextSelect = Math.Min(e.RowIndex, _cart.Count - 1);
+                        UpdateCartGrid(nextSelect);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Số lượng phải là số nguyên dương lớn hơn 0!", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        UpdateCartGrid(e.RowIndex);
+                    }
+                }
+            };
+
+            // Phím tắt bàn phím (+, -, Delete) trên giỏ hàng
+            dgvCart.KeyDown += (s, e) =>
+            {
+                if (e.KeyCode == Keys.Add || e.KeyCode == Keys.Oemplus)
+                {
+                    IncreaseSelectedItem();
+                    e.Handled = true;
+                }
+                else if (e.KeyCode == Keys.Subtract || e.KeyCode == Keys.OemMinus)
+                {
+                    DecreaseSelectedItem();
+                    e.Handled = true;
+                }
+                else if (e.KeyCode == Keys.Delete)
+                {
+                    RemoveSelectedItem();
+                    e.Handled = true;
+                }
+            };
 
             // 3. Panel Bên phải (Thanh toán & Khách hàng)
             panelRight = new Panel
@@ -169,16 +274,20 @@ namespace MiniSupermarket.WinForms
             };
             panelRight.Controls.Add(grbCustomer);
 
-            lblPhone = new Label { Text = "SĐT:", Font = UITheme.FontBodyBold, Location = new Point(15, 25), AutoSize = true };
-            txtCustomerPhone = new TextBox { Font = UITheme.FontBody, Location = new Point(55, 22), Size = new Size(170, 25) };
+            lblPhone = new Label { Text = "SĐT:", Font = UITheme.FontBodyBold, Location = new Point(12, 25), AutoSize = true };
+            txtCustomerPhone = new TextBox { Font = UITheme.FontBody, Location = new Point(50, 22), Size = new Size(130, 25) };
             txtCustomerPhone.KeyDown += async (s, e) =>
             {
                 if (e.KeyCode == Keys.Enter) await LookupCustomerAsync();
             };
 
-            btnFindCustomer = new Button { Text = "Tìm", Location = new Point(235, 21), Size = new Size(60, 27) };
+            btnFindCustomer = new Button { Text = "🔍 Tìm", Location = new Point(184, 21), Size = new Size(62, 27) };
             UITheme.ApplyButtonTheme(btnFindCustomer, UITheme.ButtonStyle.Primary);
             btnFindCustomer.Click += async (s, e) => await LookupCustomerAsync();
+
+            btnQuickRegisterCustomer = new Button { Text = "➕ ĐK Mới", Location = new Point(250, 21), Size = new Size(78, 27) };
+            UITheme.ApplyButtonTheme(btnQuickRegisterCustomer, UITheme.ButtonStyle.Secondary);
+            btnQuickRegisterCustomer.Click += (s, e) => QuickRegisterCustomer();
 
             lblCustomerName = new Label
             {
@@ -199,7 +308,7 @@ namespace MiniSupermarket.WinForms
             };
 
             grbCustomer.Controls.AddRange(new Control[] {
-                lblPhone, txtCustomerPhone, btnFindCustomer,
+                lblPhone, txtCustomerPhone, btnFindCustomer, btnQuickRegisterCustomer,
                 lblCustomerName, lblCustomerPoints
             });
 
@@ -230,7 +339,23 @@ namespace MiniSupermarket.WinForms
                 ThousandsSeparator = true
             };
             nudDiscount.ValueChanged += (s, e) => UpdateCalculations();
-            top += 35;
+            top += 33;
+
+            // Tiêu chí 47: Đổi Điểm Thưởng Trừ Tiền Hóa Đơn (Loyalty / Points)
+            lblRedeemPointsTitle = new Label { Text = "Đổi điểm (-1k/đ):", Font = UITheme.FontBodyBold, Location = new Point(15, top), AutoSize = true };
+            nudRedeemPoints = new NumericUpDown
+            {
+                Font = UITheme.FontBody,
+                Location = new Point(180, top - 3),
+                Size = new Size(130, 25),
+                Maximum = 0,
+                Increment = 1
+            };
+            nudRedeemPoints.ValueChanged += (s, e) => UpdateCalculations();
+            top += 24;
+
+            lblRedeemPointsInfo = new Label { Text = "(1 điểm = 1.000 đ)", Font = UITheme.FontSmall, ForeColor = UITheme.TextMuted, Location = new Point(180, top), AutoSize = true };
+            top += 28;
 
             lblPaymentMethodTitle = new Label { Text = "Phương thức:", Font = UITheme.FontBodyBold, Location = new Point(15, top), AutoSize = true };
             cboPaymentMethod = new ComboBox
@@ -281,6 +406,7 @@ namespace MiniSupermarket.WinForms
             grbPayment.Controls.AddRange(new Control[] {
                 lblSubtotalTitle, lblSubtotal,
                 lblDiscountTitle, nudDiscount,
+                lblRedeemPointsTitle, nudRedeemPoints, lblRedeemPointsInfo,
                 lblPaymentMethodTitle, cboPaymentMethod,
                 lblTotalTitle, lblTotalAmount,
                 lblCashTitle, txtCashReceived,
@@ -347,20 +473,28 @@ namespace MiniSupermarket.WinForms
             }
         }
 
-        private void UpdateCartGrid()
+        private void UpdateCartGrid(int selectedIndex = -1)
         {
-            dgvCart.Rows.Clear();
-            foreach (var item in _cart)
+            dgvCart.SuspendLayout();
+            try
             {
-                int idx = dgvCart.Rows.Add();
-                var row = dgvCart.Rows[idx];
-                row.Cells[0].Value = item.ProductId;
-                row.Cells[1].Value = item.Barcode;
-                row.Cells[2].Value = item.ProductName;
-                row.Cells[3].Value = item.Unit;
-                row.Cells[4].Value = item.UnitPrice;
-                row.Cells[5].Value = item.Quantity;
-                row.Cells[6].Value = item.TotalPrice;
+                dgvCart.Rows.Clear();
+                foreach (var item in _cart)
+                {
+                    int idx = dgvCart.Rows.Add();
+                    var row = dgvCart.Rows[idx];
+                    row.Cells[0].Value = item.ProductId;
+                    row.Cells[1].Value = item.Barcode;
+                    row.Cells[2].Value = item.ProductName;
+                    row.Cells[3].Value = item.Unit;
+                    row.Cells[4].Value = item.UnitPrice;
+                    row.Cells[5].Value = item.Quantity;
+                    row.Cells[6].Value = item.TotalPrice;
+                }
+            }
+            finally
+            {
+                dgvCart.ResumeLayout();
             }
 
             UpdateCalculations();
@@ -370,7 +504,16 @@ namespace MiniSupermarket.WinForms
         {
             decimal subtotal = _cart.Sum(x => x.TotalPrice);
             decimal discount = nudDiscount.Value;
-            decimal total = Math.Max(0, subtotal - discount);
+
+            if (_currentCustomer != null && nudRedeemPoints != null)
+            {
+                int maxPointsCanUse = Math.Min(_currentCustomer.RewardPoints, (int)(subtotal / 1000m));
+                nudRedeemPoints.Maximum = Math.Max(0, maxPointsCanUse);
+                lblRedeemPointsInfo.Text = $"(Có: {_currentCustomer.RewardPoints} đ | Dùng tối đa: {maxPointsCanUse} đ)";
+            }
+
+            decimal pointDiscount = nudRedeemPoints != null ? nudRedeemPoints.Value * 1000m : 0m;
+            decimal total = Math.Max(0, subtotal - discount - pointDiscount);
 
             lblSubtotal.Text = $"{subtotal:N0} đ";
             lblTotalAmount.Text = $"{total:N0} đ";
@@ -381,7 +524,8 @@ namespace MiniSupermarket.WinForms
         private void CalculateChange()
         {
             decimal subtotal = _cart.Sum(x => x.TotalPrice);
-            decimal total = Math.Max(0, subtotal - nudDiscount.Value);
+            decimal pointDiscount = nudRedeemPoints != null ? nudRedeemPoints.Value * 1000m : 0m;
+            decimal total = Math.Max(0, subtotal - nudDiscount.Value - pointDiscount);
 
             if (decimal.TryParse(txtCashReceived.Text.Trim(), out decimal cashReceived))
             {
@@ -401,6 +545,53 @@ namespace MiniSupermarket.WinForms
             {
                 lblChange.Text = "0 đ";
                 lblChange.ForeColor = Color.Black;
+            }
+        }
+
+        private void IncreaseSelectedItem()
+        {
+            if (dgvCart.SelectedRows.Count > 0)
+            {
+                int index = dgvCart.SelectedRows[0].Index;
+                if (index >= 0 && index < _cart.Count)
+                {
+                    _cart[index].Quantity++;
+                    UpdateCartGrid(index);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Vui lòng chọn dòng sản phẩm muốn tăng số lượng!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+
+        private void DecreaseSelectedItem()
+        {
+            if (dgvCart.SelectedRows.Count > 0)
+            {
+                int index = dgvCart.SelectedRows[0].Index;
+                if (index >= 0 && index < _cart.Count)
+                {
+                    if (_cart[index].Quantity > 1)
+                    {
+                        _cart[index].Quantity--;
+                        UpdateCartGrid(index);
+                    }
+                    else
+                    {
+                        var confirm = MessageBox.Show($"Số lượng của '{_cart[index].ProductName}' đang là 1. Bạn có muốn xóa sản phẩm này khỏi giỏ hàng?", "Xác nhận xóa", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                        if (confirm == DialogResult.Yes)
+                        {
+                            _cart.RemoveAt(index);
+                            int nextSelect = Math.Min(index, _cart.Count - 1);
+                            UpdateCartGrid(nextSelect);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("Vui lòng chọn dòng sản phẩm muốn giảm số lượng!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
 
@@ -432,6 +623,7 @@ namespace MiniSupermarket.WinForms
                 txtCustomerPhone.Clear();
                 lblCustomerName.Text = "Khách vãng lai";
                 lblCustomerPoints.Text = "Điểm tích lũy: 0 | Hạng: Mới";
+                if (nudRedeemPoints != null) { nudRedeemPoints.Maximum = 0; nudRedeemPoints.Value = 0; lblRedeemPointsInfo.Text = "(1 điểm = 1.000 đ)"; }
                 nudDiscount.Value = 0;
                 txtCashReceived.Clear();
                 UpdateCartGrid();
@@ -462,6 +654,12 @@ namespace MiniSupermarket.WinForms
                     {
                         lblCustomerName.Text = $"Khách hàng: {_currentCustomer.CustomerName}";
                         lblCustomerPoints.Text = $"Điểm: {_currentCustomer.RewardPoints} | Hạng: {_currentCustomer.MembershipRank}";
+                        if (nudRedeemPoints != null)
+                        {
+                            nudRedeemPoints.Maximum = _currentCustomer.RewardPoints;
+                            nudRedeemPoints.Value = 0;
+                            lblRedeemPointsInfo.Text = $"(Có: {_currentCustomer.RewardPoints} đ = {_currentCustomer.RewardPoints * 1000:N0} đ)";
+                        }
                     }
                 }
                 else
@@ -469,6 +667,17 @@ namespace MiniSupermarket.WinForms
                     _currentCustomer = null;
                     lblCustomerName.Text = "Khách mới (Chưa có trong hệ thống)";
                     lblCustomerPoints.Text = "SĐT chưa được đăng ký thành viên";
+
+                    var confirm = MessageBox.Show(
+                        $"Số điện thoại '{phone}' chưa có tài khoản thành viên.\nBạn có muốn đăng ký nhanh khách hàng mới ngay bây giờ không?",
+                        "Đăng ký khách mới",
+                        MessageBoxButtons.YesNo,
+                        MessageBoxIcon.Question);
+
+                    if (confirm == DialogResult.Yes)
+                    {
+                        QuickRegisterCustomer(phone);
+                    }
                 }
             }
             catch (Exception ex)
@@ -478,6 +687,25 @@ namespace MiniSupermarket.WinForms
         }
 
         // ==========================================
+        // ==========================================
+        // ĐĂNG KÝ NHANH KHÁCH HÀNG TẠI QUẦY
+        // ==========================================
+        private void QuickRegisterCustomer(string defaultPhone = null)
+        {
+            string phone = defaultPhone ?? txtCustomerPhone.Text.Trim();
+            using (var dlg = new FormQuickCustomer(phone))
+            {
+                if (dlg.ShowDialog(this) == DialogResult.OK && dlg.CreatedCustomer != null)
+                {
+                    _currentCustomer = dlg.CreatedCustomer;
+                    txtCustomerPhone.Text = _currentCustomer.PhoneNumber;
+                    lblCustomerName.Text = $"Khách hàng: {_currentCustomer.CustomerName}";
+                    lblCustomerPoints.Text = $"Điểm: {_currentCustomer.RewardPoints} | Hạng: {_currentCustomer.MembershipRank}";
+                    txtBarcode.Focus();
+                }
+            }
+        }
+
         // XÁC NHẬN THANH TOÁN: POST /api/Orders/checkout
         // ==========================================
         private async Task CheckoutAsync()
@@ -500,6 +728,7 @@ namespace MiniSupermarket.WinForms
                 CustomerPhone = _currentCustomer?.PhoneNumber ?? txtCustomerPhone.Text.Trim(),
                 PaymentMethod = paymentMethod,
                 Discount = nudDiscount.Value,
+                PointsToRedeem = nudRedeemPoints != null ? (int)nudRedeemPoints.Value : 0,
                 Items = _cart.Select(i => new { i.ProductId, i.Quantity, i.UnitPrice }).ToList()
             };
 
@@ -513,23 +742,73 @@ namespace MiniSupermarket.WinForms
                 {
                     var result = await response.Content.ReadFromJsonAsync<CheckoutResultDto>();
 
-                    string msg = $"THANH TOÁN THÀNH CÔNG!\n\n" +
-                                 $"Mã hóa đơn: {result?.OrderCode}\n" +
-                                 $"Khách hàng: {result?.CustomerName}\n" +
-                                 $"Tổng thanh toán: {result?.Total:N0} đ\n" +
-                                 $"Hình thức: {paymentMethod}\n\n" +
-                                 $"Hóa đơn đã được lưu và cập nhật tồn kho.";
+                    decimal cashGiven = decimal.TryParse(txtCashReceived.Text.Trim(), out var cg) ? cg : (result?.Total ?? 0);
+                    decimal changeDue = Math.Max(0, cashGiven - (result?.Total ?? 0));
 
-                    MessageBox.Show(msg, "Hoàn tất đơn hàng", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    var receipt = new InvoiceReceiptModel
+                    {
+                        OrderCode = result?.OrderCode ?? "HD0000",
+                        CreatedAt = DateTime.Now,
+                        CashierName = SessionManager.CurrentUsername,
+                        CustomerName = !string.IsNullOrWhiteSpace(result?.CustomerName) ? result.CustomerName : (_currentCustomer?.CustomerName ?? "Khách vãng lai"),
+                        CustomerPhone = _currentCustomer?.PhoneNumber ?? txtCustomerPhone.Text.Trim(),
+                        EarnedPoints = (int)((result?.Total ?? 0) / 10000),
+                        PaymentMethod = paymentMethod switch
+                        {
+                            "CASH" => "Tiền mặt",
+                            "BANK_TRANSFER" => "Chuyển khoản",
+                            "MOMO" => "Ví MoMo",
+                            "CARD" => "Thẻ ngân hàng",
+                            _ => paymentMethod
+                        },
+                        Subtotal = result?.Subtotal ?? _cart.Sum(x => x.TotalPrice),
+                        Discount = result?.Discount ?? nudDiscount.Value,
+                        Total = result?.Total ?? 0,
+                        CashGiven = cashGiven,
+                        ChangeDue = changeDue,
+                        Items = _cart.Select(i => new InvoiceItemModel
+                        {
+                            ProductName = i.ProductName,
+                            Quantity = i.Quantity,
+                            Unit = i.Unit,
+                            UnitPrice = i.UnitPrice,
+                            LineTotal = i.TotalPrice
+                        }).ToList()
+                    };
 
                     _cart.Clear();
                     _currentCustomer = null;
                     txtCustomerPhone.Clear();
                     lblCustomerName.Text = "Khách vãng lai";
                     lblCustomerPoints.Text = "Điểm tích lũy: 0 | Hạng: Mới";
+                    if (nudRedeemPoints != null)
+                    {
+                        nudRedeemPoints.Maximum = 0;
+                        nudRedeemPoints.Value = 0;
+                        lblRedeemPointsInfo.Text = "(1 điểm = 1.000 đ)";
+                    }
                     nudDiscount.Value = 0;
                     txtCashReceived.Clear();
                     UpdateCartGrid();
+
+                    var askPrint = MessageBox.Show(
+                        $"THANH TOÁN THÀNH CÔNG!\n\n" +
+                        $"Mã hóa đơn: {receipt.OrderCode}\n" +
+                        $"Khách hàng: {receipt.CustomerName}\n" +
+                        $"Tổng thanh toán: {receipt.Total:N0} đ\n" +
+                        $"Hình thức: {receipt.PaymentMethod}\n\n" +
+                        $"Bạn có muốn XEM & IN HÓA ĐƠN ngay không?",
+                        "Hoàn tất đơn hàng",
+                        MessageBoxButtons.YesNo,
+                        MessageBoxIcon.Question);
+
+                    if (askPrint == DialogResult.Yes)
+                    {
+                        using (var formReceipt = new FormInvoiceReceipt(receipt))
+                        {
+                            formReceipt.ShowDialog(this);
+                        }
+                    }
 
                     txtBarcode.Focus();
                 }

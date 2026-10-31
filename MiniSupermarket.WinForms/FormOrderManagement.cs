@@ -1,3 +1,4 @@
+using System.Linq;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -15,14 +16,15 @@ namespace MiniSupermarket.WinForms
 
         // Controls giao diện
         private Panel panelTop;
-        private Label lblTitle;
-        private Label lblStatus;
+                private Label lblStatus;
+        private PaginationControl<OrderHeaderDto> pager;
         private Label lblFilterStatus;
         private ComboBox cboFilterStatus;
         private Label lblSearch;
         private TextBox txtSearch;
         private Button btnSearch;
         private Button btnReload;
+        private Button btnExportExcel;
 
         private DataGridView dgvOrders;
 
@@ -58,26 +60,16 @@ namespace MiniSupermarket.WinForms
             panelTop = new Panel
             {
                 Dock = DockStyle.Top,
-                Height = 65,
+                Height = 52,
                 BackColor = Color.White
             };
-
-            lblTitle = new Label
-            {
-                Text = "QUẢN LÝ ĐƠN HÀNG & LỊCH SỬ GIAO DỊCH",
-                Font = UITheme.FontTitle,
-                ForeColor = UITheme.PrimaryColor,
-                Location = new Point(16, 12),
-                AutoSize = true
-            };
-            panelTop.Controls.Add(lblTitle);
 
             lblStatus = new Label
             {
                 Text = "Sẵn sàng",
                 Font = UITheme.FontSmall,
                 ForeColor = UITheme.TextMuted,
-                Location = new Point(18, 38),
+                Location = new Point(18, 17),
                 AutoSize = true
             };
             panelTop.Controls.Add(lblStatus);
@@ -88,7 +80,7 @@ namespace MiniSupermarket.WinForms
                 AutoSize = true,
                 FlowDirection = FlowDirection.LeftToRight,
                 WrapContents = false,
-                Padding = new Padding(0, 16, 16, 0)
+                Padding = new Padding(0, 10, 16, 0)
             };
 
             lblFilterStatus = new Label
@@ -150,11 +142,21 @@ namespace MiniSupermarket.WinForms
             {
                 Text = "Tải lại",
                 Size = new Size(70, 28),
-                Margin = new Padding(0, 0, 0, 0)
+                Margin = new Padding(0, 0, 6, 0)
             };
             UITheme.ApplyButtonTheme(btnReload, UITheme.ButtonStyle.Secondary);
             btnReload.Click += async (s, e) => await ReloadDataAsync();
             panelSearchFilter.Controls.Add(btnReload);
+
+            btnExportExcel = new Button
+            {
+                Text = "📥 Xuất Excel",
+                Size = new Size(95, 28),
+                Margin = new Padding(0, 0, 0, 0)
+            };
+            UITheme.ApplyButtonTheme(btnExportExcel, UITheme.ButtonStyle.Primary);
+            btnExportExcel.Click += BtnExportExcel_Click;
+            panelSearchFilter.Controls.Add(btnExportExcel);
 
             panelTop.Controls.Add(panelSearchFilter);
 
@@ -259,18 +261,34 @@ namespace MiniSupermarket.WinForms
 
             grbDetails.Controls.Add(dgvOrderItems);
 
-            // Nút hủy đơn hàng ở bottom của panelRight
+            // Nút In lại hóa đơn & Hủy đơn hàng ở bottom của panelRight
             Panel bottomPanel = new Panel
             {
                 Dock = DockStyle.Bottom,
-                Height = 52,
-                Padding = new Padding(0, 8, 0, 4)
+                Height = 88,
+                Padding = new Padding(0, 6, 0, 4)
             };
+
+            Button btnPrintOrder = new Button
+            {
+                Text = "🖨️ IN LẠI HÓA ĐƠN",
+                Dock = DockStyle.Top,
+                Height = 36,
+                Cursor = Cursors.Hand
+            };
+            UITheme.ApplyButtonTheme(btnPrintOrder, UITheme.ButtonStyle.Primary);
+            btnPrintOrder.Click += (s, e) => PrintSelectedOrder();
+            bottomPanel.Controls.Add(btnPrintOrder);
+
+            Panel spacer = new Panel { Dock = DockStyle.Top, Height = 6 };
+            bottomPanel.Controls.Add(spacer);
 
             btnCancelOrder = new Button
             {
                 Text = "🚫 HỦY ĐƠN HÀNG (HOÀN KHO)",
-                Dock = DockStyle.Fill
+                Dock = DockStyle.Top,
+                Height = 36,
+                Cursor = Cursors.Hand
             };
             UITheme.ApplyButtonTheme(btnCancelOrder, UITheme.ButtonStyle.Danger);
             btnCancelOrder.Click += async (s, e) => await CancelOrderAsync();
@@ -278,7 +296,11 @@ namespace MiniSupermarket.WinForms
 
             grbDetails.Controls.Add(bottomPanel);
 
+            pager = new PaginationControl<OrderHeaderDto>();
+            pager.Bind(DisplayOrders, "đơn hàng");
+
             this.Controls.Add(dgvOrders);
+            this.Controls.Add(pager);
             this.Controls.Add(panelRight);
             this.Controls.Add(panelTop);
         }
@@ -288,6 +310,49 @@ namespace MiniSupermarket.WinForms
             UITheme.ApplyFormTheme(this);
             UITheme.ApplyGridTheme(dgvOrders);
             UITheme.ApplyGridTheme(dgvOrderItems);
+        }
+
+        private void PrintSelectedOrder()
+        {
+            if (_currentOrder == null)
+            {
+                MessageBox.Show("Vui lòng chọn một đơn hàng từ danh sách trước khi in hóa đơn!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            var receipt = new InvoiceReceiptModel
+            {
+                OrderCode = _currentOrder.OrderCode,
+                CreatedAt = _currentOrder.CreatedAt,
+                CashierName = !string.IsNullOrWhiteSpace(_currentOrder.CashierName) ? _currentOrder.CashierName : "Thu ngân",
+                CustomerName = !string.IsNullOrWhiteSpace(_currentOrder.CustomerName) ? _currentOrder.CustomerName : "Khách vãng lai",
+                PaymentMethod = _currentOrder.PaymentMethod switch
+                {
+                    "CASH" => "Tiền mặt",
+                    "BANK_TRANSFER" => "Chuyển khoản",
+                    "MOMO" => "Ví MoMo",
+                    "CARD" => "Thẻ ngân hàng",
+                    _ => _currentOrder.PaymentMethod
+                },
+                Subtotal = _currentOrder.Subtotal,
+                Discount = _currentOrder.Discount,
+                Total = _currentOrder.Total,
+                CashGiven = _currentOrder.Total,
+                ChangeDue = 0,
+                EarnedPoints = (int)(_currentOrder.Total / 10000),
+                Items = _currentOrder.Items?.Select(i => new InvoiceItemModel
+                {
+                    ProductName = i.ProductName,
+                    Quantity = i.Quantity,
+                    UnitPrice = i.UnitPrice,
+                    LineTotal = i.LineTotal
+                }).ToList() ?? new System.Collections.Generic.List<InvoiceItemModel>()
+            };
+
+            using (var formReceipt = new FormInvoiceReceipt(receipt))
+            {
+                formReceipt.ShowDialog(this);
+            }
         }
 
         private void SetPermission()
@@ -354,7 +419,7 @@ namespace MiniSupermarket.WinForms
                     }
                 }
 
-                DisplayOrders(_orders);
+                pager.SetDataSource(_orders);
                 lblStatus.Text = $"Có {_orders.Count} đơn hàng";
             }
             catch (Exception ex)
@@ -366,42 +431,52 @@ namespace MiniSupermarket.WinForms
 
         private void DisplayOrders(List<OrderHeaderDto> list)
         {
-            dgvOrders.Rows.Clear();
-            foreach (var o in list)
+            if (this.IsDisposed || this.Disposing || dgvOrders == null || dgvOrders.IsDisposed || dgvOrders.Columns.Count == 0) return;
+            dgvOrders.SuspendLayout();
+            try
             {
-                int idx = dgvOrders.Rows.Add();
-                var row = dgvOrders.Rows[idx];
-                row.Cells[0].Value = o.OrderId;
-                row.Cells[1].Value = o.OrderCode;
-                row.Cells[2].Value = o.CreatedAt.ToString("dd/MM/yyyy HH:mm");
-                row.Cells[3].Value = string.IsNullOrEmpty(o.CustomerName) ? "Khách vãng lai" : o.CustomerName;
-                row.Cells[4].Value = string.IsNullOrEmpty(o.CashierName) ? "--" : o.CashierName;
-                row.Cells[5].Value = o.PaymentMethod;
-                row.Cells[6].Value = o.Total;
-                row.Cells[7].Value = o.Status;
-
-                if (o.Status == "CANCELLED")
+                dgvOrders.Rows.Clear();
+                foreach (var o in list)
                 {
-                    row.DefaultCellStyle.ForeColor = Color.IndianRed;
+                    int idx = dgvOrders.Rows.Add();
+                    var row = dgvOrders.Rows[idx];
+                    row.Cells[0].Value = o.OrderId;
+                    row.Cells[1].Value = o.OrderCode;
+                    row.Cells[2].Value = o.CreatedAt.ToString("dd/MM/yyyy HH:mm");
+                    row.Cells[3].Value = string.IsNullOrEmpty(o.CustomerName) ? "Khách mua tại quầy" : o.CustomerName;
+                    row.Cells[4].Value = string.IsNullOrEmpty(o.CashierName) ? "--" : o.CashierName;
+                    row.Cells[5].Value = o.PaymentMethod;
+                    row.Cells[6].Value = o.Total;
+                    row.Cells[7].Value = o.Status;
+
+                    if (o.Status == "CANCELLED")
+                    {
+                        row.DefaultCellStyle.ForeColor = Color.IndianRed;
+                    }
+                }
+
+                if (list.Count > 0)
+                {
+                    dgvOrders.ClearSelection();
+                    dgvOrders.Rows[0].Selected = true;
+                    _ = ShowOrderDetailAsync(list[0].OrderId);
+                }
+                else
+                {
+                    ClearDetails();
                 }
             }
-
-            if (list.Count > 0)
+            finally
             {
-                dgvOrders.ClearSelection();
-                dgvOrders.Rows[0].Selected = true;
-                _ = ShowOrderDetailAsync(list[0].OrderId);
-            }
-            else
-            {
-                ClearDetails();
+                dgvOrders.ResumeLayout();
             }
         }
 
         private async void DgvOrders_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.RowIndex < 0 || e.RowIndex >= _orders.Count) return;
-            int orderId = _orders[e.RowIndex].OrderId;
+            if (e.RowIndex < 0 || e.RowIndex >= dgvOrders.Rows.Count) return;
+            if (dgvOrders.Rows[e.RowIndex].Cells[0].Value == null) return;
+            int orderId = Convert.ToInt32(dgvOrders.Rows[e.RowIndex].Cells[0].Value);
             await ShowOrderDetailAsync(orderId);
         }
 
@@ -425,7 +500,7 @@ namespace MiniSupermarket.WinForms
 
                 lblDetailCode.Text = $"Mã đơn: {_currentOrder.OrderCode}";
                 lblDetailDate.Text = $"Ngày tạo: {_currentOrder.CreatedAt:dd/MM/yyyy HH:mm:ss}";
-                lblDetailCustomer.Text = $"Khách hàng: {(string.IsNullOrEmpty(_currentOrder.CustomerName) ? "Khách vãng lai" : _currentOrder.CustomerName)}";
+                lblDetailCustomer.Text = $"Khách hàng: {(string.IsNullOrEmpty(_currentOrder.CustomerName) ? "Khách mua tại quầy" : _currentOrder.CustomerName)}";
                 lblDetailCashier.Text = $"Thu ngân: {(string.IsNullOrEmpty(_currentOrder.CashierName) ? "--" : _currentOrder.CashierName)}";
                 lblDetailPayment.Text = $"Thanh toán: {_currentOrder.PaymentMethod}";
                 lblDetailStatus.Text = $"Trạng thái: {_currentOrder.Status}";
@@ -446,18 +521,26 @@ namespace MiniSupermarket.WinForms
                 lblDetailTotal.Text = $"TỔNG: {_currentOrder.Total:N0} đ";
 
                 // Đổ vào dgvOrderItems
-                dgvOrderItems.Rows.Clear();
-                if (_currentOrder.Items != null)
+                dgvOrderItems.SuspendLayout();
+                try
                 {
-                    foreach (var item in _currentOrder.Items)
+                    dgvOrderItems.Rows.Clear();
+                    if (_currentOrder.Items != null)
                     {
-                        int idx = dgvOrderItems.Rows.Add();
-                        var row = dgvOrderItems.Rows[idx];
-                        row.Cells[0].Value = item.ProductName ?? $"SP #{item.ProductId}";
-                        row.Cells[1].Value = item.Quantity;
-                        row.Cells[2].Value = item.UnitPrice;
-                        row.Cells[3].Value = item.LineTotal;
+                        foreach (var item in _currentOrder.Items)
+                        {
+                            int idx = dgvOrderItems.Rows.Add();
+                            var row = dgvOrderItems.Rows[idx];
+                            row.Cells[0].Value = item.ProductName ?? $"SP #{item.ProductId}";
+                            row.Cells[1].Value = item.Quantity;
+                            row.Cells[2].Value = item.UnitPrice;
+                            row.Cells[3].Value = item.LineTotal;
+                        }
                     }
+                }
+                finally
+                {
+                    dgvOrderItems.ResumeLayout();
                 }
             }
             catch (Exception ex)
@@ -540,6 +623,64 @@ namespace MiniSupermarket.WinForms
             catch (Exception ex)
             {
                 MessageBox.Show("Lỗi khi hủy đơn hàng: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        // =======================================================================
+        // Tiêu chí 48: XUẤT DANH SÁCH HÓA ĐƠN ĐƠN HÀNG RA FILE EXCEL (CSV UTF-8)
+        // =======================================================================
+        private void BtnExportExcel_Click(object sender, EventArgs e)
+        {
+            if (_orders == null || _orders.Count == 0)
+            {
+                MessageBox.Show("Không có dữ liệu hóa đơn để xuất!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            using (SaveFileDialog sfd = new SaveFileDialog())
+            {
+                sfd.Filter = "Tệp Excel CSV (*.csv)|*.csv";
+                sfd.FileName = $"Danh_Sach_Hoa_Don_{DateTime.Now:yyyyMMdd_HHmmss}.csv";
+                if (sfd.ShowDialog() == DialogResult.OK)
+                {
+                    try
+                    {
+                        using (var sw = new System.IO.StreamWriter(sfd.FileName, false, System.Text.Encoding.UTF8))
+                        {
+                            sw.WriteLine("\"DANH SÁCH HÓA ĐƠN BÁN HÀNG SIÊU THỊ\"");
+                            sw.WriteLine($"\"Thời gian xuất:\",\"{DateTime.Now:dd/MM/yyyy HH:mm:ss}\"");
+                            sw.WriteLine($"\"Tổng số hóa đơn:\",\"{_orders.Count}\"");
+                            sw.WriteLine("");
+                            sw.WriteLine("ID,Mã Hóa Đơn,Ngày Tạo,Khách Hàng,Thu Ngân,Phương Thức,Tổng Tiền (VNĐ),Trạng Thái,Số Sản Phẩm");
+
+                            foreach (var o in _orders)
+                            {
+                                var vals = new List<string>
+                                {
+                                    o.OrderId.ToString(),
+                                    "\"" + (o.OrderCode ?? "").Replace("\"", "\"\"") + "\"",
+                                    "\"" + o.CreatedAt.ToString("dd/MM/yyyy HH:mm") + "\"",
+                                    "\"" + (o.CustomerName ?? "Khách mua tại quầy").Replace("\"", "\"\"") + "\"",
+                                    "\"" + (o.CashierName ?? "").Replace("\"", "\"\"") + "\"",
+                                    "\"" + (o.PaymentMethod ?? "").Replace("\"", "\"\"") + "\"",
+                                    o.Total.ToString("F0"),
+                                    "\"" + (o.Status ?? "").Replace("\"", "\"\"") + "\"",
+                                    o.ItemCount.ToString()
+                                };
+                                sw.WriteLine(string.Join(",", vals));
+                            }
+                        }
+
+                        if (MessageBox.Show("Xuất danh sách hóa đơn ra Excel thành công!\nBạn có muốn mở tệp ngay không?", "Xuất Excel", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes)
+                        {
+                            System.Diagnostics.Process.Start(sfd.FileName);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Lỗi xuất Excel: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
             }
         }
 

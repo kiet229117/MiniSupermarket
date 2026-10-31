@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -14,8 +15,8 @@ namespace MiniSupermarket.WinForms
 
         // Controls giao diện
         private Panel panelTop;
-        private Label lblTitle;
-        private Label lblStatus;
+                private Label lblStatus;
+        private PaginationControl<BrandDto> pager;
         private Label lblSearch;
         private TextBox txtSearch;
         private Button btnSearch;
@@ -49,34 +50,22 @@ namespace MiniSupermarket.WinForms
 
         private void BuildUI()
         {
-            this.Text = "QUẢN LÝ THƯƠNG HIỆU";
-            this.Size = new Size(1000, 600);
-            this.Dock = DockStyle.Fill;
+           
 
             // 1. Panel Top (Tiêu đề và Tìm kiếm)
             panelTop = new Panel
             {
                 Dock = DockStyle.Top,
-                Height = 65,
+                Height = 52,
                 BackColor = Color.White
             };
-
-            lblTitle = new Label
-            {
-                Text = "QUẢN LÝ THƯƠNG HIỆU & NHÃN HÀNG",
-                Font = UITheme.FontTitle,
-                ForeColor = UITheme.PrimaryColor,
-                Location = new Point(16, 12),
-                AutoSize = true
-            };
-            panelTop.Controls.Add(lblTitle);
 
             lblStatus = new Label
             {
                 Text = "Sẵn sàng",
                 Font = UITheme.FontSmall,
                 ForeColor = UITheme.TextMuted,
-                Location = new Point(18, 38),
+                Location = new Point(18, 17),
                 AutoSize = true
             };
             panelTop.Controls.Add(lblStatus);
@@ -87,7 +76,7 @@ namespace MiniSupermarket.WinForms
                 AutoSize = true,
                 FlowDirection = FlowDirection.LeftToRight,
                 WrapContents = false,
-                Padding = new Padding(0, 16, 16, 0)
+                Padding = new Padding(0, 10, 16, 0)
             };
 
             lblSearch = new Label
@@ -244,7 +233,11 @@ namespace MiniSupermarket.WinForms
             panelRight.Controls.Add(panelButtons);
             panelButtons.BringToFront();
 
+            pager = new PaginationControl<BrandDto>();
+            pager.Bind(DisplayBrands, "thương hiệu");
+
             this.Controls.Add(dgvBrands);
+            this.Controls.Add(pager);
             this.Controls.Add(panelRight);
             this.Controls.Add(panelTop);
         }
@@ -307,7 +300,7 @@ namespace MiniSupermarket.WinForms
                 _brands.Clear();
                 if (list != null) _brands.AddRange(list);
 
-                DisplayBrands(_brands);
+                pager.SetDataSource(_brands);
                 lblStatus.Text = $"Có {_brands.Count} thương hiệu";
             }
             catch (Exception ex)
@@ -319,27 +312,36 @@ namespace MiniSupermarket.WinForms
 
         private void DisplayBrands(List<BrandDto> list)
         {
-            dgvBrands.Rows.Clear();
-            foreach (var b in list)
+            if (this.IsDisposed || this.Disposing || dgvBrands == null || dgvBrands.IsDisposed || dgvBrands.Columns.Count == 0) return;
+            dgvBrands.SuspendLayout();
+            try
             {
-                int idx = dgvBrands.Rows.Add();
-                var row = dgvBrands.Rows[idx];
-                row.Cells[0].Value = b.BrandId;
-                row.Cells[1].Value = b.BrandName;
-                row.Cells[2].Value = b.Country;
-                row.Cells[3].Value = b.Description;
-                row.Cells[4].Value = b.IsActive ? "Đang hợp tác" : "Ngừng";
-            }
+                dgvBrands.Rows.Clear();
+                foreach (var b in list)
+                {
+                    int idx = dgvBrands.Rows.Add();
+                    var row = dgvBrands.Rows[idx];
+                    row.Cells[0].Value = b.BrandId;
+                    row.Cells[1].Value = b.BrandName;
+                    row.Cells[2].Value = b.Country;
+                    row.Cells[3].Value = b.Description;
+                    row.Cells[4].Value = b.IsActive ? "Đang hợp tác" : "Ngừng";
+                }
 
-            if (list.Count > 0)
-            {
-                dgvBrands.ClearSelection();
-                dgvBrands.Rows[0].Selected = true;
-                ShowBrand(0);
+                if (list.Count > 0)
+                {
+                    dgvBrands.ClearSelection();
+                    dgvBrands.Rows[0].Selected = true;
+                    ShowBrand(0);
+                }
+                else
+                {
+                    ClearForm();
+                }
             }
-            else
+            finally
             {
-                ClearForm();
+                dgvBrands.ResumeLayout();
             }
         }
 
@@ -351,8 +353,13 @@ namespace MiniSupermarket.WinForms
 
         private void ShowBrand(int rowIndex)
         {
-            if (rowIndex < 0 || rowIndex >= _brands.Count) return;
-            var b = _brands[rowIndex];
+            if (rowIndex < 0 || rowIndex >= dgvBrands.Rows.Count) return;
+            var row = dgvBrands.Rows[rowIndex];
+            if (row.Cells[0].Value == null) return;
+
+            int bId = Convert.ToInt32(row.Cells[0].Value);
+            var b = _brands.FirstOrDefault(x => x.BrandId == bId);
+            if (b == null) return;
 
             txtId.Text = b.BrandId.ToString();
             txtName.Text = b.BrandName;
@@ -411,6 +418,7 @@ namespace MiniSupermarket.WinForms
                 var resp = await SessionManager.ApiClientService.Client.PostAsJsonAsync("Brands", b);
                 if (resp.IsSuccessStatusCode)
                 {
+                    SessionManager.DataCache.Brands = null;
                     MessageBox.Show("Thêm thương hiệu thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     await LoadDataAsync();
                     ClearForm();
@@ -455,6 +463,7 @@ namespace MiniSupermarket.WinForms
                 var resp = await SessionManager.ApiClientService.Client.PutAsJsonAsync($"Brands/{id}", b);
                 if (resp.IsSuccessStatusCode)
                 {
+                    SessionManager.DataCache.Brands = null;
                     MessageBox.Show("Cập nhật thương hiệu thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     await LoadDataAsync();
                 }
@@ -485,6 +494,7 @@ namespace MiniSupermarket.WinForms
                 var resp = await SessionManager.ApiClientService.Client.DeleteAsync($"Brands/{id}");
                 if (resp.IsSuccessStatusCode)
                 {
+                    SessionManager.DataCache.Brands = null;
                     MessageBox.Show("Xóa thương hiệu thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     ClearForm();
                     await LoadDataAsync();
@@ -502,5 +512,23 @@ namespace MiniSupermarket.WinForms
 
         // Backward compatibility
         public class ApiBrand : BrandDto { }
+
+        private void InitializeComponent()
+        {
+            this.SuspendLayout();
+            // 
+            // FormBrandManagement
+            // 
+            this.ClientSize = new System.Drawing.Size(282, 253);
+            this.Name = "FormBrandManagement";
+            this.Load += new System.EventHandler(this.FormBrandManagement_Load_1);
+            this.ResumeLayout(false);
+
+        }
+
+        private void FormBrandManagement_Load_1(object sender, EventArgs e)
+        {
+
+        }
     }
 }

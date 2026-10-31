@@ -5,7 +5,7 @@
       {
         "Path": "MiniSupermarket.API\\MiniSupermarket.API.csproj",
         "Action": "Start",
-        "DebugTarget": "https"
+        "DebugTarget": "http"
       },
       {
         "Path": "MiniSupermarket.WinForms\\MiniSupermarket.WinForms.csproj",

@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
@@ -11,28 +11,28 @@ namespace MiniSupermarket.API.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ProductId { get; set; }
 
-        [Required(ErrorMessage = "Mã vạch sản phẩm không được trống")]
+        [Required(ErrorMessage = "M� v?ch s?n ph?m kh�ng ???c tr�ng")]
         [StringLength(50)]
         public string Barcode { get; set; } = string.Empty;
 
-        [Required(ErrorMessage = "Tên sản phẩm không được để trống")]
+        [Required(ErrorMessage = "T�n s?n ph?m kh�ng ???c tr�ng")]
         [StringLength(150)]
         public string ProductName { get; set; } = string.Empty;
 
         [StringLength(20)]
-        public string Unit { get; set; } = string.Empty;   // kg, gói, hộp
+        public string Unit { get; set; } = string.Empty;   // kg, g�i, h?p
 
         [Column(TypeName = "decimal(18,2)")]
-        [Range(0, double.MaxValue, ErrorMessage = "Giá bán phải >= 0")]
-        public decimal Price { get; set; }                 // Giá bán
+        [Range(0, double.MaxValue, ErrorMessage = "Gi� b�n ph?i >= 0")]
+        public decimal Price { get; set; }                 // Gi� b�n
 
         [Column(TypeName = "decimal(18,2)")]
-        public decimal CostPrice { get; set; }             // Giá nhập
+        public decimal CostPrice { get; set; }             // Gi� nh?p
 
-        [Range(0, int.MaxValue, ErrorMessage = "Tồn kho phải >= 0")]
-        public int StockQuantity { get; set; }             // Tồn kho
+        [Range(0, int.MaxValue, ErrorMessage = "T?n kho ph?i >= 0")]
+        public int StockQuantity { get; set; }             // T?n kho
 
-        public bool IsActive { get; set; } = true;         // Ngừng kinh doanh thì false
+        public bool IsActive { get; set; } = true;         // Ng?ng kinh doanh th� false
 
         public int CategoryId { get; set; }
         [ForeignKey("CategoryId")]
@@ -41,9 +41,9 @@ namespace MiniSupermarket.API.Models
         public int BrandId { get; set; }
         [ForeignKey("BrandId")]
         public virtual Brand? Brand { get; set; }
-        public int? SupplierId { get; set; }               // nullable: sản phẩm chưa có NCC vẫn lưu được
+        public int? SupplierId { get; set; }               // nullable: s?n ph?m chua c� NCC v?n luu du?c
         [ForeignKey("SupplierId")]
-        [JsonIgnore] // Tránh lỗi lặp vòng vô tận khi serialize JSON
+        [JsonIgnore] // Tr�nh l?i l?p v�ng v� t?n khi serialize JSON
         public virtual Supplier? Supplier { get; set; }
     }
 }

@@ -23,7 +23,9 @@ namespace MiniSupermarket.API.Controllers
             [FromQuery] string? status,
             [FromQuery] int? customerId,
             [FromQuery] DateTime? from,
-            [FromQuery] DateTime? to)
+            [FromQuery] DateTime? to,
+            [FromQuery] int? page = null,
+            [FromQuery] int? pageSize = null)
         {
             var q = _db.Orders.AsNoTracking().AsQueryable();
             if (!string.IsNullOrWhiteSpace(status)) q = q.Where(o => o.Status == status);
@@ -31,7 +33,15 @@ namespace MiniSupermarket.API.Controllers
             if (from != null) q = q.Where(o => o.CreatedAt >= from);
             if (to != null) q = q.Where(o => o.CreatedAt < to.Value.AddDays(1));   // gồm cả ngày "to"
 
-            var list = await q.OrderByDescending(o => o.CreatedAt)
+            var ordered = q.OrderByDescending(o => o.CreatedAt);
+            IQueryable<Order> finalQuery = ordered;
+
+            if (page.HasValue && pageSize.HasValue && page.Value > 0 && pageSize.Value > 0)
+            {
+                finalQuery = ordered.Skip((page.Value - 1) * pageSize.Value).Take(pageSize.Value);
+            }
+
+            var list = await finalQuery
                 .Select(o => new
                 {
                     o.OrderId,
@@ -152,13 +162,17 @@ namespace MiniSupermarket.API.Controllers
                 customer.RewardPoints += (int)(order.Total / PointUnit);   // cộng điểm thưởng
 
             // Transaction: hoá đơn, trừ kho, cộng điểm cùng thành công hoặc cùng thất bại
-            await using var tx = await _db.Database.BeginTransactionAsync();
-            _db.Orders.Add(order);
-            await _db.SaveChangesAsync();                 // sinh OrderId
+            var strategy = _db.Database.CreateExecutionStrategy();
+            await strategy.ExecuteAsync(async () =>
+            {
+                await using var tx = await _db.Database.BeginTransactionAsync();
+                _db.Orders.Add(order);
+                await _db.SaveChangesAsync();                 // sinh OrderId
 
-            order.OrderCode = $"HD{order.OrderId:D4}";    // HD0013, HD0014...
-            await _db.SaveChangesAsync();
-            await tx.CommitAsync();
+                order.OrderCode = $"HD{order.OrderId:D4}";    // HD0013, HD0014...
+                await _db.SaveChangesAsync();
+                await tx.CommitAsync();
+            });
 
             return CreatedAtAction(nameof(GetById), new { id = order.OrderId },
                 new { order.OrderId, order.OrderCode, order.Subtotal, order.Discount, order.Total });
@@ -185,6 +199,10 @@ namespace MiniSupermarket.API.Controllers
             if (!string.IsNullOrWhiteSpace(dto.CustomerPhone))
             {
                 customer = await _db.Customers.FirstOrDefaultAsync(c => c.PhoneNumber == dto.CustomerPhone.Trim());
+            }
+            if (customer == null)
+            {
+                customer = await _db.Customers.OrderBy(c => c.CustomerId).FirstOrDefaultAsync();
             }
 
             var lines = dto.Items
@@ -215,7 +233,19 @@ namespace MiniSupermarket.API.Controllers
             }
 
             var subtotal = items.Sum(i => i.LineTotal);
-            var discount = Math.Max(0, dto.Discount);
+
+            // Tiêu chí 47: Đổi điểm thưởng trừ tiền trực tiếp trên hóa đơn (1 điểm = 1.000 VNĐ)
+            int pointsRedeemed = 0;
+            decimal pointsDiscount = 0;
+            if (dto.PointsToRedeem > 0 && customer != null && customer.RewardPoints > 0)
+            {
+                int maxPoints = Math.Min(customer.RewardPoints, (int)(subtotal / 1000m));
+                pointsRedeemed = Math.Min(dto.PointsToRedeem, maxPoints);
+                pointsDiscount = pointsRedeemed * 1000m;
+                customer.RewardPoints -= pointsRedeemed;
+            }
+
+            var discount = Math.Max(0, dto.Discount) + pointsDiscount;
             if (discount > subtotal) discount = subtotal;
 
             var order = new Order
@@ -235,13 +265,17 @@ namespace MiniSupermarket.API.Controllers
             if (customer != null)
                 customer.RewardPoints += (int)(order.Total / PointUnit);
 
-            await using var tx = await _db.Database.BeginTransactionAsync();
-            _db.Orders.Add(order);
-            await _db.SaveChangesAsync();
+            var strategy = _db.Database.CreateExecutionStrategy();
+            await strategy.ExecuteAsync(async () =>
+            {
+                await using var tx = await _db.Database.BeginTransactionAsync();
+                _db.Orders.Add(order);
+                await _db.SaveChangesAsync();
 
-            order.OrderCode = $"HD{order.OrderId:D4}";
-            await _db.SaveChangesAsync();
-            await tx.CommitAsync();
+                order.OrderCode = $"HD{order.OrderId:D4}";
+                await _db.SaveChangesAsync();
+                await tx.CommitAsync();
+            });
 
             return Ok(new
             {
@@ -250,7 +284,10 @@ namespace MiniSupermarket.API.Controllers
                 order.Subtotal,
                 order.Discount,
                 order.Total,
-                CustomerName = customer?.CustomerName ?? "Khách vãng lai"
+                pointsRedeemed,
+                pointsDiscount,
+                remainingPoints = customer?.RewardPoints ?? 0,
+                CustomerName = customer?.CustomerName ?? "Khách mua tại quầy"
             });
         }
 

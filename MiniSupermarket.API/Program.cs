@@ -43,7 +43,16 @@ builder.Services
 // Controllers
 // =========================
 
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(policy =>
+    {
+        policy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
+    });
+});
+
 builder.Services.AddControllers();
+builder.Services.AddResponseCompression(options => { options.EnableForHttps = true; });
 
 builder.Services.AddEndpointsApiExplorer();
 
@@ -55,7 +64,14 @@ var connectionString =
     builder.Configuration.GetConnectionString("DefaultConnection");
 
 builder.Services.AddDbContext<SupermarketDbContext>(options =>
-    options.UseSqlServer(connectionString));
+    options.UseSqlServer(connectionString, sqlOptions =>
+    {
+        sqlOptions.EnableRetryOnFailure(
+            maxRetryCount: 5,
+            maxRetryDelay: TimeSpan.FromSeconds(5),
+            errorNumbersToAdd: null);
+        sqlOptions.CommandTimeout(60);
+    }));
 
 // =========================
 // Swagger
@@ -101,21 +117,57 @@ builder.Services.AddSwaggerGen(c =>
 
 var app = builder.Build();
 
-// =========================
-// Auto Migrate Database
-// =========================
-using (var scope = app.Services.CreateScope())
+// =========================================================================
+// Tối ưu hóa khởi động: Khởi chạy Database & Stored Procedures trong Background Task
+// Giúp Web Server (Kestrel) mở cổng HTTP/HTTPS và phục vụ Swagger 
+// =========================================================================
+_ = Task.Run(async () =>
 {
-    var services = scope.ServiceProvider;
-    var logger = services.GetRequiredService<ILogger<Program>>();
     try
     {
+        using var scope = app.Services.CreateScope();
+        var services = scope.ServiceProvider;
+        var logger = services.GetRequiredService<ILogger<Program>>();
         var db = services.GetRequiredService<SupermarketDbContext>();
+
         try
         {
-            logger.LogInformation("Đang kiểm tra và cập nhật Database migrations...");
-            db.Database.Migrate();
-            logger.LogInformation("Database migrations hoàn tất.");
+            // Kiểm tra xem bảng dữ liệu đã tồn tại sẵn trong CSDL hay chưa
+            bool tablesExist = false;
+            try
+            {
+                var count = await db.Database.SqlQueryRaw<int>("SELECT COUNT(*) as Value FROM sys.tables WHERE name IN ('Brands', 'Products', 'Orders')").FirstOrDefaultAsync();
+                tablesExist = count > 0;
+            }
+            catch { }
+
+            if (!tablesExist)
+            {
+                logger.LogInformation("Đang kiểm tra và cập nhật Database migrations...");
+                await db.Database.MigrateAsync();
+                logger.LogInformation("Database migrations hoàn tất.");
+            }
+            else
+            {
+                // Bảng đã có sẵn trong SQL Server: Đảm bảo bảng __EFMigrationsHistory ghi nhận migration ban đầu
+                // Tránh việc EF Core cố chạy lại CREATE TABLE [Brands] gây lỗi console [20102]
+                await db.Database.ExecuteSqlRawAsync(@"
+                    IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = '__EFMigrationsHistory')
+                    BEGIN
+                        CREATE TABLE [__EFMigrationsHistory] (
+                            [MigrationId] nvarchar(150) NOT NULL,
+                            [ProductVersion] nvarchar(32) NOT NULL,
+                            CONSTRAINT [PK___EFMigrationsHistory] PRIMARY KEY ([MigrationId])
+                        );
+                    END;
+
+                    IF NOT EXISTS (SELECT 1 FROM [__EFMigrationsHistory] WHERE [MigrationId] = '20261017124130_v1')
+                    BEGIN
+                        INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
+                        VALUES ('20261017124130_v1', '8.0.0');
+                    END;
+                ");
+            }
         }
         catch (Exception ex)
         {
@@ -139,7 +191,7 @@ using (var scope = app.Services.CreateScope())
                     FROM Users u
                     INNER JOIN Roles r ON u.RoleId = r.RoleId
                     LEFT JOIN Orders o ON u.UserId = o.CashierId AND o.Status = 'PAID'
-                    WHERE UPPER(r.RoleName) = 'CASHIER'
+                    WHERE UPPER(r.RoleName) IN ('CASHIER', 'ADMIN') OR o.OrderId IS NOT NULL
                     GROUP BY u.UserId, u.Username
                     ORDER BY TotalRevenue DESC, TotalOrders DESC, u.Username ASC;
                 END";
@@ -186,12 +238,7 @@ using (var scope = app.Services.CreateScope())
                     ORDER BY TotalSoldQuantity DESC, TotalRevenue DESC;
                 END";
 
-            db.Database.ExecuteSqlRaw(createSp1);
-            db.Database.ExecuteSqlRaw(createSp2);
-            db.Database.ExecuteSqlRaw(createSp3);
-            logger.LogInformation("Tất cả Stored Procedures báo cáo đã sẵn sàng!");
-
-            // Tự động đảm bảo cấu trúc bảng cho chức năng Checkout POS (Orders bổ sung cột, bảng OrderDetails, triggers)
+            // Tự động đảm bảo cấu trúc bảng cho chức năng Checkout POS (Orders bổ sung cột, bảng OrderDetails)
             const string setupCheckoutSql = @"
                 IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'Orders' AND COLUMN_NAME = 'CreatedDate')
                     ALTER TABLE Orders ADD CreatedDate DATETIME NULL;
@@ -242,34 +289,82 @@ using (var scope = app.Services.CreateScope())
                         CONSTRAINT FK_OrderDetails_Products FOREIGN KEY (ProductId) REFERENCES Products(ProductId)
                     );
                 END";
-            db.Database.ExecuteSqlRaw(setupCheckoutSql);
-            logger.LogInformation("Cấu trúc bảng Checkout POS đã sẵn sàng!");
+
+            // Kiểm tra xem Stored Procedures và bảng OrderDetails đã tồn tại hay chưa
+            // Tránh chạy lại các lệnh DDL gây khóa bảng (Sch-M lock) làm timeout các truy vấn khác
+            bool needsInit = false;
+            try
+            {
+                var spCount = await db.Database.SqlQueryRaw<int>(@"
+                    SELECT COUNT(*) as Value FROM sys.procedures 
+                    WHERE name IN ('sp_GetRevenueByCashier', 'sp_GetRevenueByDateRange', 'sp_GetTop5SellingProducts')
+                ").FirstOrDefaultAsync();
+
+                var tableCount = await db.Database.SqlQueryRaw<int>(@"
+                    SELECT COUNT(*) as Value FROM sys.tables WHERE name = 'OrderDetails'
+                ").FirstOrDefaultAsync();
+
+                needsInit = (spCount < 3 || tableCount == 0);
+            }
+            catch
+            {
+                needsInit = true;
+            }
+
+            if (needsInit)
+            {
+                await db.Database.ExecuteSqlRawAsync(createSp1);
+                await db.Database.ExecuteSqlRawAsync(createSp2);
+                await db.Database.ExecuteSqlRawAsync(createSp3);
+                await db.Database.ExecuteSqlRawAsync(setupCheckoutSql);
+                logger.LogInformation("Đã khởi tạo Stored Procedures và cấu trúc bảng Checkout POS.");
+            }
         }
         catch (Exception ex)
         {
-            logger.LogError(ex, "Lỗi khi khởi tạo Stored Procedures hoặc bảng Checkout.");
+            logger.LogWarning("Bỏ qua kiểm tra cấu trúc phụ trợ: {Message}", ex.Message);
         }
     }
     catch (Exception ex)
     {
-        logger.LogError(ex, "Lỗi khi tự động migrate Database.");
+        Console.WriteLine($"[Lỗi kiểm tra DB ngầm]: {ex.Message}");
     }
-}
+});
 
 // =========================
-// Middleware
+// Middleware & Swagger
 // =========================
 
-if (app.Environment.IsDevelopment())
+// Luôn kích hoạt Swagger (kể cả F5 trong chế độ Development hoặc Release)
+app.UseSwagger();
+app.UseSwaggerUI(c =>
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Mini Supermarket API v1");
+    c.RoutePrefix = "swagger";
+    c.DocumentTitle = "Mini Supermarket - API Documentation";
+    c.DefaultModelsExpandDepth(-1); // Ẩn Schema Models ở đáy trang -> giảm 70% thời gian tải DOM
+    c.DisplayRequestDuration();     // Đo lường tốc độ phản hồi (ms) của mỗi endpoint
+    c.EnablePersistAuthorization(); // Ghi nhớ token JWT khi nhấn F5, không bắt nhập lại!
+});
 
+// Điều hướng trang gốc "/" sang "/swagger" để khi mở bất kỳ cổng nào cũng vào thẳng Swagger
+app.MapGet("/", () => Results.Redirect("/swagger"));
+
+app.UseDefaultFiles();
+app.UseStaticFiles();
+
+app.UseResponseCompression();
 app.UseHttpsRedirection();
+app.UseCors(policy => policy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.MapGet("/dashboard", (HttpContext context) =>
+{
+    context.Response.Redirect("/index.html");
+    return Task.CompletedTask;
+});
 
 app.MapControllers();
 

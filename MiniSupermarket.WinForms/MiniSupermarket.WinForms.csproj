@@ -9,6 +9,7 @@
     <RootNamespace>MiniSupermarket.WinForms</RootNamespace>
     <AssemblyName>MiniSupermarket.WinForms</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <LangVersion>latest</LangVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
@@ -30,6 +31,8 @@
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <GenerateResourceMSBuildArchitecture>CurrentArchitecture</GenerateResourceMSBuildArchitecture>
+    <GenerateResourceMSBuildRuntime>CurrentRuntime</GenerateResourceMSBuildRuntime>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -154,10 +157,34 @@
       <DependentUpon>FormUserManagement.cs</DependentUpon>
     </Compile>
     <Compile Include="AppDtos.cs" />
+    <Compile Include="FormDashboard.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormDashboard.Designer.cs">
+      <DependentUpon>FormDashboard.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormProductLookup.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormQuickCustomer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormInvoiceReceipt.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SessionManager.cs" />
     <Compile Include="UITheme.cs" />
+    <Compile Include="PaginationControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <EmbeddedResource Include="FormBrandManagement.resx">
+      <DependentUpon>FormBrandManagement.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormDashboard.resx">
+      <DependentUpon>FormDashboard.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormLogin.resx">
       <DependentUpon>FormLogin.cs</DependentUpon>
     </EmbeddedResource>
@@ -166,19 +193,29 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormCustomerManagement.resx">
       <DependentUpon>FormCustomerManagement.cs</DependentUpon>
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>FormCustomerManagement1.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="FormMainShell.resx">
       <DependentUpon>FormMainShell.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormOrderManagement.resx">
+      <DependentUpon>FormOrderManagement.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormPOS.resx">
       <DependentUpon>FormPOS.cs</DependentUpon>
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>FormPOS1.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="FormProductLookup.resx">
+      <DependentUpon>FormProductLookup.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormProductManagement.resx">
       <DependentUpon>FormProductManagement.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormSupplierManagement.resx">
+      <DependentUpon>FormSupplierManagement.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormUserManagement.resx">
+      <DependentUpon>FormUserManagement.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

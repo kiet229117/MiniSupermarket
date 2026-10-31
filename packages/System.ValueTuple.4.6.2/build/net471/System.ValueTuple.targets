@@ -1,4 +1,4 @@
-<Project>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
   <!-- Add a RedistList containing ValueTuple.  This will cause MSBuild to auto-unify to the version in this list. -->
   <ItemGroup>
